@@ -1,11 +1,5 @@
 package com.gcit.training;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Scanner;
 
 public class LibMangApp {
@@ -37,23 +31,38 @@ public class LibMangApp {
 		int userInt = Integer.parseInt(sc.nextLine());
 
 		if (userInt == 1) {
-			user = new Librarian();
-
-			Librarian librarian = (Librarian) user;
-			librarian.lib1Menu();
-
-			if (librarian.isStartMainMenu()) {
-				librarian.setStartMainMenu(false);
-				mainMenu();
-			}
+			handleLibrarian();
 
 			// lib1Menu();
 		} else if (userInt == 2) {
 			// TODO handle the administrator
 		} else {
-			// TODO handle the borrower
-			user = new Borrower();
-			((Borrower) user).enterCardNo();
+			handleBorrower();
+		}
+	}
+
+	// TODO Stop duplicating these methods. Will make one method in User
+	private void handleLibrarian() {
+		user = new Librarian();
+
+		Librarian librarian = (Librarian) user;
+		librarian.lib1Menu();
+
+		if (librarian.isStartMainMenu()) {
+			librarian.setStartMainMenu(false);
+			mainMenu();
+		}
+	}
+
+	private void handleBorrower() {
+		user = new Borrower();
+
+		Borrower borrower = (Borrower) user;
+		borrower.enterCardNo();
+
+		if (borrower.isStartMainMenu()) {
+			borrower.setStartMainMenu(false);
+			mainMenu();
 		}
 	}
 

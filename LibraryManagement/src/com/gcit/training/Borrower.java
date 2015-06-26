@@ -5,11 +5,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
 
 public class Borrower extends User {
 
 	private Scanner sc;
+
+	private boolean startMainMenu;
 
 	private int cardNo;
 	private String name;
@@ -46,6 +49,14 @@ public class Borrower extends User {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public boolean isStartMainMenu() {
+		return startMainMenu;
+	}
+
+	public void setStartMainMenu(boolean startMainMenu) {
+		this.startMainMenu = startMainMenu;
 	}
 
 	/**
@@ -108,13 +119,48 @@ public class Borrower extends User {
 		int choice = Integer.parseInt(sc.nextLine());
 
 		if (choice == 1) {
-
+			checkOutBook();
 		} else if (choice == 2) {
 
 		} else {
-			return;
+			startMainMenu = true;
 		}
 		// TODO handle invalid input
+	}
+
+	private void checkOutBook() {
+		System.out.println("Pick the Branch you want to check out from:");
+
+		try {
+			Connection conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost/library", "root", "");
+
+			String selectQuery = "select * from tbl_library_branch";
+
+			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			// pstmt.setString(1, "1");
+			// pstmt.setString(1, "2");
+
+			ResultSet rs = pstmt.executeQuery();
+
+			// TODO This method will be made in the User class
+			int libraryCounter = 1;
+			while (rs.next()) {
+				String branchName = rs.getString("branchName");
+				String branchAddress = rs.getString("branchAddress");
+
+				System.out.println(libraryCounter + ") " + branchName + ", "
+						+ branchAddress);
+				libraryCounter++;
+			}
+
+			System.out.println(libraryCounter + " Quit to previous");
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 }

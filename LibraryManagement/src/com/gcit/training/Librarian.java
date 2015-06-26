@@ -2,6 +2,7 @@ package com.gcit.training;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -73,10 +74,33 @@ public class Librarian extends User {
 		try {
 			Connection conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost/library", "root", "");
-			Statement stmt = conn.createStatement();
-			String selectQuery = "select * from tbl_library_branch";
-			ResultSet rs = stmt.executeQuery(selectQuery);
+			// Statement stmt = conn.createStatement();
+			// String selectQuery = "select * from tbl_library_branch";
+			// ResultSet rs = stmt.executeQuery(selectQuery);
+			//
+			// int libraryCounter = 1;
+			// while (rs.next()) {
+			// String branchName = rs.getString("branchName");
+			// String branchAddress = rs.getString("branchAddress");
+			//
+			// System.out.println(libraryCounter + ") " + branchName + ", "
+			// + branchAddress);
+			// libraryCounter++;
+			// }
 
+			// Connection conn = DriverManager.getConnection(
+			// "jdbc:mysql://localhost/library", "root", "");
+
+			String selectQuery = "select * from tbl_library_branch";
+
+			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			// pstmt.setString(1, "1");
+			// pstmt.setString(1, "2");
+
+			ResultSet rs = pstmt.executeQuery();
+
+			// TODO This method must be moved to the User class for shared
+			// functionality
 			int libraryCounter = 1;
 			while (rs.next()) {
 				String branchName = rs.getString("branchName");
@@ -87,21 +111,28 @@ public class Librarian extends User {
 				libraryCounter++;
 			}
 
+			System.out.println(libraryCounter + ") Quit to previous");
+
 			int libraryChoice = Integer.parseInt(sc.nextLine());
 
 			if (libraryChoice < libraryCounter) {
-				selectQuery = "SELECT * FROM tbl_library_branch ORDER BY branchId LIMIT 1 OFFSET "
-						+ (libraryChoice - 1);
-				rs = stmt.executeQuery(selectQuery);
+				selectQuery = "SELECT * FROM tbl_library_branch ORDER BY branchId LIMIT 1 OFFSET ?";
+				pstmt = conn.prepareStatement(selectQuery);
+				pstmt.setInt(1, libraryChoice - 1);
+
+				rs = pstmt.executeQuery();
 				while (rs.next()) {
 
 					String branchName = rs.getString("branchName");
 					String branchAddress = rs.getString("branchAddress");
 					int branchId = rs.getInt("branchId");
 
-					setBranchName(branchName);
-					setBranchAddress(branchAddress);
-					setBranchId(branchId);
+					// setBranchName(branchName);
+					this.branchName = branchName;
+					// setBranchAddress(branchAddress);
+					this.branchAddress = branchAddress;
+					// setBranchId(branchId);
+					this.branchId = branchId;
 					System.out.println(branchName);
 					lib3Menu();
 				}
