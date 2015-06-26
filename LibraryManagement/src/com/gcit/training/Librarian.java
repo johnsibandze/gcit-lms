@@ -118,36 +118,7 @@ public class Librarian extends User {
 		}
 	}
 
-	private int displayLibraries() {
-		int libraryCounter = 0;
-		try {
-			String selectQuery = "select * from tbl_library_branch";
-
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
-			// pstmt.setString(1, "1");
-			// pstmt.setString(1, "2");
-
-			ResultSet rs = pstmt.executeQuery();
-
-			// TODO This method must be moved to the User class for shared
-			// functionality
-			libraryCounter = 1;
-			while (rs.next()) {
-				String branchName = rs.getString("branchName");
-				String branchAddress = rs.getString("branchAddress");
-
-				System.out.println(libraryCounter + ") " + branchName + ", "
-						+ branchAddress);
-				libraryCounter++;
-			}
-
-			System.out.println(libraryCounter + ") Quit to previous");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return libraryCounter;
-	}
+	
 
 	private void setProperties(int branchId, String branchName,
 			String branchAddress) {
@@ -175,9 +146,7 @@ public class Librarian extends User {
 		}
 	}
 
-	// TODO change the name
 	private void option1Menu() {
-
 		int branchId = getBranchId();
 		String branchName = getBranchName();
 

@@ -131,42 +131,12 @@ public class Borrower extends User {
 	private void checkOutBook() {
 		System.out.println("Pick the Branch you want to check out from:");
 
-		try {
-			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost/library", "root", "");
+		int libraryCounter = displayLibraries();
 
-			String selectQuery = "select * from tbl_library_branch";
+		int choice = Integer.parseInt(sc.nextLine());
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
-			// pstmt.setString(1, "1");
-			// pstmt.setString(1, "2");
-
-			ResultSet rs = pstmt.executeQuery();
-
-			// TODO This method will be made in the User class
-			int libraryCounter = 1;
-			while (rs.next()) {
-				String branchName = rs.getString("branchName");
-				String branchAddress = rs.getString("branchAddress");
-
-				System.out.println(libraryCounter + ") " + branchName + ", "
-						+ branchAddress);
-				libraryCounter++;
-			}
-
-			System.out.println(libraryCounter + " Quit to previous");
-
-			int choice = Integer.parseInt(sc.nextLine());
-
-			if (choice == libraryCounter) {
-				borr1Menu();
-			}
-			
-			
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (choice == libraryCounter) {
+			borr1Menu();
 		}
 
 	}
