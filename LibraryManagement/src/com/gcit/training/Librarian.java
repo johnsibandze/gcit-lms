@@ -10,7 +10,21 @@ import java.util.Scanner;
 
 public class Librarian extends User {
 
+	// will use one connection
+	private Connection conn;
+
 	private Scanner sc;
+
+	public Librarian() {
+		try {
+			conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost/library", "root", "");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		sc = new Scanner(System.in);
+	}
 
 	/** should we go back to the main menu? */
 	private boolean startMainMenu;
@@ -57,7 +71,7 @@ public class Librarian extends User {
 	}
 
 	public void lib1Menu() {
-		sc = new Scanner(System.in);
+
 		System.out.println("1) Enter Branch you manage");
 		System.out.println("2) Quit to previous");
 
@@ -71,26 +85,42 @@ public class Librarian extends User {
 	}
 
 	private void lib2Menu() {
+		int libraryCounter = displayLibraries();
+		updateBranch(libraryCounter);
+	}
+
+	private void updateBranch(int libraryCounter) {
+		int libraryChoice = Integer.parseInt(sc.nextLine());
+
 		try {
-			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost/library", "root", "");
-			// Statement stmt = conn.createStatement();
-			// String selectQuery = "select * from tbl_library_branch";
-			// ResultSet rs = stmt.executeQuery(selectQuery);
-			//
-			// int libraryCounter = 1;
-			// while (rs.next()) {
-			// String branchName = rs.getString("branchName");
-			// String branchAddress = rs.getString("branchAddress");
-			//
-			// System.out.println(libraryCounter + ") " + branchName + ", "
-			// + branchAddress);
-			// libraryCounter++;
-			// }
+			if (libraryChoice < libraryCounter) {
+				String selectQuery = "SELECT * FROM tbl_library_branch ORDER BY branchId LIMIT 1 OFFSET ?";
+				PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+				pstmt.setInt(1, libraryChoice - 1);
 
-			// Connection conn = DriverManager.getConnection(
-			// "jdbc:mysql://localhost/library", "root", "");
+				ResultSet rs = pstmt.executeQuery();
+				if (rs.next()) {
 
+					int branchId = rs.getInt("branchId");
+					String branchName = rs.getString("branchName");
+					String branchAddress = rs.getString("branchAddress");
+
+					setProperties(branchId, branchName, branchAddress);
+					System.out.println(branchName);
+					lib3Menu();
+				}
+			} else {
+				lib1Menu();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private int displayLibraries() {
+		int libraryCounter = 0;
+		try {
 			String selectQuery = "select * from tbl_library_branch";
 
 			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
@@ -101,7 +131,7 @@ public class Librarian extends User {
 
 			// TODO This method must be moved to the User class for shared
 			// functionality
-			int libraryCounter = 1;
+			libraryCounter = 1;
 			while (rs.next()) {
 				String branchName = rs.getString("branchName");
 				String branchAddress = rs.getString("branchAddress");
@@ -112,38 +142,21 @@ public class Librarian extends User {
 			}
 
 			System.out.println(libraryCounter + ") Quit to previous");
-
-			int libraryChoice = Integer.parseInt(sc.nextLine());
-
-			if (libraryChoice < libraryCounter) {
-				selectQuery = "SELECT * FROM tbl_library_branch ORDER BY branchId LIMIT 1 OFFSET ?";
-				pstmt = conn.prepareStatement(selectQuery);
-				pstmt.setInt(1, libraryChoice - 1);
-
-				rs = pstmt.executeQuery();
-				while (rs.next()) {
-
-					String branchName = rs.getString("branchName");
-					String branchAddress = rs.getString("branchAddress");
-					int branchId = rs.getInt("branchId");
-
-					// setBranchName(branchName);
-					this.branchName = branchName;
-					// setBranchAddress(branchAddress);
-					this.branchAddress = branchAddress;
-					// setBranchId(branchId);
-					this.branchId = branchId;
-					System.out.println(branchName);
-					lib3Menu();
-				}
-			} else {
-				lib1Menu();
-			}
-
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return libraryCounter;
+	}
+
+	private void setProperties(int branchId, String branchName,
+			String branchAddress) {
+		// setBranchId(branchId);
+		this.branchId = branchId;
+		// setBranchName(branchName);
+		this.branchName = branchName;
+		// setBranchAddress(branchAddress);
+		this.branchAddress = branchAddress;
 	}
 
 	private void lib3Menu() {
@@ -197,8 +210,6 @@ public class Librarian extends User {
 		branchAddress = branchAddress.equals("N/A") ? getBranchAddress()
 				: branchAddress;
 		try {
-			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost/library", "root", "");
 			Statement stmt = conn.createStatement();
 			String selectQuery = "UPDATE tbl_library_branch SET branchName='"
 					+ branchName + "', branchAddress='" + branchAddress
@@ -217,19 +228,70 @@ public class Librarian extends User {
 
 	}
 
-	// TODO reduce the size of the method
 	private void option2Menu() {
+		int bookCounter = displayBooks();
+
+		int bookChoice = Integer.parseInt(sc.nextLine());
+
+		if (bookChoice == bookCounter) {
+			// when the user wants to quit this menu
+			lib3Menu();
+		}
+
+		Book b = getSelectedBook(bookChoice);
+
+		displayBookCopies(b);
+
+		// update the number of copies
+		System.out.println("Enter new number of copies:");
+
+		int newNoOfCopies = Integer.parseInt(sc.nextLine());
+
+		updateBook(newNoOfCopies, b.getBookId());
+		lib3Menu();
+
+	}
+
+	private void displayBookCopies(Book b) {
+		try {
+			String branchName = getBranchName();
+
+			String selectQuery = "SELECT bookId, title, branchName, noOfCopies FROM ((tbl_book NATURAL JOIN tbl_book_copies) NATURAL JOIN tbl_library_branch) WHERE branchName=? AND title=? AND bookId=?";
+
+			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+
+			pstmt.setString(1, "" + branchName);
+			pstmt.setString(2, "" + b.getTitle());
+			pstmt.setInt(3, b.getBookId());
+
+			ResultSet rs = pstmt.executeQuery();
+
+			// display the number of copies for the selected book
+			if (rs.next()) {
+				String noOfCopies = rs.getString("noOfCopies");
+				System.out.println("Existing number of copies: " + noOfCopies);
+			} else {
+				System.out.println("Existing number of copies: 0");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private int displayBooks() {
+		int bookCounter = 0;
 		System.out
 				.println("Pick the Book you want to add copies of, to your branch:");
 
 		try {
-			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost/library", "root", "");
-			Statement stmt = conn.createStatement();
 			String selectQuery = "SELECT title, authorName FROM ((tbl_book NATURAL JOIN tbl_book_authors) NATURAL JOIN tbl_author) ORDER BY bookId";
-			ResultSet rs = stmt.executeQuery(selectQuery);
 
-			int bookCounter = 1;
+			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+
+			ResultSet rs = pstmt.executeQuery();
+
+			bookCounter = 1;
 			while (rs.next()) {
 				String title = rs.getString("title");
 				String authorName = rs.getString("authorName");
@@ -239,11 +301,23 @@ public class Librarian extends User {
 				bookCounter++;
 			}
 
-			int bookChoice = Integer.parseInt(sc.nextLine());
+			System.out.println(bookCounter + ") Quit to cancel operation");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return bookCounter;
+	}
 
-			selectQuery = "SELECT bookId, title, authorName FROM ((tbl_book NATURAL JOIN tbl_book_authors) NATURAL JOIN tbl_author) ORDER BY bookId LIMIT 1 OFFSET "
+	private Book getSelectedBook(int bookChoice) {
+		Book b = new Book();
+		try {
+			String selectQuery = "SELECT bookId, title, authorName FROM ((tbl_book NATURAL JOIN tbl_book_authors) NATURAL JOIN tbl_author) ORDER BY bookId LIMIT 1 OFFSET "
 					+ (bookChoice - 1);
-			rs = stmt.executeQuery(selectQuery);
+
+			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+
+			ResultSet rs = pstmt.executeQuery();
 
 			int bookId = 0;
 			String title = "";
@@ -253,47 +327,22 @@ public class Librarian extends User {
 			while (rs.next()) {
 				bookId = rs.getInt("bookId");
 				title = rs.getString("title");
+				b.setBookId(bookId);
+				b.setTitle(title);
+
 				authorName = rs.getString("authorName");
 
 				System.out.println(title + " by " + authorName);
 			}
-
-			String branchName = getBranchName();
-
-			selectQuery = "SELECT bookId, title, branchName, noOfCopies FROM ((tbl_book NATURAL JOIN tbl_book_copies) NATURAL JOIN tbl_library_branch) WHERE branchName='"
-					+ branchName
-					+ "' AND title='"
-					+ title
-					+ "' AND bookId="
-					+ bookId;
-
-			rs = stmt.executeQuery(selectQuery);
-
-			// now display the number of copies of the book
-			while (rs.next()) {
-				String noOfCopies = rs.getString("noOfCopies");
-				System.out.println("Existing number of copies: " + noOfCopies);
-			}
-
-			// update the number of copies
-			System.out.println("Enter new number of copies:");
-
-			int newNoOfCopies = Integer.parseInt(sc.nextLine());
-
-			updateBook(newNoOfCopies, bookId);
-			lib3Menu();
-
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		return b;
 	}
 
 	private void updateBook(int newNoOfCopies, int bookId) {
 		try {
-			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost/library", "root", "");
 			Statement stmt = conn.createStatement();
 			String selectQuery = "UPDATE tbl_book_copies SET noOfCopies="
 					+ newNoOfCopies + " WHERE bookId=" + bookId;

@@ -156,6 +156,14 @@ public class Borrower extends User {
 
 			System.out.println(libraryCounter + " Quit to previous");
 
+			int choice = Integer.parseInt(sc.nextLine());
+
+			if (choice == libraryCounter) {
+				borr1Menu();
+			}
+			
+			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
