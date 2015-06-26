@@ -35,6 +35,14 @@ public class LibMangApp {
 
 		int userInt = Integer.parseInt(sc.nextLine());
 
+		if (userInt == 1) {
+			lib1Menu();
+		} else if (userInt == 2) {
+			// TODO handle the administrator
+		} else {
+			// TODO handle the borrower
+		}
+
 		switch (userInt) {
 		case 1:
 			lib1Menu();
@@ -102,22 +110,6 @@ public class LibMangApp {
 			} else {
 				lib1Menu();
 			}
-			// TODO handle wrong input
-
-			// Scanner scan = new Scanner(System.in);
-			// System.out.println("Enter a new author: ");
-			// String authorName = scan.nextLine();
-			//
-			// String createQuery =
-			// "insert into tbl_author (authorName) values('"
-			// + authorName + "')";
-			// stmt.executeUpdate(createQuery);
-
-			// deletion
-			// PreparedStatement st =
-			// conn.prepareStatement("DELETE FROM tbl_author WHERE authorName = ?");
-			// st.setString(1,"dsfdsa");
-			// st.executeUpdate();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -274,7 +266,6 @@ public class LibMangApp {
 	}
 
 	private void updateBook(int newNoOfCopies, int bookId) {
-
 		try {
 			Connection conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost/library", "root", "");

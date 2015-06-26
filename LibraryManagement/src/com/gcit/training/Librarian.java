@@ -4,13 +4,12 @@ public class Librarian extends User {
 
 	/** the name of the branch that this librarian manages. */
 	private String branchName;
-	
+
 	/** the address of the branch that this librarian manages. */
 	private String branchAddress;
-	
+
 	/** the id of the branch that this librarian manages. */
 	private int branchId;
-	
 
 	public int getBranchId() {
 		return branchId;
