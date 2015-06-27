@@ -8,16 +8,24 @@ import java.sql.SQLException;
 
 public class User {
 
+	private Connection conn;
+
+	public User() {
+		try {
+			conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost/library", "root", "");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	public int displayLibraries() {
 		int libraryCounter = 0;
 		try {
-			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost/library", "root", "");
 			String selectQuery = "select * from tbl_library_branch";
 
 			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
-			// pstmt.setString(1, "1");
-			// pstmt.setString(1, "2");
 
 			ResultSet rs = pstmt.executeQuery();
 
@@ -37,6 +45,24 @@ public class User {
 			e.printStackTrace();
 		}
 		return libraryCounter;
+	}
+
+	public void updateBookCopies(int newNoOfCopies, int bookId, int branchId) {
+		try {
+			String updateQuery = "UPDATE tbl_book_copies SET noOfCopies=? WHERE bookId=? and branchId=?";
+
+			PreparedStatement pstmt = conn.prepareStatement(updateQuery);
+			pstmt.setInt(1, newNoOfCopies);
+			pstmt.setInt(2, bookId);
+			pstmt.setInt(3, branchId);
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 }

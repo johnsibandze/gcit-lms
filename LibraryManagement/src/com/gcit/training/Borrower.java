@@ -31,6 +31,7 @@ public class Borrower extends User {
 	private Connection conn;
 
 	public Borrower() {
+		super();
 		try {
 			conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost/library", "root", "");
@@ -137,11 +138,42 @@ public class Borrower extends User {
 		if (choice == 1) {
 			checkOutBook();
 		} else if (choice == 2) {
-
+			returnBook();
 		} else {
 			startMainMenu = true;
 		}
 		// TODO handle invalid input from user
+	}
+
+	private void returnBook() {
+		System.out.println("Pick the Branch you want to return to:");
+		int libraryCounter = displayLibraries();
+		int choice = Integer.parseInt(sc.nextLine());
+
+		if (choice == libraryCounter) {
+			borr1Menu();
+		}
+
+		updateLibraryInfo(choice);
+
+		// will only display the books that are currently checked out by this
+		// borrower
+		displayBooksLoanedByBorrower();
+
+		int bookChoice = Integer.parseInt(sc.nextLine());
+
+		updateBookInfo(bookChoice);
+
+		// change the return date of this book in the loans table
+		updateReturnDate();
+
+		int availableCopies = getNumCopies();
+
+		// add the number of copies for this book in the library
+		updateBookCopies(availableCopies + 1, book.getBookId(),
+				library.getBranchId());
+
+		borr1Menu();
 	}
 
 	private void checkOutBook() {
@@ -158,7 +190,7 @@ public class Borrower extends User {
 
 		updateLibraryInfo(choice);
 
-		displayBooks();
+		displayBooksInLibrary();
 
 		int bookChoice = Integer.parseInt(sc.nextLine());
 
@@ -166,7 +198,104 @@ public class Borrower extends User {
 
 		addToLoan();
 
+		removeBookFromLibrary();
+
 		borr1Menu();
+
+	}
+
+	/** Update the return date of the book to today's date. */
+	private void updateReturnDate() {
+		try {
+			String updateQuery = "update tbl_book_loans set dateIn=? where bookId=? and branchId=? and cardNo=?";
+
+			PreparedStatement pstmt = conn.prepareStatement(updateQuery);
+
+			String todayDate = dateAfterToday(0);
+
+			pstmt.setString(1, todayDate);
+			pstmt.setInt(2, book.getBookId());
+			pstmt.setInt(3, library.getBranchId());
+			pstmt.setInt(4, cardNo);
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private int displayBooksLoanedByBorrower() {
+		int bookCounter = 0;
+		System.out
+				.println("Pick the Book you want to add copies of, to your branch:");
+
+		try {
+			String selectQuery = "select bookId, title, authorName from (((tbl_author NATURAL JOIN tbl_book_authors) NATURAL JOIN tbl_book)NATURAL JOIN tbl_book_loans) where branchId=? and bookId=?";
+
+			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			pstmt.setInt(1, 3);
+			pstmt.setInt(2, 3);
+
+			rs = pstmt.executeQuery();
+
+			bookCounter = 1;
+			while (rs.next()) {
+				String title = rs.getString("title");
+				String authorName = rs.getString("authorName");
+
+				System.out.println(bookCounter + ") " + title + " by "
+						+ authorName);
+				bookCounter++;
+			}
+
+			System.out.println(bookCounter + ") Quit to cancel operation");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return bookCounter;
+	}
+
+	/**
+	 * updates the number of copies available of this book. (reduces them by 1).
+	 */
+	private void removeBookFromLibrary() {
+		int numAvailableCopies = getNumCopies();
+
+		System.out.println(library.getBranchId());
+
+		updateBookCopies(numAvailableCopies - 1, book.getBookId(),
+				library.getBranchId());
+	}
+
+	/**
+	 * returns the number of copies of the book that the user wants to check out
+	 * or return.
+	 */
+	private int getNumCopies() {
+		int numCopies = 0;
+		try {
+			String selectQuery = "select noOfCopies from tbl_book_copies where bookId=? and branchId=?;";
+
+			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+
+			pstmt.setInt(1, book.getBookId());
+			pstmt.setInt(2, library.getBranchId());
+
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				numCopies = rs.getInt("noOfCopies");
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return numCopies;
 
 	}
 
@@ -229,7 +358,7 @@ public class Borrower extends User {
 					String authorName = rs.getString("authorName");
 
 					book = new Book(bookId, title, authorName);
-
+					return;
 				}
 
 				counter++;
@@ -239,16 +368,17 @@ public class Borrower extends User {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		borr1Menu();
 	}
 
-	/** Only display books that are available in this library. */
-	private int displayBooks() {
+	/** Display books that are available in the borrower's library. */
+	private int displayBooksInLibrary() {
 		int bookCounter = 0;
 		System.out
 				.println("Pick the Book you want to add copies of, to your branch:");
 
 		try {
-			String selectQuery = "select bookId, title, authorName from (((((tbl_author NATURAL JOIN tbl_book_authors) NATURAL JOIN tbl_book) NATURAL JOIN tbl_book_loans) NATURAL JOIN tbl_borrower) NATURAL JOIN tbl_library_branch) where branchId=?";
+			String selectQuery = "select bookId, title, authorName, branchName from ((((tbl_author NATURAL JOIN tbl_book_authors) NATURAL JOIN tbl_book) NATURAL JOIN tbl_book_copies) NATURAL JOIN tbl_library_branch) where branchId=?";
 
 			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
 			pstmt.setInt(1, library.getBranchId());

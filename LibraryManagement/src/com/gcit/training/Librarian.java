@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Scanner;
 
 public class Librarian extends User {
@@ -19,6 +18,7 @@ public class Librarian extends User {
 	private Library library;
 
 	public Librarian() {
+		super();
 		try {
 			conn = DriverManager.getConnection(
 					"jdbc:mysql://localhost/library", "root", "");
@@ -91,11 +91,8 @@ public class Librarian extends User {
 
 	private void setProperties(int branchId, String branchName,
 			String branchAddress) {
-		// this.branchId = branchId;
 		library.setBranchId(branchId);
-		// this.branchName = branchName;
 		library.setBranchName(branchName);
-		// this.branchAddress = branchAddress;
 		library.setBranchAddress(branchAddress);
 	}
 
@@ -144,24 +141,34 @@ public class Librarian extends User {
 	}
 
 	private void updateBranchInfo(String branchName, String branchAddress) {
+
 		branchName = branchName.equals("N/A") ? library.getBranchName()
 				: branchName;
 		branchAddress = branchAddress.equals("N/A") ? library
 				.getBranchAddress() : branchAddress;
 		try {
-			Statement stmt = conn.createStatement();
-			String selectQuery = "UPDATE tbl_library_branch SET branchName='"
-					+ branchName + "', branchAddress='" + branchAddress
-					+ "' WHERE branchId=" + library.getBranchId() + ";";
-			stmt.executeUpdate(selectQuery);
+			// Statement stmt = conn.createStatement();
+			// String selectQuery = "UPDATE tbl_library_branch SET branchName='"
+			// + branchName + "', branchAddress='" + branchAddress
+			// + "' WHERE branchId=" + library.getBranchId() + ";";
+
+			String selectQuery = "UPDATE tbl_library_branch SET branchName=?, branchAddress=? WHERE branchId=?";
+
+			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			pstmt.setString(1, branchName);
+			pstmt.setString(2, branchAddress);
+			pstmt.setInt(3, library.getBranchId());
+
+			pstmt.executeUpdate();
+			// stmt.executeUpdate(selectQuery);
+
+			System.out.println("\nsuccessfully updated!");
+			System.out.println("\n----------------------------------------\n");
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		System.out.println("\nsuccessfully updated!");
-		System.out.println("\n----------------------------------------\n");
 
 		lib3Menu();
 
@@ -186,7 +193,7 @@ public class Librarian extends User {
 
 		int newNoOfCopies = Integer.parseInt(sc.nextLine());
 
-		updateBook(newNoOfCopies, b.getBookId());
+		updateBookCopies(newNoOfCopies, b.getBookId(), library.getBranchId());
 		lib3Menu();
 
 	}
@@ -278,19 +285,6 @@ public class Librarian extends User {
 			e.printStackTrace();
 		}
 		return b;
-	}
-
-	private void updateBook(int newNoOfCopies, int bookId) {
-		try {
-			Statement stmt = conn.createStatement();
-			String selectQuery = "UPDATE tbl_book_copies SET noOfCopies="
-					+ newNoOfCopies + " WHERE bookId=" + bookId;
-			stmt.executeUpdate(selectQuery);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	}
 
 }
