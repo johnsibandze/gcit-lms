@@ -15,6 +15,9 @@ public class Librarian extends User {
 
 	private Scanner sc;
 
+	/** the libary that this librarian manages. */
+	private Library library;
+
 	public Librarian() {
 		try {
 			conn = DriverManager.getConnection(
@@ -24,6 +27,7 @@ public class Librarian extends User {
 			e.printStackTrace();
 		}
 		sc = new Scanner(System.in);
+		library = new Library();
 	}
 
 	/** should we go back to the main menu? */
@@ -35,39 +39,6 @@ public class Librarian extends User {
 
 	public boolean isStartMainMenu() {
 		return startMainMenu;
-	}
-
-	/** the name of the branch that this librarian manages. */
-	private String branchName;
-
-	/** the address of the branch that this librarian manages. */
-	private String branchAddress;
-
-	/** the id of the branch that this librarian manages. */
-	private int branchId;
-
-	public int getBranchId() {
-		return branchId;
-	}
-
-	public void setBranchId(int branchId) {
-		this.branchId = branchId;
-	}
-
-	public String getBranchAddress() {
-		return branchAddress;
-	}
-
-	public void setBranchAddress(String branchAddress) {
-		this.branchAddress = branchAddress;
-	}
-
-	public String getBranchName() {
-		return branchName;
-	}
-
-	public void setBranchName(String branchName) {
-		this.branchName = branchName;
 	}
 
 	public void lib1Menu() {
@@ -118,16 +89,14 @@ public class Librarian extends User {
 		}
 	}
 
-	
-
 	private void setProperties(int branchId, String branchName,
 			String branchAddress) {
-		// setBranchId(branchId);
-		this.branchId = branchId;
-		// setBranchName(branchName);
-		this.branchName = branchName;
-		// setBranchAddress(branchAddress);
-		this.branchAddress = branchAddress;
+		// this.branchId = branchId;
+		library.setBranchId(branchId);
+		// this.branchName = branchName;
+		library.setBranchName(branchName);
+		// this.branchAddress = branchAddress;
+		library.setBranchAddress(branchAddress);
 	}
 
 	private void lib3Menu() {
@@ -147,8 +116,8 @@ public class Librarian extends User {
 	}
 
 	private void option1Menu() {
-		int branchId = getBranchId();
-		String branchName = getBranchName();
+		int branchId = library.getBranchId();
+		String branchName = library.getBranchName();
 
 		System.out
 				.println("You have chosen to update the Branch with Branch Id: "
@@ -175,14 +144,15 @@ public class Librarian extends User {
 	}
 
 	private void updateBranchInfo(String branchName, String branchAddress) {
-		branchName = branchName.equals("N/A") ? getBranchName() : branchName;
-		branchAddress = branchAddress.equals("N/A") ? getBranchAddress()
-				: branchAddress;
+		branchName = branchName.equals("N/A") ? library.getBranchName()
+				: branchName;
+		branchAddress = branchAddress.equals("N/A") ? library
+				.getBranchAddress() : branchAddress;
 		try {
 			Statement stmt = conn.createStatement();
 			String selectQuery = "UPDATE tbl_library_branch SET branchName='"
 					+ branchName + "', branchAddress='" + branchAddress
-					+ "' WHERE branchId=" + getBranchId() + ";";
+					+ "' WHERE branchId=" + library.getBranchId() + ";";
 			stmt.executeUpdate(selectQuery);
 
 		} catch (SQLException e) {
@@ -223,7 +193,7 @@ public class Librarian extends User {
 
 	private void displayBookCopies(Book b) {
 		try {
-			String branchName = getBranchName();
+			String branchName = library.getBranchName();
 
 			String selectQuery = "SELECT bookId, title, branchName, noOfCopies FROM ((tbl_book NATURAL JOIN tbl_book_copies) NATURAL JOIN tbl_library_branch) WHERE branchName=? AND title=? AND bookId=?";
 

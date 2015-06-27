@@ -4,8 +4,18 @@ public class Book {
 
 	private int bookId;
 	private String title;
-	private String author;
 	private String authorName;
+	
+	public Book() {
+		
+	}
+
+	public Book(int bookId, String title, String authorName) {
+		super();
+		this.bookId = bookId;
+		this.title = title;
+		this.authorName = authorName;
+	}
 
 	public int getBookId() {
 		return bookId;
@@ -21,14 +31,6 @@ public class Book {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
 	}
 
 	public String getAuthorName() {
