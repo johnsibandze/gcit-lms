@@ -65,4 +65,35 @@ public class User {
 
 	}
 
+	public int displayBooks(int branchId) {
+		int bookCounter = 0;
+		System.out
+				.println("Pick the Book you want to add copies of, to your branch:");
+
+		try {
+			String selectQuery = "SELECT * FROM ((((tbl_book NATURAL JOIN tbl_book_authors) NATURAL JOIN tbl_author) natural join tbl_book_copies) natural join tbl_library_branch) where branchId=?";
+
+			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			pstmt.setInt(1, branchId);
+
+			ResultSet rs = pstmt.executeQuery();
+
+			bookCounter = 1;
+			while (rs.next()) {
+				String title = rs.getString("title");
+				String authorName = rs.getString("authorName");
+
+				System.out.println(bookCounter + ") " + title + " by "
+						+ authorName);
+				bookCounter++;
+			}
+
+			System.out.println(bookCounter + ") Quit to cancel operation");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return bookCounter;
+	}
+
 }

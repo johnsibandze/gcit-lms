@@ -175,7 +175,7 @@ public class Librarian extends User {
 	}
 
 	private void option2Menu() {
-		int bookCounter = displayBooks();
+		int bookCounter = displayBooks(library.getBranchId());
 
 		int bookChoice = Integer.parseInt(sc.nextLine());
 
@@ -225,35 +225,7 @@ public class Librarian extends User {
 		}
 	}
 
-	private int displayBooks() {
-		int bookCounter = 0;
-		System.out
-				.println("Pick the Book you want to add copies of, to your branch:");
 
-		try {
-			String selectQuery = "SELECT title, authorName FROM ((tbl_book NATURAL JOIN tbl_book_authors) NATURAL JOIN tbl_author) ORDER BY bookId";
-
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
-
-			ResultSet rs = pstmt.executeQuery();
-
-			bookCounter = 1;
-			while (rs.next()) {
-				String title = rs.getString("title");
-				String authorName = rs.getString("authorName");
-
-				System.out.println(bookCounter + ") " + title + " by "
-						+ authorName);
-				bookCounter++;
-			}
-
-			System.out.println(bookCounter + ") Quit to cancel operation");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return bookCounter;
-	}
 
 	private Book getSelectedBook(int bookChoice) {
 		Book b = new Book();

@@ -75,15 +75,77 @@ public class Administrator extends User {
 		int choice = Integer.parseInt(sc.nextLine());
 
 		if (choice == 1) {
-			// TODO add book and author
 			addBookAndAuthor();
 		} else if (choice == 2) {
 			// TODO update book and author
+			updateBookAndAuthor();
 		} else if (choice == 3) {
 			// TODO delete book and author
 		} else {
 			mainMenu();
 		}
+
+	}
+
+	private void updateBookAndAuthor() {
+
+		selectLibrary();
+
+		selectBook();
+
+		updateBookInDatabase();
+	}
+
+	private void updateBookInDatabase() {
+		System.out.println("enter new book title");
+		String title = sc.nextLine();
+
+		System.out.println("enter author name");
+		String authorName = sc.nextLine();
+
+		try {
+			String updateQuery = "update ((tbl_book natural join tbl_book_authors) natural join tbl_author) set title=?, authorName=? where bookId=?";
+
+			PreparedStatement pstmt = conn.prepareStatement(updateQuery);
+
+			pstmt.setString(1, title);
+			pstmt.setString(2, authorName);
+			pstmt.setInt(3, book.getBookId());
+
+			pstmt.executeUpdate();
+
+			System.out.println("sucessfully updated!");
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void selectBook() {
+		int bookCounter = displayBooks(libraryBranch.getBranchId());
+
+		int bookChoice = Integer.parseInt(sc.nextLine());
+
+		if (bookCounter == bookChoice) {
+			handleBookAndAuthor();
+			return;
+		}
+
+		updateBookInfo(bookChoice);
+	}
+
+	private void selectLibrary() {
+		int libraryCounter = displayLibraries();
+
+		int libraryChoice = Integer.parseInt(sc.nextLine());
+
+		if (libraryChoice == libraryCounter) {
+			handleBookAndAuthor();
+			return;
+		}
+
+		updateLibraryInfo(libraryChoice);
 
 	}
 
@@ -132,13 +194,82 @@ public class Administrator extends User {
 		book.setAuthorName(authorName);
 		book.setTitle(title);
 		addToBook();
-		findBookId();
+		findLastBookId();
 
 		// add book id and author id to book authors
 		addToBookAuthors();
 
 		// add copies of this book to the chosen library branch
 		addToBookCopies();
+	}
+
+	private void updateBookInfo(int bookChoice) {
+
+		try {
+			String selectQuery = "SELECT * FROM ((((tbl_book NATURAL JOIN tbl_book_authors) NATURAL JOIN tbl_author) natural join tbl_book_copies) natural join tbl_library_branch) where branchId=?";
+
+			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			pstmt.setInt(1, libraryBranch.getBranchId());
+
+			ResultSet rs = pstmt.executeQuery();
+
+			int bookCounter = 1;
+			while (rs.next()) {
+				if (bookCounter == bookChoice) {
+					int bookId = rs.getInt("bookId");
+					String title = rs.getString("title");
+					String authorName = rs.getString("authorName");
+					int pubId = rs.getInt("pubId");
+
+					book = new Book(bookId, title, authorName);
+					book.setPubId(pubId);
+
+					return;
+				}
+
+				bookCounter++;
+			}
+
+			System.out.println(bookCounter + ") Quit to cancel operation");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/** Update the details of brach to the chosen branch. */
+	private void updateLibraryInfo(int libraryChoice) {
+
+		try {
+			String selectQuery = "select * from tbl_library_branch";
+
+			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+
+			ResultSet rs = pstmt.executeQuery();
+
+			int libraryCounter = 1;
+			while (rs.next()) {
+				if (libraryCounter == libraryChoice) {
+					int branchId = rs.getInt("branchId");
+					String branchName = rs.getString("branchName");
+					String branchAddress = rs.getString("branchAddress");
+
+					libraryBranch = new LibraryBranch(branchId, branchName,
+							branchAddress);
+
+					System.out.println(branchName + ", " + branchAddress);
+
+					return;
+				}
+
+				libraryCounter++;
+			}
+
+			System.out.println(libraryCounter + ") Quit to previous");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void addToBookCopies() {
@@ -176,7 +307,7 @@ public class Administrator extends User {
 	}
 
 	/** find the id of the book that has just been added. */
-	private void findBookId() {
+	private void findLastBookId() {
 		try {
 			String selectQuery = "select * from tbl_book";
 

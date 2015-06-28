@@ -5,9 +5,10 @@ public class Book {
 	private int bookId;
 	private String title;
 	private String authorName;
-	
+	private int pubId;
+
 	public Book() {
-		
+
 	}
 
 	public Book(int bookId, String title, String authorName) {
@@ -39,6 +40,14 @@ public class Book {
 
 	public void setAuthorName(String authorName) {
 		this.authorName = authorName;
+	}
+
+	public int getPubId() {
+		return pubId;
+	}
+
+	public void setPubId(int pubId) {
+		this.pubId = pubId;
 	}
 
 }
