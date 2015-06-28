@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Administrator extends User {
@@ -14,6 +15,7 @@ public class Administrator extends User {
 	private Author author;
 	private Book book;
 	private LibraryBranch libraryBranch;
+	private ArrayList<Author> authors;
 
 	private Scanner sc;
 
@@ -29,6 +31,7 @@ public class Administrator extends User {
 
 	public Administrator() {
 		sc = new Scanner(System.in);
+		authors = new ArrayList<Author>();
 
 		try {
 			conn = DriverManager.getConnection(
@@ -77,12 +80,72 @@ public class Administrator extends User {
 		if (choice == 1) {
 			addBookAndAuthor();
 		} else if (choice == 2) {
-			// TODO update book and author
 			updateBookAndAuthor();
 		} else if (choice == 3) {
 			// TODO delete book and author
+			deleteBookAndAuthor();
 		} else {
 			mainMenu();
+		}
+
+	}
+
+	private void deleteBookAndAuthor() {
+		selectLibrary();
+
+		selectBook();
+
+		findAuthors();
+
+		deleteBookFromDatabase();
+	}
+
+	private void deleteBookFromDatabase() {
+		try {
+			// delete book from book authors table
+			String deleteQuery = "delete from tbl_book_authors where bookId=?";
+			PreparedStatement pstmt = conn.prepareStatement(deleteQuery);
+			pstmt.setInt(1, book.getBookId());
+			pstmt.executeUpdate();
+
+			// delete book from book table
+			deleteQuery = "delete from tbl_book where bookId=?";
+			pstmt = conn.prepareStatement(deleteQuery);
+			pstmt.setInt(1, book.getBookId());
+			pstmt.executeUpdate();
+
+			// delete book from book copies table
+			deleteQuery = "delete from tbl_book_copies where bookId=?";
+			pstmt = conn.prepareStatement(deleteQuery);
+			pstmt.setInt(1, book.getBookId());
+			pstmt.executeUpdate();
+
+			// only delete authors if they don't have other books
+			deleteAuthors();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void deleteAuthors() {
+		for (Author author : authors) {
+			if (!author.hasBooks()) {
+				deleteAuthor(author);
+			}
+		}
+	}
+
+	private void deleteAuthor(Author author) {
+		try {
+			String deleteQuery = "delete from tbl_author where authorId=?";
+			PreparedStatement pstmt = conn.prepareStatement(deleteQuery);
+			pstmt.setInt(1, author.getAuthorId());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 	}
@@ -94,6 +157,31 @@ public class Administrator extends User {
 		selectBook();
 
 		updateBookInDatabase();
+	}
+
+	private void findAuthors() {
+		try {
+			String selectQuery = "SELECT * FROM (tbl_author NATURAL JOIN tbl_book_authors) where bookId=?";
+
+			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			pstmt.setInt(1, book.getBookId());
+
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				int authorId = rs.getInt("authorId");
+				String authorName = rs.getString("authorName");
+
+				Author author = new Author(authorId, authorName);
+
+				authors.add(author);
+
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void updateBookInDatabase() {
