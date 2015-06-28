@@ -83,14 +83,31 @@ public class Administrator extends User {
 		if (choice == 1) {
 			addPublisher();
 		} else if (choice == 2) {
-			// TODO update publisher
 			updatePublisher();
 		} else if (choice == 3) {
-			// TODO delete publisher
+			deletePublisher();
 		} else {
 			mainMenu();
 			return;
 		}
+
+		mainMenu();
+
+	}
+
+	private void deletePublisher() {
+		int publisherCounter = displayPublishers();
+
+		int publisherChoice = Integer.parseInt(sc.nextLine());
+		if (publisherChoice == publisherCounter) {
+			handlePublisher();
+			return;
+		}
+		updatePublisherInfo(publisherChoice);
+
+		deletePublisherFromDatabase();
+
+		System.out.println("successfully deleted publisher!");
 
 	}
 
@@ -104,6 +121,44 @@ public class Administrator extends User {
 		}
 		updatePublisherInfo(publisherChoice);
 		updatePublisherOnDatabase();
+	}
+
+	private void addPublisher() {
+
+		publisher = new Publisher();
+
+		System.out.println("Please Enter Publisher Name");
+		String publisherName = sc.nextLine();
+
+		System.out.println("Please Enter Publisher Address");
+		String publisherAddress = sc.nextLine();
+
+		// TODO validate phone number
+		System.out.println("Please Enter Publisher Phone number");
+		String publisherPhone = sc.nextLine();
+
+		publisher = new Publisher();
+		publisher.setPublisherName(publisherName);
+		publisher.setPublisherAddress(publisherAddress);
+		publisher.setPublisherPhone(publisherPhone);
+
+		insertPublisherToDatabase();
+
+		System.out.println("Successfully Added Publisher");
+	}
+
+	private void deletePublisherFromDatabase() {
+		String deleteQuery = "delete from tbl_publisher where publisherId=?";
+
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(deleteQuery);
+			pstmt.setInt(1, publisher.getPublisherId());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	private void updatePublisherOnDatabase() {
@@ -163,30 +218,6 @@ public class Administrator extends User {
 			e.printStackTrace();
 		}
 
-	}
-
-	private void addPublisher() {
-
-		publisher = new Publisher();
-
-		System.out.println("Please Enter Publisher Name");
-		String publisherName = sc.nextLine();
-
-		System.out.println("Please Enter Publisher Address");
-		String publisherAddress = sc.nextLine();
-
-		// TODO validate phone number
-		System.out.println("Please Enter Publisher Phone number");
-		String publisherPhone = sc.nextLine();
-
-		publisher = new Publisher();
-		publisher.setPublisherName(publisherName);
-		publisher.setPublisherAddress(publisherAddress);
-		publisher.setPublisherPhone(publisherPhone);
-
-		insertPublisherToDatabase();
-
-		System.out.println("Successfully Added Publisher");
 	}
 
 	private void insertPublisherToDatabase() {
