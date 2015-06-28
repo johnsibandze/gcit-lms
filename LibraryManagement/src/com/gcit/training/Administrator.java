@@ -83,16 +83,34 @@ public class Administrator extends User {
 		if (choice == 1) {
 			addBranch();
 		} else if (choice == 2) {
-			// TODO update branch
 			updateBranch();
-
 		} else if (choice == 3) {
 			// TODO delete branch
+			deleteBranch();
 		} else {
 			mainMenu();
 			return;
 		}
 
+		mainMenu();
+
+	}
+
+	private void deleteBranch() {
+		int libraryCounter = displayLibraries();
+
+		int libraryChoice = Integer.parseInt(sc.nextLine());
+
+		if (libraryCounter == libraryChoice) {
+			handleLibraryBranch();
+			return;
+		}
+
+		updateLibraryInfo(libraryChoice);
+
+		deleteLibraryFromDatabase();
+
+		System.out.println("Successfully deleted branch");
 	}
 
 	private void updateBranch() {
@@ -100,7 +118,7 @@ public class Administrator extends User {
 
 		int libraryChoice = Integer.parseInt(sc.nextLine());
 		if (libraryChoice == libraryCounter) {
-			handlePublisher();
+			handleLibraryBranch();
 			return;
 		}
 
@@ -125,6 +143,19 @@ public class Administrator extends User {
 
 		System.out.println("sucessfully added library branch");
 
+	}
+
+	private void deleteLibraryFromDatabase() {
+		String deleteQuery = "delete from tbl_library_branch where branchId=?";
+
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(deleteQuery);
+			pstmt.setInt(1, libraryBranch.getBranchId());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void updateLibraryOnDatabase() {
@@ -196,6 +227,22 @@ public class Administrator extends User {
 		}
 	}
 
+	private void deletePublisher() {
+		int publisherCounter = displayPublishers();
+
+		int publisherChoice = Integer.parseInt(sc.nextLine());
+		if (publisherChoice == publisherCounter) {
+			handlePublisher();
+			return;
+		}
+		updatePublisherInfo(publisherChoice);
+
+		deletePublisherFromDatabase();
+
+		System.out.println("successfully deleted publisher!");
+
+	}
+
 	private void updatePublisher() {
 		int publisherCounter = displayPublishers();
 
@@ -252,22 +299,6 @@ public class Administrator extends User {
 		}
 
 		mainMenu();
-
-	}
-
-	private void deletePublisher() {
-		int publisherCounter = displayPublishers();
-
-		int publisherChoice = Integer.parseInt(sc.nextLine());
-		if (publisherChoice == publisherCounter) {
-			handlePublisher();
-			return;
-		}
-		updatePublisherInfo(publisherChoice);
-
-		deletePublisherFromDatabase();
-
-		System.out.println("successfully deleted publisher!");
 
 	}
 
