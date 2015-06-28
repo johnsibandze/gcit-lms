@@ -84,6 +84,7 @@ public class Administrator extends User {
 			addPublisher();
 		} else if (choice == 2) {
 			// TODO update publisher
+			updatePublisher();
 		} else if (choice == 3) {
 			// TODO delete publisher
 		} else {
@@ -93,9 +94,78 @@ public class Administrator extends User {
 
 	}
 
+	private void updatePublisher() {
+		int publisherCounter = displayPublishers();
+
+		int publisherChoice = Integer.parseInt(sc.nextLine());
+		if (publisherChoice == publisherCounter) {
+			handlePublisher();
+			return;
+		}
+		updatePublisherInfo(publisherChoice);
+		updatePublisherOnDatabase();
+	}
+
+	private void updatePublisherOnDatabase() {
+		System.out.println("Please enter new publisher name");
+		String publisherName = sc.nextLine();
+
+		System.out.println("Please enter new publisher address");
+		String publisherAddress = sc.nextLine();
+
+		// TODO check if this is a valid phone number
+		System.out.println("Please enter new publisher phone number");
+		String publisherPhone = sc.nextLine();
+
+		try {
+			String updateQuery = "update tbl_publisher set publisherName=?, publisherAddress=?, publisherPhone=? where publisherId=?";
+
+			PreparedStatement pstmt = conn.prepareStatement(updateQuery);
+
+			pstmt.setString(1, publisherName);
+			pstmt.setString(2, publisherAddress);
+			pstmt.setString(3, publisherPhone);
+			pstmt.setInt(4, publisher.getPublisherId());
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void updatePublisherInfo(int publisherChoice) {
+
+		try {
+			int publisherCounter = 1;
+			rs.beforeFirst();
+			while (rs.next()) {
+				if (publisherCounter == publisherChoice) {
+					int publisherId = rs.getInt("publisherId");
+					String publisherName = rs.getString("publisherName");
+					String publisherAddress = rs.getString("publisherAddress");
+					String publisherPhone = rs.getString("publisherPhone");
+
+					publisher = new Publisher();
+					publisher.setPublisherId(publisherId);
+					publisher.setPublisherName(publisherName);
+					publisher.setPublisherAddress(publisherAddress);
+					publisher.setPublisherPhone(publisherPhone);
+
+					return;
+				}
+
+				publisherCounter++;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 	private void addPublisher() {
-		// int publisherChoice = displayPublishers();
-		// updatePublisherInfo(publisherChoice);
 
 		publisher = new Publisher();
 
@@ -105,7 +175,7 @@ public class Administrator extends User {
 		System.out.println("Please Enter Publisher Address");
 		String publisherAddress = sc.nextLine();
 
-		//TODO validate phone number
+		// TODO validate phone number
 		System.out.println("Please Enter Publisher Phone number");
 		String publisherPhone = sc.nextLine();
 
@@ -203,7 +273,7 @@ public class Administrator extends User {
 
 		selectBook();
 
-		updateBookInDatabase();
+		updateBookOnDatabase();
 		System.out.println("sucessfully updated book!");
 	}
 
@@ -337,7 +407,7 @@ public class Administrator extends User {
 		}
 	}
 
-	private void updateBookInDatabase() {
+	private void updateBookOnDatabase() {
 		System.out.println("enter new book title");
 		String title = sc.nextLine();
 
