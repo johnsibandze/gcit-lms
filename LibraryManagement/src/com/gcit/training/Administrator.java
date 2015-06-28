@@ -18,6 +18,7 @@ public class Administrator extends User {
 	private ArrayList<Author> authors;
 	private Publisher publisher;
 	private ResultSet rs;
+	private Borrower borrower;
 
 	private Scanner sc;
 
@@ -60,16 +61,74 @@ public class Administrator extends User {
 		} else if (decision == 2) {
 			handlePublisher();
 		} else if (decision == 3) {
-			// TODO handle library branches
 			handleLibraryBranch();
 		} else if (decision == 4) {
 			// TODO handle borrowers
+			handleBorrower();
 		} else if (decision == 5) {
 			// TODO handle overriding due date for a book loan
 		} else {
 			this.startMainMenu = true;
 		}
 
+	}
+
+	private void handleBorrower() {
+		System.out.println("1) Add Borrower");
+		System.out.println("2) Update Borrower");
+		System.out.println("3) Delete Borrower");
+		System.out.println("4) Quit to previous");
+
+		int choice = Integer.parseInt(sc.nextLine());
+
+		if (choice == 1) {
+			// TODO add borrower
+			addBorrower();
+		} else if (choice == 2) {
+			// TODO update borrower
+		} else if (choice == 3) {
+			// TODO delete borrower
+		} else {
+			mainMenu();
+			return;
+		}
+	}
+
+	private void addBorrower() {
+		System.out.println("Please enter name of borrower");
+		String name = sc.nextLine();
+
+		System.out.println("Please enter address of borrower");
+		String address = sc.nextLine();
+
+		System.out.println("Please enter phone number of borrower");
+		String phone = sc.nextLine();
+
+		borrower = new Borrower();
+		borrower.setName(name);
+		borrower.setAddress(address);
+		borrower.setPhone(phone);
+
+		insertBorrowerToDatabase();
+
+		System.out.println("sucessfully added borrower");
+	}
+
+	private void insertBorrowerToDatabase() {
+		try {
+			String selectQuery = "insert into tbl_borrower (name, address, phone) values (?, ?, ?)";
+
+			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			pstmt.setString(1, borrower.getName());
+			pstmt.setString(2, borrower.getAddress());
+			pstmt.setString(3, borrower.getPhone());
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void handleLibraryBranch() {
