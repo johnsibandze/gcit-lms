@@ -58,10 +58,10 @@ public class Administrator extends User {
 		if (decision == 1) {
 			handleBookAndAuthor();
 		} else if (decision == 2) {
-			// TODO handle publishers
 			handlePublisher();
 		} else if (decision == 3) {
 			// TODO handle library branches
+			handleLibraryBranch();
 		} else if (decision == 4) {
 			// TODO handle borrowers
 		} else if (decision == 5) {
@@ -70,6 +70,84 @@ public class Administrator extends User {
 			this.startMainMenu = true;
 		}
 
+	}
+
+	private void handleLibraryBranch() {
+		System.out.println("1) Add Library Branch");
+		System.out.println("2) Update Library Branch");
+		System.out.println("3) Delete Library Branch");
+		System.out.println("4) Quit to previous");
+
+		int choice = Integer.parseInt(sc.nextLine());
+
+		if (choice == 1) {
+			// add branch
+			addBranch();
+		} else if (choice == 2) {
+			// update branch
+		} else if (choice == 3) {
+			// delete branch
+		} else {
+			mainMenu();
+			return;
+		}
+
+	}
+
+	private void addBranch() {
+
+		System.out.println("Please enter branch name");
+		String branchName = sc.nextLine();
+
+		System.out.println("Please enter branch address");
+		String branchAddress = sc.nextLine();
+
+		libraryBranch = new LibraryBranch();
+		libraryBranch.setBranchName(branchName);
+		libraryBranch.setBranchAddress(branchAddress);
+
+		insertLibraryBranchToDatabase();
+
+		System.out.println("sucessfully added library branch");
+
+	}
+
+	private void insertLibraryBranchToDatabase() {
+		try {
+			String selectQuery = "insert into tbl_library_branch (branchName, branchAddress) values (?, ?)";
+
+			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			pstmt.setString(1, libraryBranch.getBranchName());
+			pstmt.setString(2, libraryBranch.getBranchAddress());
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void addPublisher() {
+
+		System.out.println("Please Enter Publisher Name");
+		String publisherName = sc.nextLine();
+
+		System.out.println("Please Enter Publisher Address");
+		String publisherAddress = sc.nextLine();
+
+		// TODO validate phone number
+		System.out.println("Please Enter Publisher Phone number");
+		String publisherPhone = sc.nextLine();
+
+		publisher = new Publisher();
+		publisher.setPublisherName(publisherName);
+		publisher.setPublisherAddress(publisherAddress);
+		publisher.setPublisherPhone(publisherPhone);
+
+		insertPublisherToDatabase();
+
+		System.out.println("Successfully Added Publisher");
 	}
 
 	private void handlePublisher() {
@@ -85,6 +163,8 @@ public class Administrator extends User {
 		} else if (choice == 2) {
 			updatePublisher();
 		} else if (choice == 3) {
+			// TODO check if this publisher currently has books on our records
+			// before deleting them
 			deletePublisher();
 		} else {
 			mainMenu();
@@ -121,30 +201,6 @@ public class Administrator extends User {
 		}
 		updatePublisherInfo(publisherChoice);
 		updatePublisherOnDatabase();
-	}
-
-	private void addPublisher() {
-
-		publisher = new Publisher();
-
-		System.out.println("Please Enter Publisher Name");
-		String publisherName = sc.nextLine();
-
-		System.out.println("Please Enter Publisher Address");
-		String publisherAddress = sc.nextLine();
-
-		// TODO validate phone number
-		System.out.println("Please Enter Publisher Phone number");
-		String publisherPhone = sc.nextLine();
-
-		publisher = new Publisher();
-		publisher.setPublisherName(publisherName);
-		publisher.setPublisherAddress(publisherAddress);
-		publisher.setPublisherPhone(publisherPhone);
-
-		insertPublisherToDatabase();
-
-		System.out.println("Successfully Added Publisher");
 	}
 
 	private void deletePublisherFromDatabase() {
@@ -277,6 +333,7 @@ public class Administrator extends User {
 		} else if (choice == 2) {
 			updateBookAndAuthor();
 		} else if (choice == 3) {
+			// TODO check if this book is loaned out before deleting it
 			deleteBookAndAuthor();
 		} else {
 			mainMenu();
