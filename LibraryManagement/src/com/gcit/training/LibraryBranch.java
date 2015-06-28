@@ -1,12 +1,12 @@
 package com.gcit.training;
 
-public class Library {
+public class LibraryBranch {
 
-	public Library() {
-
+	public LibraryBranch() {
+		
 	}
 
-	public Library(int branchId, String branchName, String branchAddress) {
+	public LibraryBranch(int branchId, String branchName, String branchAddress) {
 		super();
 		this.branchId = branchId;
 		this.branchName = branchName;

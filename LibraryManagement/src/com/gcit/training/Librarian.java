@@ -15,7 +15,7 @@ public class Librarian extends User {
 	private Scanner sc;
 
 	/** the libary that this librarian manages. */
-	private Library library;
+	private LibraryBranch library;
 
 	public Librarian() {
 		super();
@@ -27,7 +27,7 @@ public class Librarian extends User {
 			e.printStackTrace();
 		}
 		sc = new Scanner(System.in);
-		library = new Library();
+		library = new LibraryBranch();
 	}
 
 	/** should we go back to the main menu? */

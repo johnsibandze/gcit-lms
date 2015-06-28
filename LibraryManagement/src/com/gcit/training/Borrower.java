@@ -18,7 +18,7 @@ public class Borrower extends User {
 	private ResultSet rs;
 
 	/** the library branch that this user selects. */
-	private Library library;
+	private LibraryBranch library;
 
 	/** The book that this borrower wants to check out or return. */
 	private Book book;
@@ -421,7 +421,7 @@ public class Borrower extends User {
 					String branchName = rs.getString("branchName");
 					String branchAddress = rs.getString("branchAddress");
 
-					library = new Library(branchId, branchName, branchAddress);
+					library = new LibraryBranch(branchId, branchName, branchAddress);
 
 					return;
 				}

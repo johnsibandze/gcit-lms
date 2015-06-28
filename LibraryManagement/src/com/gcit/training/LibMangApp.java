@@ -35,9 +35,21 @@ public class LibMangApp {
 
 			// lib1Menu();
 		} else if (userInt == 2) {
-			// TODO handle the administrator
+			handleAdministrator();
 		} else {
 			handleBorrower();
+		}
+	}
+
+	private void handleAdministrator() {
+		user = new Administrator();
+
+		Administrator admin = (Administrator) user;
+		admin.mainMenu();
+
+		if (admin.isStartMainMenu()) {
+			admin.setStartMainMenu(false);
+			mainMenu();
 		}
 	}
 
