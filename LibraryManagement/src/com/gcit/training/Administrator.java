@@ -81,17 +81,32 @@ public class Administrator extends User {
 		int choice = Integer.parseInt(sc.nextLine());
 
 		if (choice == 1) {
-			// add branch
 			addBranch();
 		} else if (choice == 2) {
-			// update branch
+			// TODO update branch
+			updateBranch();
+
 		} else if (choice == 3) {
-			// delete branch
+			// TODO delete branch
 		} else {
 			mainMenu();
 			return;
 		}
 
+	}
+
+	private void updateBranch() {
+		int libraryCounter = displayLibraries();
+
+		int libraryChoice = Integer.parseInt(sc.nextLine());
+		if (libraryChoice == libraryCounter) {
+			handlePublisher();
+			return;
+		}
+
+		updateLibraryInfo(libraryChoice);
+
+		updateLibraryOnDatabase();
 	}
 
 	private void addBranch() {
@@ -112,6 +127,59 @@ public class Administrator extends User {
 
 	}
 
+	private void updateLibraryOnDatabase() {
+		System.out.println("Please enter new library branch name");
+		String branchName = sc.nextLine();
+
+		System.out.println("Please enter new library branch address");
+		String branchAddress = sc.nextLine();
+
+		try {
+			String updateQuery = "update tbl_library_branch set branchName=?, branchAddress=? where branchId=?";
+
+			PreparedStatement pstmt = conn.prepareStatement(updateQuery);
+
+			pstmt.setString(1, branchName);
+			pstmt.setString(2, branchAddress);
+			pstmt.setInt(3, libraryBranch.getBranchId());
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void updatePublisherOnDatabase() {
+		System.out.println("Please enter new publisher name");
+		String publisherName = sc.nextLine();
+
+		System.out.println("Please enter new publisher address");
+		String publisherAddress = sc.nextLine();
+
+		// TODO check if this is a valid phone number
+		System.out.println("Please enter new publisher phone number");
+		String publisherPhone = sc.nextLine();
+
+		try {
+			String updateQuery = "update tbl_publisher set publisherName=?, publisherAddress=?, publisherPhone=? where publisherId=?";
+
+			PreparedStatement pstmt = conn.prepareStatement(updateQuery);
+
+			pstmt.setString(1, publisherName);
+			pstmt.setString(2, publisherAddress);
+			pstmt.setString(3, publisherPhone);
+			pstmt.setInt(4, publisher.getPublisherId());
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	private void insertLibraryBranchToDatabase() {
 		try {
 			String selectQuery = "insert into tbl_library_branch (branchName, branchAddress) values (?, ?)";
@@ -126,6 +194,18 @@ public class Administrator extends User {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private void updatePublisher() {
+		int publisherCounter = displayPublishers();
+
+		int publisherChoice = Integer.parseInt(sc.nextLine());
+		if (publisherChoice == publisherCounter) {
+			handlePublisher();
+			return;
+		}
+		updatePublisherInfo(publisherChoice);
+		updatePublisherOnDatabase();
 	}
 
 	private void addPublisher() {
@@ -191,18 +271,6 @@ public class Administrator extends User {
 
 	}
 
-	private void updatePublisher() {
-		int publisherCounter = displayPublishers();
-
-		int publisherChoice = Integer.parseInt(sc.nextLine());
-		if (publisherChoice == publisherCounter) {
-			handlePublisher();
-			return;
-		}
-		updatePublisherInfo(publisherChoice);
-		updatePublisherOnDatabase();
-	}
-
 	private void deletePublisherFromDatabase() {
 		String deleteQuery = "delete from tbl_publisher where publisherId=?";
 
@@ -215,35 +283,6 @@ public class Administrator extends User {
 			e.printStackTrace();
 		}
 
-	}
-
-	private void updatePublisherOnDatabase() {
-		System.out.println("Please enter new publisher name");
-		String publisherName = sc.nextLine();
-
-		System.out.println("Please enter new publisher address");
-		String publisherAddress = sc.nextLine();
-
-		// TODO check if this is a valid phone number
-		System.out.println("Please enter new publisher phone number");
-		String publisherPhone = sc.nextLine();
-
-		try {
-			String updateQuery = "update tbl_publisher set publisherName=?, publisherAddress=?, publisherPhone=? where publisherId=?";
-
-			PreparedStatement pstmt = conn.prepareStatement(updateQuery);
-
-			pstmt.setString(1, publisherName);
-			pstmt.setString(2, publisherAddress);
-			pstmt.setString(3, publisherPhone);
-			pstmt.setInt(4, publisher.getPublisherId());
-
-			pstmt.executeUpdate();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	private void updatePublisherInfo(int publisherChoice) {
@@ -600,7 +639,7 @@ public class Administrator extends User {
 					libraryBranch = new LibraryBranch(branchId, branchName,
 							branchAddress);
 
-					System.out.println(branchName + ", " + branchAddress);
+					// System.out.println(branchName + ", " + branchAddress);
 
 					return;
 				}
