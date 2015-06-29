@@ -725,20 +725,15 @@ public class Administrator extends User {
 			return;
 		}
 
-		System.out.println("Please enter branch ID");
-		String branchIdString = sc.nextLine();
-		if (branchIdString.equals("quit")) {
-			handleBookAndAuthor();
+		// pick the branch you want to add the book to
+		System.out.println("Please select a library branch to add the book");
+		int libraryCounter = displayLibraries();
+		int libraryChoice = Integer.parseInt(sc.nextLine());
+		if (libraryChoice == libraryCounter) {
+			handleBorrower();
 			return;
 		}
-
-		int branchId = Integer.parseInt(branchIdString);
-		libraryBranch = new LibraryBranch();
-		libraryBranch.setBranchId(branchId);
-		findLibraryBranchInfo();
-
-		// TODO handle cases where the author already exists. If the author
-		// exists, we will ask for their ID.
+		updateLibraryInfo(libraryChoice);
 
 		// add to author table
 		author = new Author();
@@ -1067,33 +1062,6 @@ public class Administrator extends User {
 			pstmt.setString(1, author.getAuthorName());
 
 			pstmt.executeUpdate();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * find the name and address of the branch that the admin identified by the
-	 * branch id.
-	 */
-	public void findLibraryBranchInfo() {
-		try {
-			String selectQuery = "select * from tbl_library_branch where branchId=?";
-
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
-			pstmt.setInt(1, libraryBranch.getBranchId());
-
-			ResultSet rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				String branchName = rs.getString("branchName");
-				String branchAddress = rs.getString("branchAddress");
-
-				libraryBranch.setBranchName(branchName);
-				libraryBranch.setBranchAddress(branchAddress);
-			}
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
