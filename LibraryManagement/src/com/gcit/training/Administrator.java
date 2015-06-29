@@ -82,16 +82,30 @@ public class Administrator extends User {
 		int choice = Integer.parseInt(sc.nextLine());
 
 		if (choice == 1) {
-			// TODO add borrower
 			addBorrower();
 		} else if (choice == 2) {
-			// TODO update borrower
+			updateBorrower();
 		} else if (choice == 3) {
 			// TODO delete borrower
 		} else {
 			mainMenu();
 			return;
 		}
+
+	}
+
+	private void updateBorrower() {
+		int borrowerCounter = displayBorrowers();
+
+		int borrowerChoice = Integer.parseInt(sc.nextLine());
+		if (borrowerChoice == borrowerCounter) {
+			handleLibraryBranch();
+			return;
+		}
+
+		updateBorrowerInfo(borrowerChoice);
+
+		updateBorrowerOnDatabase();
 	}
 
 	private void addBorrower() {
@@ -122,6 +136,62 @@ public class Administrator extends User {
 			pstmt.setString(1, borrower.getName());
 			pstmt.setString(2, borrower.getAddress());
 			pstmt.setString(3, borrower.getPhone());
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void updateBorrowerInfo(int borrowerChoice) {
+		try {
+			int borrowerCounter = 1;
+			rs.beforeFirst();
+			while (rs.next()) {
+				if (borrowerCounter == borrowerChoice) {
+					int cardNo = rs.getInt("cardNo");
+					String name = rs.getString("name");
+					String address = rs.getString("address");
+					String phone = rs.getString("phone");
+
+					borrower = new Borrower();
+					borrower.setCardNo(cardNo);
+					borrower.setName(name);
+					borrower.setAddress(address);
+					borrower.setPhone(phone);
+
+					return;
+				}
+
+				borrowerCounter++;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void updateBorrowerOnDatabase() {
+		System.out.println("Please enter new name");
+		String name = sc.nextLine();
+
+		System.out.println("Please enter new address");
+		String address = sc.nextLine();
+
+		System.out.println("Please enter new phone number");
+		String phone = sc.nextLine();
+
+		try {
+			String updateQuery = "update tbl_borrower set name=?, address=?, phone=? where cardNo=?";
+
+			PreparedStatement pstmt = conn.prepareStatement(updateQuery);
+
+			pstmt.setString(1, name);
+			pstmt.setString(2, address);
+			pstmt.setString(3, phone);
+			pstmt.setInt(4, borrower.getCardNo());
 
 			pstmt.executeUpdate();
 
@@ -887,6 +957,34 @@ public class Administrator extends User {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private int displayBorrowers() {
+		int borrowerCounter = 0;
+		try {
+			String selectQuery = "select * from tbl_borrower";
+
+			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+
+			rs = pstmt.executeQuery();
+
+			borrowerCounter = 1;
+			while (rs.next()) {
+				String name = rs.getString("name");
+				String address = rs.getString("address");
+				String phone = rs.getString("phone");
+
+				System.out.println(borrowerCounter + ") " + name + ", "
+						+ address + ", " + phone);
+				borrowerCounter++;
+			}
+
+			System.out.println(borrowerCounter + ") Quit to previous");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return borrowerCounter;
 	}
 
 }
