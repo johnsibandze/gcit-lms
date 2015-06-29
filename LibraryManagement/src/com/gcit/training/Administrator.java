@@ -87,6 +87,7 @@ public class Administrator extends User {
 			updateBorrower();
 		} else if (choice == 3) {
 			// TODO delete borrower
+			deleteBorrower();
 		} else {
 			mainMenu();
 			return;
@@ -94,12 +95,29 @@ public class Administrator extends User {
 
 	}
 
+	private void deleteBorrower() {
+		int libraryCounter = displayBorrowers();
+
+		int libraryChoice = Integer.parseInt(sc.nextLine());
+
+		if (libraryCounter == libraryChoice) {
+			handleLibraryBranch();
+			return;
+		}
+
+		updateBorrowerInfo(libraryChoice);
+
+		deleteBorrowerFromDatabase();
+
+		System.out.println("Successfully deleted borrower");
+	}
+
 	private void updateBorrower() {
 		int borrowerCounter = displayBorrowers();
 
 		int borrowerChoice = Integer.parseInt(sc.nextLine());
 		if (borrowerChoice == borrowerCounter) {
-			handleLibraryBranch();
+			handleBorrower();
 			return;
 		}
 
@@ -126,6 +144,19 @@ public class Administrator extends User {
 		insertBorrowerToDatabase();
 
 		System.out.println("sucessfully added borrower");
+	}
+
+	private void deleteBorrowerFromDatabase() {
+		String deleteQuery = "delete from tbl_borrower where cardNo=?";
+
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(deleteQuery);
+			pstmt.setInt(1, borrower.getCardNo());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void insertBorrowerToDatabase() {
