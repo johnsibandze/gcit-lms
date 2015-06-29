@@ -1,6 +1,7 @@
 package com.gcit.training;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,6 +20,7 @@ public class Administrator extends User {
 	private Publisher publisher;
 	private ResultSet rs;
 	private Borrower borrower;
+	private BookLoan bookLoan;
 
 	private Scanner sc;
 
@@ -67,10 +69,84 @@ public class Administrator extends User {
 			handleBorrower();
 		} else if (decision == 5) {
 			// TODO handle overriding due date for a book loan
+			overrideDueDate();
 		} else {
 			this.startMainMenu = true;
 		}
 
+	}
+
+	private void overrideDueDate() {
+		int bookLoanCounter = displayBookLoans();
+
+		System.out.println("there are " + bookLoanCounter + " books");
+
+		int bookLoanChoice = Integer.parseInt(sc.nextLine());
+		if (bookLoanChoice == bookLoanCounter) {
+			handleBorrower();
+			return;
+		}
+
+		updateBookLoanInfo(bookLoanChoice);
+
+		updateBookLoanOnDatabase();
+	}
+
+	private void updateBookLoanOnDatabase() {
+
+		System.out.println("Please enter new due date");
+		String dueDateString = sc.nextLine();
+
+		Date dueDate = Date.valueOf(dueDateString);
+
+		try {
+			String updateQuery = "update tbl_book_loans set dueDate=? where bookId=? and branchId=? and cardNo=?";
+
+			PreparedStatement pstmt = conn.prepareStatement(updateQuery);
+			pstmt.setDate(1, dueDate);
+			pstmt.setInt(2, bookLoan.getBookId());
+			pstmt.setInt(3, bookLoan.getBranchId());
+			pstmt.setInt(4, bookLoan.getCardNo());
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private int displayBookLoans() {
+		int borrowerCounter = 0;
+		try {
+			String selectQuery = "select * from ((((tbl_book_loans natural join tbl_book) natural join tbl_borrower) natural join tbl_book_authors) natural join tbl_author)";
+
+			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+
+			rs = pstmt.executeQuery();
+
+			borrowerCounter = 1;
+			while (rs.next()) {
+				String title = rs.getString("title");
+				String authorName = rs.getString("authorName");
+				String name = rs.getString("name");
+
+				// Date dateOut = rs.getDate("dateOut");
+				// Date dueDate = rs.getDate("dueDate");
+				// Date dateIn = rs.getDate("dateIn");
+
+				System.out.println(title + " " + authorName + " borrowed by "
+						+ name);
+
+				borrowerCounter++;
+			}
+
+			System.out.println(borrowerCounter + ") Quit to previous");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return borrowerCounter;
 	}
 
 	private void handleBorrower() {
@@ -86,12 +162,13 @@ public class Administrator extends User {
 		} else if (choice == 2) {
 			updateBorrower();
 		} else if (choice == 3) {
-			// TODO delete borrower
 			deleteBorrower();
 		} else {
 			mainMenu();
 			return;
 		}
+
+		mainMenu();
 
 	}
 
@@ -153,6 +230,40 @@ public class Administrator extends User {
 			PreparedStatement pstmt = conn.prepareStatement(deleteQuery);
 			pstmt.setInt(1, borrower.getCardNo());
 			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void updateBookLoanInfo(int bookLoanChoice) {
+		try {
+			int bookLoanCounter = 1;
+			rs.beforeFirst();
+			while (rs.next()) {
+				if (bookLoanCounter == bookLoanChoice) {
+
+					int bookId = rs.getInt("bookId");
+					int branchId = rs.getInt("branchId");
+					int cardNo = rs.getInt("cardNo");
+					Date dateOut = rs.getDate("dateOut");
+					Date dueDate = rs.getDate("dueDate");
+					Date dateIn = rs.getDate("dateIn");
+
+					bookLoan = new BookLoan();
+
+					bookLoan.setBookId(bookId);
+					bookLoan.setBranchId(branchId);
+					bookLoan.setCardNo(cardNo);
+					bookLoan.setDateOut(dateOut);
+					bookLoan.setDueDate(dueDate);
+					bookLoan.setDateIn(dateIn);
+
+					return;
+				}
+
+				bookLoanCounter++;
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

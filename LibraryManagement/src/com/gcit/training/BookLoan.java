@@ -1,13 +1,15 @@
 package com.gcit.training;
 
+import java.sql.Date;
+
 public class BookLoan {
 
 	private int bookId;
 	private int branchId;
 	private int cardNo;
-	private String dateOut;
-	private String dueDate;
-	private String dateIn;
+	private Date dateOut;
+	private Date dueDate;
+	private Date dateIn;
 
 	public int getBookId() {
 		return bookId;
@@ -33,27 +35,27 @@ public class BookLoan {
 		this.cardNo = cardNo;
 	}
 
-	public String getDateOut() {
+	public Date getDateOut() {
 		return dateOut;
 	}
 
-	public void setDateOut(String dateOut) {
+	public void setDateOut(Date dateOut) {
 		this.dateOut = dateOut;
 	}
 
-	public String getDueDate() {
+	public Date getDueDate() {
 		return dueDate;
 	}
 
-	public void setDueDate(String dueDate) {
+	public void setDueDate(Date dueDate) {
 		this.dueDate = dueDate;
 	}
 
-	public String getDateIn() {
+	public Date getDateIn() {
 		return dateIn;
 	}
 
-	public void setDateIn(String dateIn) {
+	public void setDateIn(Date dateIn) {
 		this.dateIn = dateIn;
 	}
 

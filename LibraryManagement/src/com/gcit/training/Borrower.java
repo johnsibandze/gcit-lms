@@ -421,7 +421,8 @@ public class Borrower extends User {
 					String branchName = rs.getString("branchName");
 					String branchAddress = rs.getString("branchAddress");
 
-					library = new LibraryBranch(branchId, branchName, branchAddress);
+					library = new LibraryBranch(branchId, branchName,
+							branchAddress);
 
 					return;
 				}

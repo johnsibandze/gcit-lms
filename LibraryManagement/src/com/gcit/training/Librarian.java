@@ -225,8 +225,6 @@ public class Librarian extends User {
 		}
 	}
 
-
-
 	private Book getSelectedBook(int bookChoice) {
 		Book b = new Book();
 		try {
