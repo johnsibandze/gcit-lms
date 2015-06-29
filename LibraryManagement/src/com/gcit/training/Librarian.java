@@ -1,16 +1,11 @@
 package com.gcit.training;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Librarian extends User {
-
-	// will use one connection
-	private Connection conn;
 
 	private Scanner sc;
 
@@ -19,13 +14,7 @@ public class Librarian extends User {
 
 	public Librarian() {
 		super();
-		try {
-			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost/library", "root", "");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 		sc = new Scanner(System.in);
 		library = new LibraryBranch();
 	}
@@ -66,7 +55,8 @@ public class Librarian extends User {
 		try {
 			if (libraryChoice < libraryCounter) {
 				String selectQuery = "SELECT * FROM tbl_library_branch ORDER BY branchId LIMIT 1 OFFSET ?";
-				PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+				PreparedStatement pstmt = LibMangApp.conn
+						.prepareStatement(selectQuery);
 				pstmt.setInt(1, libraryChoice - 1);
 
 				ResultSet rs = pstmt.executeQuery();
@@ -154,7 +144,8 @@ public class Librarian extends User {
 
 			String selectQuery = "UPDATE tbl_library_branch SET branchName=?, branchAddress=? WHERE branchId=?";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 			pstmt.setString(1, branchName);
 			pstmt.setString(2, branchAddress);
 			pstmt.setInt(3, library.getBranchId());
@@ -204,7 +195,8 @@ public class Librarian extends User {
 
 			String selectQuery = "SELECT bookId, title, branchName, noOfCopies FROM ((tbl_book NATURAL JOIN tbl_book_copies) NATURAL JOIN tbl_library_branch) WHERE branchName=? AND title=? AND bookId=?";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 
 			pstmt.setString(1, "" + branchName);
 			pstmt.setString(2, "" + b.getTitle());
@@ -231,7 +223,8 @@ public class Librarian extends User {
 			String selectQuery = "SELECT bookId, title, authorName FROM ((tbl_book NATURAL JOIN tbl_book_authors) NATURAL JOIN tbl_author) ORDER BY bookId LIMIT 1 OFFSET "
 					+ (bookChoice - 1);
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 
 			ResultSet rs = pstmt.executeQuery();
 

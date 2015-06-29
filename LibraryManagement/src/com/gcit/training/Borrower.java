@@ -1,7 +1,5 @@
 package com.gcit.training;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,19 +25,6 @@ public class Borrower extends User {
 	private String name;
 	private String address;
 	private String phone;
-
-	private Connection conn;
-
-	public Borrower() {
-		super();
-		try {
-			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost/library", "root", "");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
 	public int getCardNo() {
 		return cardNo;
@@ -90,7 +75,8 @@ public class Borrower extends User {
 
 			String selectQuery = "select * from tbl_borrower WHERE cardNo=?";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 			pstmt.setString(1, "" + cardNo);
 
 			ResultSet rs = pstmt.executeQuery();
@@ -209,7 +195,8 @@ public class Borrower extends User {
 		try {
 			String updateQuery = "update tbl_book_loans set dateIn=? where bookId=? and branchId=? and cardNo=?";
 
-			PreparedStatement pstmt = conn.prepareStatement(updateQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(updateQuery);
 
 			String todayDate = dateAfterToday(0);
 
@@ -234,7 +221,8 @@ public class Borrower extends User {
 		try {
 			String selectQuery = "select bookId, title, authorName from (((tbl_author NATURAL JOIN tbl_book_authors) NATURAL JOIN tbl_book)NATURAL JOIN tbl_book_loans) where branchId=? and bookId=?";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 			pstmt.setInt(1, 3);
 			pstmt.setInt(2, 3);
 
@@ -279,7 +267,8 @@ public class Borrower extends User {
 		try {
 			String selectQuery = "select noOfCopies from tbl_book_copies where bookId=? and branchId=?;";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 
 			pstmt.setInt(1, book.getBookId());
 			pstmt.setInt(2, library.getBranchId());
@@ -304,7 +293,8 @@ public class Borrower extends User {
 		try {
 			String selectQuery = "insert into tbl_book_loans values (?, ?, ?, ?, ?, ?);";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 
 			pstmt.setInt(1, book.getBookId());
 			pstmt.setInt(2, library.getBranchId());
@@ -380,7 +370,8 @@ public class Borrower extends User {
 		try {
 			String selectQuery = "select bookId, title, authorName, branchName from ((((tbl_author NATURAL JOIN tbl_book_authors) NATURAL JOIN tbl_book) NATURAL JOIN tbl_book_copies) NATURAL JOIN tbl_library_branch) where branchId=?";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 			pstmt.setInt(1, library.getBranchId());
 
 			rs = pstmt.executeQuery();
@@ -409,7 +400,8 @@ public class Borrower extends User {
 		try {
 			String selectQuery = "select * from tbl_library_branch";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 
 			ResultSet rs = pstmt.executeQuery();
 

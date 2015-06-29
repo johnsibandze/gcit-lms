@@ -1,5 +1,8 @@
 package com.gcit.training;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class LibMangApp {
@@ -8,8 +11,17 @@ public class LibMangApp {
 
 	private User user;
 
+	public static Connection conn;
+
 	public LibMangApp() {
 		sc = new Scanner(System.in);
+		try {
+			conn = DriverManager.getConnection(
+					"jdbc:mysql://localhost/library", "root", "");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(String[] args) {

@@ -1,31 +1,18 @@
 package com.gcit.training;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class User {
 
-	private Connection conn;
-
-	public User() {
-		try {
-			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost/library", "root", "");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 	public int displayLibraries() {
 		int libraryCounter = 0;
 		try {
 			String selectQuery = "select * from tbl_library_branch";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 
 			ResultSet rs = pstmt.executeQuery();
 
@@ -51,7 +38,8 @@ public class User {
 		try {
 			String updateQuery = "UPDATE tbl_book_copies SET noOfCopies=? WHERE bookId=? and branchId=?";
 
-			PreparedStatement pstmt = conn.prepareStatement(updateQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(updateQuery);
 			pstmt.setInt(1, newNoOfCopies);
 			pstmt.setInt(2, bookId);
 			pstmt.setInt(3, branchId);
@@ -73,7 +61,8 @@ public class User {
 		try {
 			String selectQuery = "SELECT * FROM ((((tbl_book NATURAL JOIN tbl_book_authors) NATURAL JOIN tbl_author) natural join tbl_book_copies) natural join tbl_library_branch) where branchId=?";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 			pstmt.setInt(1, branchId);
 
 			ResultSet rs = pstmt.executeQuery();

@@ -1,8 +1,6 @@
 package com.gcit.training;
 
-import java.sql.Connection;
 import java.sql.Date;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +9,7 @@ import java.util.Scanner;
 
 public class Administrator extends User {
 
-	Connection conn;
+	// Connection conn;
 
 	private Author author;
 	private Book book;
@@ -37,14 +35,6 @@ public class Administrator extends User {
 	public Administrator() {
 		sc = new Scanner(System.in);
 		authors = new ArrayList<Author>();
-
-		try {
-			conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost/library", "root", "");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 	}
 
@@ -102,7 +92,8 @@ public class Administrator extends User {
 		try {
 			String updateQuery = "update tbl_book_loans set dueDate=? where bookId=? and branchId=? and cardNo=?";
 
-			PreparedStatement pstmt = conn.prepareStatement(updateQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(updateQuery);
 			pstmt.setDate(1, dueDate);
 			pstmt.setInt(2, bookLoan.getBookId());
 			pstmt.setInt(3, bookLoan.getBranchId());
@@ -121,7 +112,8 @@ public class Administrator extends User {
 		try {
 			String selectQuery = "select * from ((((tbl_book_loans natural join tbl_book) natural join tbl_borrower) natural join tbl_book_authors) natural join tbl_author)";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 
 			rs = pstmt.executeQuery();
 
@@ -227,7 +219,8 @@ public class Administrator extends User {
 		String deleteQuery = "delete from tbl_borrower where cardNo=?";
 
 		try {
-			PreparedStatement pstmt = conn.prepareStatement(deleteQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(deleteQuery);
 			pstmt.setInt(1, borrower.getCardNo());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -274,7 +267,8 @@ public class Administrator extends User {
 		try {
 			String selectQuery = "insert into tbl_borrower (name, address, phone) values (?, ?, ?)";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 			pstmt.setString(1, borrower.getName());
 			pstmt.setString(2, borrower.getAddress());
 			pstmt.setString(3, borrower.getPhone());
@@ -328,7 +322,8 @@ public class Administrator extends User {
 		try {
 			String updateQuery = "update tbl_borrower set name=?, address=?, phone=? where cardNo=?";
 
-			PreparedStatement pstmt = conn.prepareStatement(updateQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(updateQuery);
 
 			pstmt.setString(1, name);
 			pstmt.setString(2, address);
@@ -420,7 +415,8 @@ public class Administrator extends User {
 		String deleteQuery = "delete from tbl_library_branch where branchId=?";
 
 		try {
-			PreparedStatement pstmt = conn.prepareStatement(deleteQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(deleteQuery);
 			pstmt.setInt(1, libraryBranch.getBranchId());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -439,7 +435,8 @@ public class Administrator extends User {
 		try {
 			String updateQuery = "update tbl_library_branch set branchName=?, branchAddress=? where branchId=?";
 
-			PreparedStatement pstmt = conn.prepareStatement(updateQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(updateQuery);
 
 			pstmt.setString(1, branchName);
 			pstmt.setString(2, branchAddress);
@@ -467,7 +464,8 @@ public class Administrator extends User {
 		try {
 			String updateQuery = "update tbl_publisher set publisherName=?, publisherAddress=?, publisherPhone=? where publisherId=?";
 
-			PreparedStatement pstmt = conn.prepareStatement(updateQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(updateQuery);
 
 			pstmt.setString(1, publisherName);
 			pstmt.setString(2, publisherAddress);
@@ -486,7 +484,8 @@ public class Administrator extends User {
 		try {
 			String selectQuery = "insert into tbl_library_branch (branchName, branchAddress) values (?, ?)";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 			pstmt.setString(1, libraryBranch.getBranchName());
 			pstmt.setString(2, libraryBranch.getBranchAddress());
 
@@ -577,7 +576,8 @@ public class Administrator extends User {
 		String deleteQuery = "delete from tbl_publisher where publisherId=?";
 
 		try {
-			PreparedStatement pstmt = conn.prepareStatement(deleteQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(deleteQuery);
 			pstmt.setInt(1, publisher.getPublisherId());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -621,7 +621,8 @@ public class Administrator extends User {
 		try {
 			String selectQuery = "insert into tbl_publisher (publisherName, publisherAddress, publisherPhone) values (?, ?, ?)";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 			pstmt.setString(1, publisher.getPublisherName());
 			pstmt.setString(2, publisher.getPublisherAddress());
 			pstmt.setString(3, publisher.getPublisherPhone());
@@ -639,7 +640,8 @@ public class Administrator extends User {
 		try {
 			String selectQuery = "select * from tbl_publisher";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 
 			rs = pstmt.executeQuery();
 
@@ -760,19 +762,20 @@ public class Administrator extends User {
 		try {
 			// delete book from book authors table
 			String deleteQuery = "delete from tbl_book_authors where bookId=?";
-			PreparedStatement pstmt = conn.prepareStatement(deleteQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(deleteQuery);
 			pstmt.setInt(1, book.getBookId());
 			pstmt.executeUpdate();
 
 			// delete book from book table
 			deleteQuery = "delete from tbl_book where bookId=?";
-			pstmt = conn.prepareStatement(deleteQuery);
+			pstmt = LibMangApp.conn.prepareStatement(deleteQuery);
 			pstmt.setInt(1, book.getBookId());
 			pstmt.executeUpdate();
 
 			// delete book from book copies table
 			deleteQuery = "delete from tbl_book_copies where bookId=?";
-			pstmt = conn.prepareStatement(deleteQuery);
+			pstmt = LibMangApp.conn.prepareStatement(deleteQuery);
 			pstmt.setInt(1, book.getBookId());
 			pstmt.executeUpdate();
 
@@ -796,7 +799,8 @@ public class Administrator extends User {
 	private void deleteAuthor(Author author) {
 		try {
 			String deleteQuery = "delete from tbl_author where authorId=?";
-			PreparedStatement pstmt = conn.prepareStatement(deleteQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(deleteQuery);
 			pstmt.setInt(1, author.getAuthorId());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -810,7 +814,8 @@ public class Administrator extends User {
 		try {
 			String selectQuery = "SELECT * FROM (tbl_author NATURAL JOIN tbl_book_authors) where bookId=?";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 			pstmt.setInt(1, book.getBookId());
 
 			ResultSet rs = pstmt.executeQuery();
@@ -841,7 +846,8 @@ public class Administrator extends User {
 		try {
 			String updateQuery = "update ((tbl_book natural join tbl_book_authors) natural join tbl_author) set title=?, authorName=? where bookId=?";
 
-			PreparedStatement pstmt = conn.prepareStatement(updateQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(updateQuery);
 
 			pstmt.setString(1, title);
 			pstmt.setString(2, authorName);
@@ -887,7 +893,8 @@ public class Administrator extends User {
 		try {
 			String selectQuery = "SELECT * FROM ((((tbl_book NATURAL JOIN tbl_book_authors) NATURAL JOIN tbl_author) natural join tbl_book_copies) natural join tbl_library_branch) where branchId=?";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 			pstmt.setInt(1, libraryBranch.getBranchId());
 
 			ResultSet rs = pstmt.executeQuery();
@@ -922,7 +929,8 @@ public class Administrator extends User {
 		try {
 			String selectQuery = "select * from tbl_library_branch";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 
 			ResultSet rs = pstmt.executeQuery();
 
@@ -955,7 +963,8 @@ public class Administrator extends User {
 		try {
 			String selectQuery = "insert into tbl_book_copies values (?, ?, ?)";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 			pstmt.setInt(1, book.getBookId());
 			pstmt.setInt(2, libraryBranch.getBranchId());
 			pstmt.setInt(3, 1);
@@ -973,7 +982,8 @@ public class Administrator extends User {
 		try {
 			String selectQuery = "insert into tbl_book_authors values (?, ?)";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 			pstmt.setInt(1, book.getBookId());
 			pstmt.setInt(2, author.getAuthorId());
 
@@ -990,7 +1000,8 @@ public class Administrator extends User {
 		try {
 			String selectQuery = "select * from tbl_book";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 
 			ResultSet rs = pstmt.executeQuery();
 
@@ -1014,7 +1025,8 @@ public class Administrator extends User {
 		try {
 			String selectQuery = "insert into tbl_book (title) values (?)";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 			pstmt.setString(1, book.getTitle());
 
 			pstmt.executeUpdate();
@@ -1034,7 +1046,8 @@ public class Administrator extends User {
 		try {
 			String selectQuery = "select * from tbl_author where authorName=?";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 			pstmt.setString(1, author.getAuthorName());
 
 			ResultSet rs = pstmt.executeQuery();
@@ -1058,7 +1071,8 @@ public class Administrator extends User {
 		try {
 			String selectQuery = "insert into tbl_author (authorName) values (?)";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 			pstmt.setString(1, author.getAuthorName());
 
 			pstmt.executeUpdate();
@@ -1074,7 +1088,8 @@ public class Administrator extends User {
 		try {
 			String selectQuery = "select * from tbl_borrower";
 
-			PreparedStatement pstmt = conn.prepareStatement(selectQuery);
+			PreparedStatement pstmt = LibMangApp.conn
+					.prepareStatement(selectQuery);
 
 			rs = pstmt.executeQuery();
 
