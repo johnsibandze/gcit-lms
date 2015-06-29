@@ -9,8 +9,6 @@ import java.util.Scanner;
 
 public class Administrator extends User {
 
-	// Connection conn;
-
 	private Author author;
 	private Book book;
 	private LibraryBranch libraryBranch;
@@ -55,10 +53,8 @@ public class Administrator extends User {
 		} else if (decision == 3) {
 			handleLibraryBranch();
 		} else if (decision == 4) {
-			// TODO handle borrowers
 			handleBorrower();
 		} else if (decision == 5) {
-			// TODO handle overriding due date for a book loan
 			overrideDueDate();
 		} else {
 			this.startMainMenu = true;
@@ -73,7 +69,7 @@ public class Administrator extends User {
 
 		int bookLoanChoice = Integer.parseInt(sc.nextLine());
 		if (bookLoanChoice == bookLoanCounter) {
-			handleBorrower();
+			mainMenu();
 			return;
 		}
 
@@ -123,10 +119,6 @@ public class Administrator extends User {
 				String authorName = rs.getString("authorName");
 				String name = rs.getString("name");
 
-				// Date dateOut = rs.getDate("dateOut");
-				// Date dueDate = rs.getDate("dueDate");
-				// Date dateIn = rs.getDate("dateIn");
-
 				System.out.println(title + " " + authorName + " borrowed by "
 						+ name);
 
@@ -170,7 +162,7 @@ public class Administrator extends User {
 		int libraryChoice = Integer.parseInt(sc.nextLine());
 
 		if (libraryCounter == libraryChoice) {
-			handleLibraryBranch();
+			handleBorrower();
 			return;
 		}
 
@@ -265,10 +257,10 @@ public class Administrator extends User {
 
 	private void insertBorrowerToDatabase() {
 		try {
-			String selectQuery = "insert into tbl_borrower (name, address, phone) values (?, ?, ?)";
+			String insertQuery = "insert into tbl_borrower (name, address, phone) values (?, ?, ?)";
 
 			PreparedStatement pstmt = LibMangApp.conn
-					.prepareStatement(selectQuery);
+					.prepareStatement(insertQuery);
 			pstmt.setString(1, borrower.getName());
 			pstmt.setString(2, borrower.getAddress());
 			pstmt.setString(3, borrower.getPhone());
@@ -482,10 +474,10 @@ public class Administrator extends User {
 
 	private void insertLibraryBranchToDatabase() {
 		try {
-			String selectQuery = "insert into tbl_library_branch (branchName, branchAddress) values (?, ?)";
+			String insertQuery = "insert into tbl_library_branch (branchName, branchAddress) values (?, ?)";
 
 			PreparedStatement pstmt = LibMangApp.conn
-					.prepareStatement(selectQuery);
+					.prepareStatement(insertQuery);
 			pstmt.setString(1, libraryBranch.getBranchName());
 			pstmt.setString(2, libraryBranch.getBranchAddress());
 
@@ -573,9 +565,9 @@ public class Administrator extends User {
 	}
 
 	private void deletePublisherFromDatabase() {
-		String deleteQuery = "delete from tbl_publisher where publisherId=?";
 
 		try {
+			String deleteQuery = "delete from tbl_publisher where publisherId=?";
 			PreparedStatement pstmt = LibMangApp.conn
 					.prepareStatement(deleteQuery);
 			pstmt.setInt(1, publisher.getPublisherId());
@@ -619,10 +611,10 @@ public class Administrator extends User {
 
 	private void insertPublisherToDatabase() {
 		try {
-			String selectQuery = "insert into tbl_publisher (publisherName, publisherAddress, publisherPhone) values (?, ?, ?)";
+			String insertQuery = "insert into tbl_publisher (publisherName, publisherAddress, publisherPhone) values (?, ?, ?)";
 
 			PreparedStatement pstmt = LibMangApp.conn
-					.prepareStatement(selectQuery);
+					.prepareStatement(insertQuery);
 			pstmt.setString(1, publisher.getPublisherName());
 			pstmt.setString(2, publisher.getPublisherAddress());
 			pstmt.setString(3, publisher.getPublisherPhone());
@@ -961,10 +953,10 @@ public class Administrator extends User {
 
 	private void addToBookCopies() {
 		try {
-			String selectQuery = "insert into tbl_book_copies values (?, ?, ?)";
+			String insertQuery = "insert into tbl_book_copies values (?, ?, ?)";
 
 			PreparedStatement pstmt = LibMangApp.conn
-					.prepareStatement(selectQuery);
+					.prepareStatement(insertQuery);
 			pstmt.setInt(1, book.getBookId());
 			pstmt.setInt(2, libraryBranch.getBranchId());
 			pstmt.setInt(3, 1);
@@ -980,10 +972,10 @@ public class Administrator extends User {
 	/** add the book id and the author id to book authors record. */
 	private void addToBookAuthors() {
 		try {
-			String selectQuery = "insert into tbl_book_authors values (?, ?)";
+			String insertQuery = "insert into tbl_book_authors values (?, ?)";
 
 			PreparedStatement pstmt = LibMangApp.conn
-					.prepareStatement(selectQuery);
+					.prepareStatement(insertQuery);
 			pstmt.setInt(1, book.getBookId());
 			pstmt.setInt(2, author.getAuthorId());
 
@@ -1023,10 +1015,10 @@ public class Administrator extends User {
 	/** add book to the book table. */
 	private void addToBook() {
 		try {
-			String selectQuery = "insert into tbl_book (title) values (?)";
+			String insertQuery = "insert into tbl_book (title) values (?)";
 
 			PreparedStatement pstmt = LibMangApp.conn
-					.prepareStatement(selectQuery);
+					.prepareStatement(insertQuery);
 			pstmt.setString(1, book.getTitle());
 
 			pstmt.executeUpdate();
@@ -1069,10 +1061,10 @@ public class Administrator extends User {
 	/** Add a new record to the author table. */
 	private void addToAuthor() {
 		try {
-			String selectQuery = "insert into tbl_author (authorName) values (?)";
+			String insertQuery = "insert into tbl_author (authorName) values (?)";
 
 			PreparedStatement pstmt = LibMangApp.conn
-					.prepareStatement(selectQuery);
+					.prepareStatement(insertQuery);
 			pstmt.setString(1, author.getAuthorName());
 
 			pstmt.executeUpdate();

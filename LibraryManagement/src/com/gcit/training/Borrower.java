@@ -291,10 +291,10 @@ public class Borrower extends User {
 	/** add the book to the book loans table. */
 	private void addToLoan() {
 		try {
-			String selectQuery = "insert into tbl_book_loans values (?, ?, ?, ?, ?, ?);";
+			String insertQuery = "insert into tbl_book_loans values (?, ?, ?, ?, ?, ?);";
 
 			PreparedStatement pstmt = LibMangApp.conn
-					.prepareStatement(selectQuery);
+					.prepareStatement(insertQuery);
 
 			pstmt.setInt(1, book.getBookId());
 			pstmt.setInt(2, library.getBranchId());

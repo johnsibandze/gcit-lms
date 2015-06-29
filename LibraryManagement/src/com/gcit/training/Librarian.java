@@ -67,7 +67,7 @@ public class Librarian extends User {
 					String branchAddress = rs.getString("branchAddress");
 
 					setProperties(branchId, branchName, branchAddress);
-					System.out.println(branchName);
+
 					lib3Menu();
 				}
 			} else {
@@ -137,21 +137,16 @@ public class Librarian extends User {
 		branchAddress = branchAddress.equals("N/A") ? library
 				.getBranchAddress() : branchAddress;
 		try {
-			// Statement stmt = conn.createStatement();
-			// String selectQuery = "UPDATE tbl_library_branch SET branchName='"
-			// + branchName + "', branchAddress='" + branchAddress
-			// + "' WHERE branchId=" + library.getBranchId() + ";";
 
-			String selectQuery = "UPDATE tbl_library_branch SET branchName=?, branchAddress=? WHERE branchId=?";
+			String updateQuery = "UPDATE tbl_library_branch SET branchName=?, branchAddress=? WHERE branchId=?";
 
 			PreparedStatement pstmt = LibMangApp.conn
-					.prepareStatement(selectQuery);
+					.prepareStatement(updateQuery);
 			pstmt.setString(1, branchName);
 			pstmt.setString(2, branchAddress);
 			pstmt.setInt(3, library.getBranchId());
 
 			pstmt.executeUpdate();
-			// stmt.executeUpdate(selectQuery);
 
 			System.out.println("\nsuccessfully updated!");
 			System.out.println("\n----------------------------------------\n");
