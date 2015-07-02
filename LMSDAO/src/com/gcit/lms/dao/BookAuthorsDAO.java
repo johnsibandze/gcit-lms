@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.gcit.lms.domain.BookAuthors;
 
-public class BookAuthorsDAO extends BaseDAO {
+public class BookAuthorsDAO extends BaseDAO<BookAuthors> {
 
 	public void create(BookAuthors bookAuthors) throws Exception {
 		save("insert into tbl_book_authors values(?, ?)", new Object[] {
@@ -43,7 +43,7 @@ public class BookAuthorsDAO extends BaseDAO {
 	}
 
 	@Override
-	public List extractData(ResultSet rs) throws Exception {
+	public List<BookAuthors> extractData(ResultSet rs) throws Exception {
 		List<BookAuthors> bookAuthors = new ArrayList<BookAuthors>();
 
 		while (rs.next()) {

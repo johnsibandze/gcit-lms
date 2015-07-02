@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gcit.lms.domain.LibraryBranch;
-import com.gcit.lms.domain.LibraryBranch;
 
-public class LibraryBranchDAO extends BaseDAO {
+public class LibraryBranchDAO extends BaseDAO<LibraryBranch> {
 
 	public void create(LibraryBranch libraryBranch) throws Exception {
 		save("insert into tbl_library_branch (branchName, branchAddress) values(?, ?)",
@@ -33,28 +32,31 @@ public class LibraryBranchDAO extends BaseDAO {
 	}
 
 	public LibraryBranch readOne(int branchId) throws Exception {
-		List<LibraryBranch> libraries = (List<LibraryBranch>) read(
+		List<LibraryBranch> libraryBranches = (List<LibraryBranch>) read(
 				"select * from tbl_library_branch where branchId = ?",
 				new Object[] { branchId });
-		if (libraries != null && libraries.size() > 0) {
-			return libraries.get(0);
+		if (libraryBranches != null && libraryBranches.size() > 0) {
+			return libraryBranches.get(0);
 		}
 		return null;
 	}
 
 	@Override
-	public List extractData(ResultSet rs) throws Exception {
-		List<LibraryBranch> libraries = new ArrayList<LibraryBranch>();
+	public List<LibraryBranch> extractData(ResultSet rs) throws Exception {
+		List<LibraryBranch> libraryBranches = new ArrayList<LibraryBranch>();
 
 		while (rs.next()) {
-			LibraryBranch lb = new LibraryBranch();
-			lb.setBranchId(rs.getInt("branchId"));
-			lb.setBranchName(rs.getString("branchName"));
-			lb.setBranchAddress(rs.getString("branchAddress"));
 
-			libraries.add(lb);
+			int branchId = rs.getInt("branchId");
+			String branchName = rs.getString("branchNAme");
+			String branchAddress = rs.getString("branchAddress");
+
+			LibraryBranch lb = new LibraryBranch(branchId, branchName,
+					branchAddress);
+
+			libraryBranches.add(lb);
 		}
-		return libraries;
+		return libraryBranches;
 	}
 
 }

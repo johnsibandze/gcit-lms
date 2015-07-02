@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.gcit.lms.domain.Publisher;
 
-public class PublisherDAO extends BaseDAO {
+public class PublisherDAO extends BaseDAO<Publisher> {
 
 	public void create(Publisher publisher) throws Exception {
 		save("insert into tbl_publisher (publisherName, publisherAddress, publisherPhone) values(?, ?, ?)",
@@ -31,7 +31,6 @@ public class PublisherDAO extends BaseDAO {
 
 	public List<Publisher> readAll() throws Exception {
 		return (List<Publisher>) read("select * from tbl_publisher", null);
-
 	}
 
 	public Publisher readOne(int publisherId) throws Exception {
@@ -45,7 +44,7 @@ public class PublisherDAO extends BaseDAO {
 	}
 
 	@Override
-	public List extractData(ResultSet rs) throws Exception {
+	public List<Publisher> extractData(ResultSet rs) throws Exception {
 		List<Publisher> publishers = new ArrayList<Publisher>();
 
 		while (rs.next()) {

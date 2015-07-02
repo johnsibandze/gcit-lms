@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.gcit.lms.domain.Borrower;
 
-public class BorrowerDAO extends BaseDAO {
+public class BorrowerDAO extends BaseDAO<Borrower> {
 
 	public void create(Borrower borrower) throws Exception {
 		save("insert into tbl_borrower (name, address, phone) values(?, ?, ?)",
@@ -40,7 +40,7 @@ public class BorrowerDAO extends BaseDAO {
 	}
 
 	@Override
-	public List extractData(ResultSet rs) throws Exception {
+	public List<Borrower> extractData(ResultSet rs) throws Exception {
 		List<Borrower> borrowers = new ArrayList<Borrower>();
 
 		while (rs.next()) {

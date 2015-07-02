@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.gcit.lms.domain.Author;
 
-public class AuthorDAO extends BaseDAO {
+public class AuthorDAO extends BaseDAO<Author> {
 
 	public void create(Author author) throws Exception {
 		save("insert into tbl_author (authorName) values(?)",
@@ -38,7 +38,7 @@ public class AuthorDAO extends BaseDAO {
 	}
 
 	@Override
-	public List extractData(ResultSet rs) throws Exception {
+	public List<Author> extractData(ResultSet rs) throws Exception {
 		List<Author> authors = new ArrayList<Author>();
 
 		while (rs.next()) {

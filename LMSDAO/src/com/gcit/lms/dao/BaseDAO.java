@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseDAO<T> {
@@ -35,8 +34,8 @@ public abstract class BaseDAO<T> {
 		stmt.executeUpdate();
 	}
 
-	public List<?> read(String query, Object[] vals) throws Exception {
-		List<T> objects = new ArrayList<T>();
+	public List<T> read(String query, Object[] vals) throws Exception {
+		// List<T> objects = new ArrayList<T>();
 		Connection conn = getConnection();
 		PreparedStatement stmt = conn.prepareStatement(query);
 
