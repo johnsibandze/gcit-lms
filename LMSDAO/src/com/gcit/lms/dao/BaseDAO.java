@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gcit.lms.domain.Author;
-
 public abstract class BaseDAO<T> {
 
 	String driver = "com.mysql.jdbc.Driver";
