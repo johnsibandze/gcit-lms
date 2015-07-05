@@ -1,15 +1,10 @@
 package com.gcit.lms.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
-
-import com.gcit.lms.domain.Author;
 
 public abstract class BaseDAO<T> {
 
@@ -57,7 +52,7 @@ public abstract class BaseDAO<T> {
 	}
 
 	public List<?> read(String query, Object[] vals) throws Exception {
-		List<T> objects = new ArrayList<T>();
+		// List<T> objects = new ArrayList<T>();
 		Connection conn = getConnection();
 		PreparedStatement stmt = conn.prepareStatement(query);
 
@@ -75,7 +70,7 @@ public abstract class BaseDAO<T> {
 	public abstract List<T> extractData(ResultSet rs) throws Exception;
 
 	public List<?> readFirstLevel(String query, Object[] vals) throws Exception {
-		List<T> objects = new ArrayList<T>();
+		// List<T> objects = new ArrayList<T>();
 		Connection conn = getConnection();
 		PreparedStatement stmt = conn.prepareStatement(query);
 

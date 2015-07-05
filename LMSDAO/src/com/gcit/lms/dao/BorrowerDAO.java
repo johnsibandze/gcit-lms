@@ -5,10 +5,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gcit.lms.domain.Author;
 import com.gcit.lms.domain.Book;
 import com.gcit.lms.domain.Borrower;
-import com.gcit.lms.domain.Publisher;
 
 public class BorrowerDAO extends BaseDAO<Borrower> {
 
@@ -35,12 +33,14 @@ public class BorrowerDAO extends BaseDAO<Borrower> {
 				new Object[] { borrower.getCardNo() });
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Borrower> readAll() throws Exception {
 		return (List<Borrower>) read("select * from tbl_borrower", null);
 
 	}
 
 	public Borrower readOne(int cardNo) throws Exception {
+		@SuppressWarnings("unchecked")
 		List<Borrower> borrowers = (List<Borrower>) read(
 				"select * from tbl_borrower where cardNo = ?",
 				new Object[] { cardNo });

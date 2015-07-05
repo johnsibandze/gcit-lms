@@ -5,8 +5,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gcit.lms.domain.Author;
-import com.gcit.lms.domain.Book;
 import com.gcit.lms.domain.Genre;
 
 public class GenreDAO extends BaseDAO<Genre> {
@@ -30,14 +28,16 @@ public class GenreDAO extends BaseDAO<Genre> {
 				new Object[] { genre.getGenreId() });
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Genre> readAll() throws Exception {
-		return (List<Genre>) read("select * from tbl_author", null);
+		return (List<Genre>) read("select * from tbl_genre", null);
 
 	}
 
 	public Genre readOne(int genreId) throws Exception {
+		@SuppressWarnings("unchecked")
 		List<Genre> genres = (List<Genre>) read(
-				"select * from tbl_genre where genre_id",
+				"select * from tbl_genre where genre_id = ?",
 				new Object[] { genreId });
 		if (genres != null && genres.size() > 0) {
 			return genres.get(0);

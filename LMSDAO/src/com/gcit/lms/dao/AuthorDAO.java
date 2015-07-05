@@ -31,12 +31,14 @@ public class AuthorDAO extends BaseDAO<Author> {
 				new Object[] { author.getAuthorId() });
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Author> readAll() throws Exception {
 		return (List<Author>) read("select * from tbl_author", null);
 
 	}
 
 	public Author readOne(int authorId) throws Exception {
+		@SuppressWarnings("unchecked")
 		List<Author> authors = (List<Author>) read("select * from tbl_author",
 				new Object[] { authorId });
 		if (authors != null && authors.size() > 0) {

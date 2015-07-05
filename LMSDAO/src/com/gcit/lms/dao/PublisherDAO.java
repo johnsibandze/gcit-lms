@@ -5,10 +5,9 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gcit.lms.domain.Author;
 import com.gcit.lms.domain.Publisher;
 
-public class PublisherDAO extends BaseDAO {
+public class PublisherDAO extends BaseDAO<Publisher> {
 
 	public PublisherDAO(Connection conn) throws Exception {
 		super(conn);
@@ -36,12 +35,14 @@ public class PublisherDAO extends BaseDAO {
 				new Object[] { publisher.getPublisherId() });
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Publisher> readAll() throws Exception {
 		return (List<Publisher>) read("select * from tbl_publisher", null);
 
 	}
 
 	public Publisher readOne(int publisherId) throws Exception {
+		@SuppressWarnings("unchecked")
 		List<Publisher> publishers = (List<Publisher>) read(
 				"select * from tbl_publisher", new Object[] { publisherId });
 		if (publishers != null && publishers.size() > 0) {
@@ -51,7 +52,7 @@ public class PublisherDAO extends BaseDAO {
 	}
 
 	@Override
-	public List extractData(ResultSet rs) throws Exception {
+	public List<Publisher> extractData(ResultSet rs) throws Exception {
 		List<Publisher> publishers = new ArrayList<Publisher>();
 
 		while (rs.next()) {
@@ -66,7 +67,7 @@ public class PublisherDAO extends BaseDAO {
 	}
 
 	@Override
-	public List extractDataFirstLevel(ResultSet rs) throws Exception {
+	public List<Publisher> extractDataFirstLevel(ResultSet rs) throws Exception {
 		List<Publisher> publishers = new ArrayList<Publisher>();
 
 		while (rs.next()) {

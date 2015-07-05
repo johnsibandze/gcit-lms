@@ -5,10 +5,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gcit.lms.domain.Author;
-import com.gcit.lms.domain.Book;
 import com.gcit.lms.domain.BookCopies;
-import com.gcit.lms.domain.Genre;
 
 public class BookCopiesDAO extends BaseDAO<BookCopies> {
 
@@ -41,6 +38,7 @@ public class BookCopiesDAO extends BaseDAO<BookCopies> {
 				new Object[] { bookCopies.getBookId(), bookCopies.getBranchId() });
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<BookCopies> readAll() throws Exception {
 		return (List<BookCopies>) read("select * from tbl_book_copies", null);
 	}

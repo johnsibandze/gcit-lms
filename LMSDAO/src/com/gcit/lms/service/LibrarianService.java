@@ -11,7 +11,6 @@ public class LibrarianService {
 
 	public void updateLibraryBranch(LibraryBranch libraryBranch)
 			throws Exception {
-
 		Connection conn = ConnectionUtil.createConnection();
 		try {
 			if (libraryBranch == null || libraryBranch.getBranchName() == null
@@ -39,7 +38,6 @@ public class LibrarianService {
 	}
 
 	public void addBookCopies(BookCopies bookCopies) throws Exception {
-
 		Connection conn = ConnectionUtil.createConnection();
 		try {
 			if (bookCopies == null || bookCopies.getNoOfCopies() == 0) {

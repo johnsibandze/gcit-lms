@@ -5,11 +5,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gcit.lms.domain.Author;
 import com.gcit.lms.domain.Book;
-import com.gcit.lms.domain.Genre;
 import com.gcit.lms.domain.LibraryBranch;
-import com.gcit.lms.domain.Publisher;
 
 public class LibraryBranchDAO extends BaseDAO<LibraryBranch> {
 
@@ -55,6 +52,7 @@ public class LibraryBranchDAO extends BaseDAO<LibraryBranch> {
 				new Object[] { libraryBranch.getBranchId() });
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<LibraryBranch> readAll() throws Exception {
 		return (List<LibraryBranch>) read("select * from tbl_library_branch",
 				null);

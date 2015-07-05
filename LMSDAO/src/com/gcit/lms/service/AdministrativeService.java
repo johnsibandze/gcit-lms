@@ -18,7 +18,6 @@ import com.gcit.lms.domain.Publisher;
 public class AdministrativeService {
 
 	public void createAuthor(Author author) throws Exception {
-		// ConnectionUtil c = new ConnectionUtil();
 		Connection conn = ConnectionUtil.createConnection();
 		try {
 			if (author == null || author.getAuthorName() == null
@@ -40,7 +39,6 @@ public class AdministrativeService {
 	}
 
 	public void updateAuthor(Author author) throws Exception {
-		// ConnectionUtil c = new ConnectionUtil();
 		Connection conn = ConnectionUtil.createConnection();
 		try {
 			if (author == null || author.getAuthorName() == null
@@ -62,8 +60,6 @@ public class AdministrativeService {
 	}
 
 	public void deleteAuthor(Author author) throws Exception {
-		// ConnectionUtil c = new ConnectionUtil();
-		// Connection conn = c.createConnection();
 		Connection conn = ConnectionUtil.createConnection();
 		try {
 			if (author == null) {
@@ -82,7 +78,6 @@ public class AdministrativeService {
 	}
 
 	public void createBook(Book book) throws Exception {
-		// ConnectionUtil c = new ConnectionUtil();
 		Connection conn = ConnectionUtil.createConnection();
 		try {
 			if (book == null || book.getTitle() == null
@@ -104,7 +99,6 @@ public class AdministrativeService {
 	}
 
 	public void updateBook(Book book) throws Exception {
-		// ConnectionUtil c = new ConnectionUtil();
 		Connection conn = ConnectionUtil.createConnection();
 		try {
 			if (book == null || book.getTitle() == null
@@ -126,7 +120,6 @@ public class AdministrativeService {
 	}
 
 	public void deleteBook(Book book) throws Exception {
-		// ConnectionUtil c = new ConnectionUtil();
 		Connection conn = ConnectionUtil.createConnection();
 		try {
 			if (book == null) {
@@ -145,7 +138,6 @@ public class AdministrativeService {
 	}
 
 	public void createPublisher(Publisher publisher) throws Exception {
-		// ConnectionUtil c = new ConnectionUtil();
 		Connection conn = ConnectionUtil.createConnection();
 		try {
 			if (publisher == null || publisher.getPublisherName() == null
@@ -153,14 +145,12 @@ public class AdministrativeService {
 					|| publisher.getPublisherName().length() > 45) {
 				throw new Exception(
 						"Publisher name cannot be empty or more than 45 Chars");
-			} else if (publisher == null
-					|| publisher.getPublisherAddress() == null
+			} else if (publisher.getPublisherAddress() == null
 					|| publisher.getPublisherAddress().length() == 0
 					|| publisher.getPublisherName().length() > 45) {
 				throw new Exception(
 						"Publisher address cannot be empty or more than 45 Chars");
-			} else if (publisher == null
-					|| publisher.getPublisherPhone() == null
+			} else if (publisher.getPublisherPhone() == null
 					|| publisher.getPublisherPhone().length() == 0
 					|| publisher.getPublisherPhone().length() > 45) {
 				throw new Exception(
@@ -179,7 +169,6 @@ public class AdministrativeService {
 	}
 
 	public void updatePublisher(Publisher publisher) throws Exception {
-		// ConnectionUtil c = new ConnectionUtil();
 		Connection conn = ConnectionUtil.createConnection();
 		try {
 			if (publisher == null || publisher.getPublisherName() == null
@@ -187,8 +176,7 @@ public class AdministrativeService {
 					|| publisher.getPublisherName().length() > 45) {
 				throw new Exception(
 						"Publisher name cannot be empty or more than 45 Chars");
-			} else if (publisher == null
-					|| publisher.getPublisherAddress() == null
+			} else if (publisher.getPublisherAddress() == null
 					|| publisher.getPublisherAddress().length() == 0
 					|| publisher.getPublisherName().length() > 45) {
 				throw new Exception(
@@ -207,7 +195,6 @@ public class AdministrativeService {
 	}
 
 	public void deletePublisher(Publisher publisher) throws Exception {
-		// ConnectionUtil c = new ConnectionUtil();
 		Connection conn = ConnectionUtil.createConnection();
 		try {
 			if (publisher == null) {
@@ -227,7 +214,6 @@ public class AdministrativeService {
 
 	public void createLibraryBranch(LibraryBranch libraryBranch)
 			throws Exception {
-		// ConnectionUtil c = new ConnectionUtil();
 		Connection conn = ConnectionUtil.createConnection();
 		try {
 			if (libraryBranch == null || libraryBranch.getBranchName() == null
@@ -236,8 +222,7 @@ public class AdministrativeService {
 				throw new Exception(
 						"branch name cannot be empty or more than 45 Chars");
 			}
-			if (libraryBranch == null
-					|| libraryBranch.getBranchAddress() == null
+			if (libraryBranch.getBranchAddress() == null
 					|| libraryBranch.getBranchAddress().length() == 0
 					|| libraryBranch.getBranchAddress().length() > 45) {
 				throw new Exception(
@@ -257,7 +242,6 @@ public class AdministrativeService {
 
 	public void updateLibraryBranch(LibraryBranch libraryBranch)
 			throws Exception {
-		// ConnectionUtil c = new ConnectionUtil();
 		Connection conn = ConnectionUtil.createConnection();
 		try {
 			if (libraryBranch == null || libraryBranch.getBranchName() == null
@@ -266,8 +250,7 @@ public class AdministrativeService {
 				throw new Exception(
 						"branch name cannot be empty or more than 45 Chars");
 			}
-			if (libraryBranch == null
-					|| libraryBranch.getBranchAddress() == null
+			if (libraryBranch.getBranchAddress() == null
 					|| libraryBranch.getBranchAddress().length() == 0
 					|| libraryBranch.getBranchAddress().length() > 45) {
 				throw new Exception(
@@ -287,7 +270,6 @@ public class AdministrativeService {
 
 	public void deleteLibraryBranch(LibraryBranch libraryBranch)
 			throws Exception {
-		// ConnectionUtil c = new ConnectionUtil();
 		Connection conn = ConnectionUtil.createConnection();
 		try {
 			if (libraryBranch == null) {
@@ -306,7 +288,6 @@ public class AdministrativeService {
 	}
 
 	public void createBorrower(Borrower borrower) throws Exception {
-		// ConnectionUtil c = new ConnectionUtil();
 		Connection conn = ConnectionUtil.createConnection();
 		try {
 			if (borrower == null || borrower.getName() == null
@@ -314,12 +295,12 @@ public class AdministrativeService {
 					|| borrower.getName().length() > 45) {
 				throw new Exception(
 						"borrower name cannot be empty or more than 45 Chars");
-			} else if (borrower == null || borrower.getAddress() == null
+			} else if (borrower.getAddress() == null
 					|| borrower.getAddress().length() == 0
 					|| borrower.getAddress().length() > 45) {
 				throw new Exception(
 						"borrower address cannot be empty or more than 45 Chars");
-			} else if (borrower == null || borrower.getPhone() == null
+			} else if (borrower.getPhone() == null
 					|| borrower.getPhone().length() == 0
 					|| borrower.getPhone().length() > 45) {
 				throw new Exception(
@@ -338,7 +319,6 @@ public class AdministrativeService {
 	}
 
 	public void updateBorrower(Borrower borrower) throws Exception {
-		// ConnectionUtil c = new ConnectionUtil();
 		Connection conn = ConnectionUtil.createConnection();
 		try {
 			if (borrower == null || borrower.getName() == null
@@ -346,12 +326,12 @@ public class AdministrativeService {
 					|| borrower.getName().length() > 45) {
 				throw new Exception(
 						"borrower name cannot be empty or more than 45 Chars");
-			} else if (borrower == null || borrower.getAddress() == null
+			} else if (borrower.getAddress() == null
 					|| borrower.getAddress().length() == 0
 					|| borrower.getAddress().length() > 45) {
 				throw new Exception(
 						"borrower address cannot be empty or more than 45 Chars");
-			} else if (borrower == null || borrower.getPhone() == null
+			} else if (borrower.getPhone() == null
 					|| borrower.getPhone().length() == 0
 					|| borrower.getPhone().length() > 45) {
 				throw new Exception(
@@ -370,7 +350,6 @@ public class AdministrativeService {
 	}
 
 	public void deleteBorrower(Borrower borrower) throws Exception {
-		// ConnectionUtil c = new ConnectionUtil();
 		Connection conn = ConnectionUtil.createConnection();
 		try {
 			if (borrower == null) {

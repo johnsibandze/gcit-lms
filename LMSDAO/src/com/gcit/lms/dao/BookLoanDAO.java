@@ -5,10 +5,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gcit.lms.domain.Author;
-import com.gcit.lms.domain.Book;
 import com.gcit.lms.domain.BookLoan;
-import com.gcit.lms.domain.Genre;
 
 public class BookLoanDAO extends BaseDAO<BookLoan> {
 
@@ -33,18 +30,19 @@ public class BookLoanDAO extends BaseDAO<BookLoan> {
 	}
 
 	public void update(BookLoan bookLoan) throws Exception {
-		save("update tbl_book_loans set dateOut = ?, dueDate = ?, dateIn = ? where bookId = ? and branchId = ? and cardNo = ?",
-				new Object[] { bookLoan.getDateOut(), bookLoan.getDueDate(),
-						bookLoan.getDateIn(), bookLoan.getBookId(),
-						bookLoan.getBranchId(), bookLoan.getCardNo() });
+		save("update tbl_book_loans set dueDate = ?, dateIn = ? where bookId = ? and branchId = ? and cardNo = ? and dateOut = ?",
+				new Object[] { bookLoan.getDueDate(), bookLoan.getDateIn(),
+						bookLoan.getBookId(), bookLoan.getBranchId(),
+						bookLoan.getCardNo(), bookLoan.getDateOut() });
 	}
 
 	public void delete(BookLoan bookLoan) throws Exception {
-		save("delete from tbl_book_loans where bookId = ? and branchId = ? and cardNo = ?",
+		save("delete from tbl_book_loans where bookId = ? and branchId = ? and cardNo = ? and dateOut = ?",
 				new Object[] { bookLoan.getBookId(), bookLoan.getBranchId(),
-						bookLoan.getCardNo() });
+						bookLoan.getCardNo(), bookLoan.getDateOut() });
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<BookLoan> readAll() throws Exception {
 		return (List<BookLoan>) read("select * from tbl_book_loans", null);
 	}

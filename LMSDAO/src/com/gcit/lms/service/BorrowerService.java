@@ -17,7 +17,6 @@ public class BorrowerService {
 
 	public void checkOutBook(Borrower borrower, Book book,
 			LibraryBranch libraryBranch) throws Exception {
-
 		Connection conn = ConnectionUtil.createConnection();
 		try {
 			if (libraryBranch == null || libraryBranch.getBranchName() == null
@@ -85,7 +84,6 @@ public class BorrowerService {
 
 	public void returnBook(Borrower borrower, BookLoan bookLoan)
 			throws Exception {
-
 		Connection conn = ConnectionUtil.createConnection();
 		try {
 			if (borrower == null || borrower.getName() == null
