@@ -10,6 +10,21 @@ public class BookLoan {
 	private Date dateOut;
 	private Date dueDate;
 	private Date dateIn;
+	
+	public BookLoan() {
+		
+	}
+
+	public BookLoan(int bookId, int branchId, int cardNo, Date dateOut,
+			Date dueDate, Date dateIn) {
+		super();
+		this.bookId = bookId;
+		this.branchId = branchId;
+		this.cardNo = cardNo;
+		this.dateOut = dateOut;
+		this.dueDate = dueDate;
+		this.dateIn = dateIn;
+	}
 
 	public int getBookId() {
 		return bookId;
