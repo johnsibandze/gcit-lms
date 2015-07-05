@@ -1,11 +1,23 @@
 package com.gcit.lms.domain;
 
+import java.util.List;
+
 public class Borrower {
 
 	private int cardNo;
 	private String name;
 	private String address;
 	private String phone;
+
+	private List<Book> books;
+
+	public List<Book> getBooks() {
+		return books;
+	}
+
+	public void setBooks(List<Book> books) {
+		this.books = books;
+	}
 
 	public int getCardNo() {
 		return cardNo;

@@ -3,7 +3,6 @@ package com.gcit.lms.domain;
 import java.util.List;
 
 public class Book {
-
 	private int bookId;
 	private String title;
 	private Publisher publisher;

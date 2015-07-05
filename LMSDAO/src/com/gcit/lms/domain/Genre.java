@@ -1,7 +1,6 @@
 package com.gcit.lms.domain;
 
 public class Genre {
-
 	private int genreId;
 	private String genreName;
 

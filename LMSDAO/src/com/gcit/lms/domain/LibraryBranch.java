@@ -1,20 +1,22 @@
 package com.gcit.lms.domain;
 
+import java.util.List;
+
 public class LibraryBranch {
 
 	private int branchId;
 	private String branchName;
 	private String branchAddress;
 
-	public LibraryBranch() {
+	/** the list of books found in this library. */
+	private List<Book> books;
 
+	public List<Book> getBooks() {
+		return books;
 	}
 
-	public LibraryBranch(int branchId, String branchName, String branchAddress) {
-		super();
-		this.branchId = branchId;
-		this.branchName = branchName;
-		this.branchAddress = branchAddress;
+	public void setBooks(List<Book> books) {
+		this.books = books;
 	}
 
 	public int getBranchId() {
