@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.gcit.lms.domain.Author;
 import com.gcit.lms.domain.Book;
-import com.gcit.lms.domain.Genre;
 
 public class BookDAO extends BaseDAO<Book> {
 
@@ -25,15 +24,27 @@ public class BookDAO extends BaseDAO<Book> {
 					new Object[] { bookId, a.getAuthorId() });
 		}
 
-		for (Genre g : book.getGenres()) {
-			save("insert into tbl_book_genres (bookId, genre_id) values (?,?)",
-					new Object[] { bookId, g.getGenreId() });
-		}
+		// for (Genre g : book.getGenres()) {
+		// save("insert into tbl_book_genres (bookId, genre_id) values (?,?)",
+		// new Object[] { bookId, g.getGenreId() });
+		// }
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Book> readAll() throws Exception {
 		return (List<Book>) read("select * from tbl_book", null);
 
+	}
+
+	public Book readOne(int bookId) throws Exception {
+		@SuppressWarnings("unchecked")
+		List<Book> books = (List<Book>) read(
+				"select * from tbl_book where bookId = ?",
+				new Object[] { bookId });
+		if (books != null && books.size() > 0) {
+			return books.get(0);
+		}
+		return null;
 	}
 
 	@Override
@@ -63,9 +74,7 @@ public class BookDAO extends BaseDAO<Book> {
 	@Override
 	public List<Book> extractDataFirstLevel(ResultSet rs) throws Exception {
 		List<Book> books = new ArrayList<Book>();
-		PublisherDAO pdao = new PublisherDAO(getConnection());
-		AuthorDAO aDao = new AuthorDAO(getConnection());
-		// GenreDAO gD
+
 		while (rs.next()) {
 			Book b = new Book();
 			b.setBookId(rs.getInt("bookId"));

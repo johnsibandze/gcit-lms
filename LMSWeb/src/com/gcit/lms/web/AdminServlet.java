@@ -1,6 +1,7 @@
 package com.gcit.lms.web;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -10,16 +11,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.gcit.lms.dao.AuthorDAO;
 import com.gcit.lms.domain.Author;
+import com.gcit.lms.domain.Book;
 import com.gcit.lms.domain.Publisher;
 import com.gcit.lms.service.AdministrativeService;
-import com.sun.org.apache.bcel.internal.generic.NEWARRAY;
+import com.gcit.lms.service.ConnectionUtil;
 
 /**
  * Servlet implementation class AdminServlet
  */
 @WebServlet({ "/addAuthor", "/addPublisher", "/viewAuthors", "/deleteAuthor",
-		"/editAuthor" })
+		"/editAuthor", "/addBook" })
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -63,6 +66,10 @@ public class AdminServlet extends HttpServlet {
 			break;
 		case "/editAuthor": {
 			editAuthor(request, response);
+			break;
+		}
+		case "/addBook": {
+			createBook(request, response);
 			break;
 		}
 		default:
@@ -174,6 +181,44 @@ public class AdminServlet extends HttpServlet {
 					"Author Delete Failed because: " + e.getMessage());
 		}
 
+		rd.forward(request, response);
+	}
+
+	private void createBook(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		// the book title
+		String title = request.getParameter("title");
+
+		// the book authors
+		String[] authorIds = request.getParameterValues("authorId");
+
+		List<Author> authors = new ArrayList<Author>();
+
+		try {
+			AuthorDAO adao = new AuthorDAO(ConnectionUtil.createConnection());
+			for (String authorIdString : authorIds) {
+				int authorId = Integer.parseInt(authorIdString);
+				Author a = adao.readOne(authorId);
+				authors.add(a);
+			}
+
+			Book b = new Book();
+
+			b.setTitle(title);
+			b.setAuthors(authors);
+
+			AdministrativeService adminService = new AdministrativeService();
+
+			adminService.createBook(b);
+			request.setAttribute("result", "Book Added Successfully");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			request.setAttribute("result", "Book add failed " + e.getMessage());
+		}
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/admin.jsp");
 		rd.forward(request, response);
 	}
 }

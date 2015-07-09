@@ -13,8 +13,8 @@ import com.gcit.lms.domain.Publisher;
 public class AdministrativeService {
 
 	public void createAuthor(Author author) throws Exception {
-		ConnectionUtil c = new ConnectionUtil();
-		Connection conn = c.createConnection();
+		// ConnectionUtil c = new ConnectionUtil();
+		Connection conn = ConnectionUtil.createConnection();
 		try {
 			if (author == null || author.getAuthorName() == null
 					|| author.getAuthorName().length() == 0
@@ -35,8 +35,7 @@ public class AdministrativeService {
 	}
 
 	public void createPublisher(Publisher publisher) throws Exception {
-		ConnectionUtil c = new ConnectionUtil();
-		Connection conn = c.createConnection();
+		Connection conn = ConnectionUtil.createConnection();
 		try {
 			PublisherDAO pdao = new PublisherDAO(conn);
 			pdao.create(publisher);
@@ -50,22 +49,19 @@ public class AdministrativeService {
 	}
 
 	public List<Author> readAuthors() throws Exception {
-		ConnectionUtil c = new ConnectionUtil();
-		Connection conn = c.createConnection();
+		Connection conn = ConnectionUtil.createConnection();
 		AuthorDAO adao = new AuthorDAO(conn);
 		return adao.readAll();
 	}
 
 	public Author readAuthor(int authorId) throws Exception {
-		ConnectionUtil c = new ConnectionUtil();
-		Connection conn = c.createConnection();
+		Connection conn = ConnectionUtil.createConnection();
 		AuthorDAO adao = new AuthorDAO(conn);
 		return adao.readOne(authorId);
 	}
 
 	public void deleteAuthor(Author author) throws Exception {
-		ConnectionUtil c = new ConnectionUtil();
-		Connection conn = c.createConnection();
+		Connection conn = ConnectionUtil.createConnection();
 		AuthorDAO adao = new AuthorDAO(conn);
 		try {
 			adao.delete(author);
@@ -79,8 +75,7 @@ public class AdministrativeService {
 	}
 
 	public void updateAuthor(Author a) throws Exception {
-		ConnectionUtil c = new ConnectionUtil();
-		Connection conn = c.createConnection();
+		Connection conn = ConnectionUtil.createConnection();
 		try {
 			AuthorDAO adao = new AuthorDAO(conn);
 			adao.update(a);
@@ -95,17 +90,35 @@ public class AdministrativeService {
 	}
 
 	public List<Publisher> readPublishers() throws Exception {
-		// ConnectionUtil c = new ConnectionUtil();
 		Connection conn = ConnectionUtil.createConnection();
 		PublisherDAO pdao = new PublisherDAO(conn);
 		return pdao.readAll();
 	}
 
 	public List<Book> readBooks() throws Exception {
-		// ConnectionUtil c = new ConnectionUtil();
 		Connection conn = ConnectionUtil.createConnection();
 		BookDAO pdao = new BookDAO(conn);
 		return pdao.readAll();
+	}
+
+	public Book readBook(int bookId) throws Exception {
+		Connection conn = ConnectionUtil.createConnection();
+		BookDAO adao = new BookDAO(conn);
+		return adao.readOne(bookId);
+	}
+
+	public void createBook(Book book) throws Exception {
+		Connection conn = ConnectionUtil.createConnection();
+		try {
+			BookDAO bdao = new BookDAO(conn);
+			bdao.create(book);
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			conn.rollback();
+		} finally {
+			conn.close();
+		}
 	}
 
 }
