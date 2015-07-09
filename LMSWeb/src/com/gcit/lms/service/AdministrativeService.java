@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.util.List;
 
 import com.gcit.lms.dao.AuthorDAO;
+import com.gcit.lms.dao.BookDAO;
 import com.gcit.lms.dao.PublisherDAO;
 import com.gcit.lms.domain.Author;
+import com.gcit.lms.domain.Book;
 import com.gcit.lms.domain.Publisher;
 
 public class AdministrativeService {
@@ -53,7 +55,7 @@ public class AdministrativeService {
 		AuthorDAO adao = new AuthorDAO(conn);
 		return adao.readAll();
 	}
-	
+
 	public Author readAuthor(int authorId) throws Exception {
 		ConnectionUtil c = new ConnectionUtil();
 		Connection conn = c.createConnection();
@@ -80,15 +82,30 @@ public class AdministrativeService {
 		ConnectionUtil c = new ConnectionUtil();
 		Connection conn = c.createConnection();
 		try {
-				AuthorDAO adao = new AuthorDAO(conn);
-				adao.update(a);
-				conn.commit();
+			AuthorDAO adao = new AuthorDAO(conn);
+			adao.update(a);
+			conn.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 			conn.rollback();
 		} finally {
 			conn.close();
 		}
-		
+
 	}
+
+	public List<Publisher> readPublishers() throws Exception {
+		// ConnectionUtil c = new ConnectionUtil();
+		Connection conn = ConnectionUtil.createConnection();
+		PublisherDAO pdao = new PublisherDAO(conn);
+		return pdao.readAll();
+	}
+
+	public List<Book> readBooks() throws Exception {
+		// ConnectionUtil c = new ConnectionUtil();
+		Connection conn = ConnectionUtil.createConnection();
+		BookDAO pdao = new BookDAO(conn);
+		return pdao.readAll();
+	}
+
 }
