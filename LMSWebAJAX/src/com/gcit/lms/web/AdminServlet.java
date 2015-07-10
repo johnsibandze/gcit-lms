@@ -22,7 +22,7 @@ import com.gcit.lms.service.AdministrativeService;
  */
 @WebServlet({ "/addAuthor", "/addPublisher", "/viewAuthors", "/deleteAuthor",
 		"/editAuthor", "/addBook", "/searchAuthors", "/pageAuthors",
-		"/viewBooks", "/deleteBook" })
+		"/viewBooks", "/deleteBook", "/editBook" })
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -95,36 +95,14 @@ public class AdminServlet extends HttpServlet {
 		case "/viewBooks":
 			viewBooks(request, response);
 			break;
+		case "/editBook": {
+			editBook(request, response);
+			break;
+		}
 		default:
 			break;
 		}
 	}
-
-	// private void addBook(HttpServletRequest request,
-	// HttpServletResponse response) {
-	// String bookTitle = request.getParameter("bookTitle");
-	// int authorId = Integer.parseInt(request.getParameter("authorId"));
-	// int pubId = Integer.parseInt(request.getParameter("pubId"));
-	// int genreId = Integer.parseInt(request.getParameter("genreId"));
-	//
-	// AdministrativeService adminService = new AdministrativeService();
-	// List<Author> authors = new ArrayList<Author>();
-	// List<Genre> genres = new ArrayList<Genre>();
-	// Book book = new Book();
-	// book.setTitle(bookTitle);
-	// try {
-	// authors.add(adminService.readAuthor(authorId));
-	//
-	// book.setAuthors(authors);
-	// genres.add(adminService.readGenre(genreId));
-	// book.setGenres(genres);
-	// adminService.createBook(book);
-	// } catch (Exception e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	//
-	// }
 
 	private void addBook(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -359,4 +337,36 @@ public class AdminServlet extends HttpServlet {
 
 		rd.forward(request, response);
 	}
+
+	private void editBook(HttpServletRequest request,
+			HttpServletResponse response) {
+		String title = request.getParameter("title");
+		int bookId = Integer.parseInt(request.getParameter("bookId"));
+		Book b = new Book();
+		b.setTitle(title);
+		b.setBookId(bookId);
+		AdministrativeService adminService = new AdministrativeService();
+		try {
+			adminService.updateBook(b);
+			request.setAttribute("result", "Author updated Successfully");
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			request.setAttribute("result",
+					"Author update failed " + e.getMessage());
+		}
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/viewBooks.jsp");
+		try {
+			rd.forward(request, response);
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }

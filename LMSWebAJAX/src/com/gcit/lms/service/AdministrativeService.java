@@ -163,4 +163,48 @@ public class AdministrativeService {
 		}
 	}
 
+	public Book readBook(int bookId) throws Exception {
+		ConnectionUtil c = new ConnectionUtil();
+		Connection conn = c.createConnection();
+		BookDAO bdao = new BookDAO(conn);
+		return bdao.readOne(bookId);
+	}
+
+	public void updateBook(Book b) throws Exception {
+		ConnectionUtil c = new ConnectionUtil();
+		Connection conn = c.createConnection();
+		try {
+			BookDAO bdao = new BookDAO(conn);
+			bdao.update(b);
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			conn.rollback();
+		} finally {
+			conn.close();
+		}
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 }

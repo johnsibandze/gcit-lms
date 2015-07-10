@@ -26,10 +26,10 @@ public class BookDAO extends BaseDAO<Book> {
 					new Object[] { bookId, a.getAuthorId() });
 		}
 
-		// for (Genre g : book.getGenres()) {
-		// save("insert into tbl_book_genres (bookId, genre_id) values (?,?)",
-		// new Object[] { bookId, g.getGenre_id() });
-		// }
+		for (Genre g : book.getGenres()) {
+			save("insert into tbl_book_genres (bookId, genre_id) values (?,?)",
+					new Object[] { bookId, g.getGenre_id() });
+		}
 	}
 
 	public void update(Book book) throws Exception {
@@ -40,6 +40,17 @@ public class BookDAO extends BaseDAO<Book> {
 	public void delete(Book book) throws Exception {
 		save("delete from tbl_book where bookId = ?",
 				new Object[] { book.getBookId() });
+	}
+
+	public Book readOne(int bookId) throws Exception {
+		@SuppressWarnings("unchecked")
+		List<Book> books = (List<Book>) read(
+				"select * from tbl_book where bookId = ?",
+				new Object[] { bookId });
+		if (books != null && books.size() > 0) {
+			return books.get(0);
+		}
+		return null;
 	}
 
 	// public List<Book> readAll() throws Exception {
@@ -72,15 +83,15 @@ public class BookDAO extends BaseDAO<Book> {
 									+ "(select authorId from tbl_book_authors where bookId=?)",
 							new Object[] { rs.getInt("bookId") });
 
-			// @SuppressWarnings("unchecked")
-			// List<Genre> genres = (List<Genre>) gDao
-			// .readFirstLevel(
-			// "select * from tbl_genre where genre_id In"
-			// + "(select genre_id from tbl_book_genres where bookId=?)",
-			// new Object[] { rs.getInt("bookId") });
+			@SuppressWarnings("unchecked")
+			List<Genre> genres = (List<Genre>) gDao
+					.readFirstLevel(
+							"select * from tbl_genre where genre_id In"
+									+ "(select genre_id from tbl_book_genres where bookId=?)",
+							new Object[] { rs.getInt("bookId") });
 
 			b.setAuthors(authors);
-			// b.setGenres(genres);
+			b.setGenres(genres);
 			books.add(b);
 		}
 
