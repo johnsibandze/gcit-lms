@@ -5,7 +5,7 @@
 <%
 	AdministrativeService adminService = new AdministrativeService();
 	List<Author> authors = adminService.readAuthors();
-	//List<Genre> genres = adminService.readGenres();
+	List<Genre> genres = adminService.readGenres();
 %>
 <%@include file="include.html"%>
 <form action="addBook" method="post">
@@ -23,6 +23,19 @@
 							for (Author a : authors) {
 						%>
 						<option value=<%=a.getAuthorId()%>><%=a.getAuthorName()%></option>
+						<%
+							}
+						%>
+				</select></td>
+			</tr>
+
+			<tr>
+				<td>Select Genre</td>
+				<td><select name="genre_id" multiple="multiple">
+						<%
+							for (Genre g : genres) {
+						%>
+						<option value=<%=g.getGenreId()%>><%=g.getGenreName()%></option>
 						<%
 							}
 						%>

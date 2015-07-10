@@ -5,9 +5,11 @@ import java.util.List;
 
 import com.gcit.lms.dao.AuthorDAO;
 import com.gcit.lms.dao.BookDAO;
+import com.gcit.lms.dao.GenreDAO;
 import com.gcit.lms.dao.PublisherDAO;
 import com.gcit.lms.domain.Author;
 import com.gcit.lms.domain.Book;
+import com.gcit.lms.domain.Genre;
 import com.gcit.lms.domain.Publisher;
 
 public class AdministrativeService {
@@ -119,6 +121,12 @@ public class AdministrativeService {
 		} finally {
 			conn.close();
 		}
+	}
+
+	public List<Genre> readGenres() throws Exception {
+		Connection conn = ConnectionUtil.createConnection();
+		GenreDAO gdao = new GenreDAO(conn);
+		return gdao.readAll();
 	}
 
 }

@@ -187,15 +187,15 @@ public class AdminServlet extends HttpServlet {
 	private void createBook(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		// the book title
-		String title = request.getParameter("title");
-
-		// the book authors
-		String[] authorIds = request.getParameterValues("authorId");
-
-		List<Author> authors = new ArrayList<Author>();
-
 		try {
+			// the book title
+			String title = request.getParameter("title");
+
+			// the book authors
+			String[] authorIds = request.getParameterValues("authorId");
+
+			List<Author> authors = new ArrayList<Author>();
+
 			AuthorDAO adao = new AuthorDAO(ConnectionUtil.createConnection());
 			for (String authorIdString : authorIds) {
 				int authorId = Integer.parseInt(authorIdString);
