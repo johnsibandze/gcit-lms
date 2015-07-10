@@ -60,13 +60,13 @@ public abstract class BaseDAO<T> {
 	public List<?> read(String query, Object[] vals) throws Exception {
 		List<T> objects = new ArrayList<T>();
 		Connection conn = getConnection();
-		int pageNo = getPageNo();
-		if (getPageNo() > -1) {
-			int start = (pageNo - 1) * 10;
+		// int pageNo = getPageNo();
+		if (pageNo > -1) {
+			int start = (pageNo - 1) * pageSize;
 			if (start > 0) {
-				query = query + " LIMIT " + getPageNo() + ", " + getPageSize();
+				query = query + " LIMIT " + start + ", " + pageSize;
 			} else {
-				query = query + " LIMIT 0, " + getPageSize();
+				query = query + " LIMIT 0, " + pageSize;
 			}
 		}
 		PreparedStatement stmt = conn.prepareStatement(query);

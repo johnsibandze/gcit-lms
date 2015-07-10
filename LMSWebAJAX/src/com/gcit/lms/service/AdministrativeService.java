@@ -134,11 +134,11 @@ public class AdministrativeService {
 		return gdao.readOne(genreId);
 	}
 
-	public List<Author> searchAuthors(String searchString) throws Exception {
+	public List<Author> searchAuthors(String searchString,int pageNo, int pageSize) throws Exception {
 		ConnectionUtil c = new ConnectionUtil();
 		Connection conn = c.createConnection();
 		AuthorDAO adao = new AuthorDAO(conn);
-		return adao.readByAuthorName(searchString);
+		return adao.readByAuthorName(searchString, pageNo, pageSize);
 	}
 
 	public List<Book> readBooks(int pageNo, int pageSize) throws Exception {

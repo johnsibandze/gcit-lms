@@ -26,6 +26,10 @@ import com.gcit.lms.service.AdministrativeService;
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	private static final int PAGE_SIZE = 3;
+
+	private String searchString;
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -228,8 +232,10 @@ public class AdminServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		int pageNo = Integer.parseInt(request.getParameter("pageNo"));
 
+		System.out.println("here");
+
 		try {
-			return new AdministrativeService().readAuthors(0, 10);
+			return new AdministrativeService().readAuthors(0, PAGE_SIZE);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -239,11 +245,19 @@ public class AdminServlet extends HttpServlet {
 
 	private void pageAuthors(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+
 		int pageNo = Integer.parseInt(request.getParameter("pageNo"));
 
 		try {
-			List<Author> authors = new AdministrativeService().readAuthors(
-					pageNo, 10);
+			List<Author> authors;
+
+			if (searchString == null) {
+				authors = new AdministrativeService().readAuthors(pageNo,
+						PAGE_SIZE);
+			} else {
+				authors = new AdministrativeService().searchAuthors(
+						searchString, pageNo, PAGE_SIZE);
+			}
 			request.setAttribute("authors", authors);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -257,9 +271,13 @@ public class AdminServlet extends HttpServlet {
 	private void searchAuthors(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String searchString = request.getParameter("searchString");
+
+		this.searchString = searchString;
+
 		try {
-			List<Author> authors = new AdministrativeService()
-					.searchAuthors(searchString);
+			// by default, show the first page of the search results
+			List<Author> authors = new AdministrativeService().searchAuthors(
+					searchString, 0, PAGE_SIZE);
 			request.setAttribute("authors", authors);
 			StringBuilder str = new StringBuilder();
 			str.append("<tr><th>Author ID</th><th>Author Name</th><th>Edit Author</th><th>Delete Author</th></tr>");
@@ -309,7 +327,7 @@ public class AdminServlet extends HttpServlet {
 		int pageNo = Integer.parseInt(request.getParameter("pageNo"));
 
 		try {
-			return new AdministrativeService().readBooks(0, 10);
+			return new AdministrativeService().readBooks(0, PAGE_SIZE);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
