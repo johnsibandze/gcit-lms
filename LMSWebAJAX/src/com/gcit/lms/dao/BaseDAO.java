@@ -61,6 +61,7 @@ public abstract class BaseDAO<T> {
 		List<T> objects = new ArrayList<T>();
 		Connection conn = getConnection();
 		// int pageNo = getPageNo();
+//		System.out.println(pageSize);
 		if (pageNo > -1) {
 			int start = (pageNo - 1) * pageSize;
 			if (start > 0) {

@@ -18,8 +18,9 @@ public class BookDAO extends BaseDAO<Book> {
 
 	public void create(Book book) throws Exception {
 		int bookId = saveWithID(
-				"insert into tbl_book (title, pubId) values(?, 3)",
-				new Object[] { book.getTitle() });
+				"insert into tbl_book (title, pubId) values(?, ?)",
+				new Object[] { book.getTitle(),
+						book.getPublisher().getPublisherId() });
 
 		for (Author a : book.getAuthors()) {
 			save("insert into tbl_book_authors (bookId, authorId) values (?,?)",
@@ -110,6 +111,17 @@ public class BookDAO extends BaseDAO<Book> {
 		}
 
 		return books;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Book> readByBookTitle(String searchString, int pageNo,
+			int pageSize) throws Exception {
+		setPageNo(pageNo);
+		setPageSize(pageSize);
+
+		searchString = "%" + searchString + "%";
+		return (List<Book>) read("select * from tbl_book where title like ?",
+				new Object[] { searchString });
 	}
 
 }

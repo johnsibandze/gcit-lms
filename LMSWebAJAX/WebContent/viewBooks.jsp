@@ -1,13 +1,16 @@
 <%@page import="com.gcit.lms.service.AdministrativeService"%>
 <%@page import="java.util.List"%>
 <%@page import="com.gcit.lms.domain.Book"%>
+<%@page import="com.gcit.lms.web.AdminServlet"%>
 <%
 	AdministrativeService adminService = new AdministrativeService();
 	List<Book> books = null;
 	if (request.getAttribute("books") != null) {
 		books = (List<Book>) request.getAttribute("books");
+		System.out.println("i am here in if");
 	} else {
-		books = adminService.readBooks(0, 10);
+		books = adminService.readBooks(0, AdminServlet.PAGE_SIZE);
+		System.out.println("i am here in else");
 	}
 %>
 <%@include file="include.html"%>

@@ -22,11 +22,11 @@ import com.gcit.lms.service.AdministrativeService;
  */
 @WebServlet({ "/addAuthor", "/addPublisher", "/viewAuthors", "/deleteAuthor",
 		"/editAuthor", "/addBook", "/searchAuthors", "/pageAuthors",
-		"/viewBooks", "/deleteBook", "/editBook" })
+		"/viewBooks", "/deleteBook", "/editBook", "/pageBooks","/searchBooks" })
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private static final int PAGE_SIZE = 3;
+	public static final int PAGE_SIZE = 3;
 
 	private String searchString;
 
@@ -58,6 +58,12 @@ public class AdminServlet extends HttpServlet {
 			break;
 		case "/searchAuthors":
 			searchAuthors(request, response);
+			break;
+		case "/pageBooks":
+			pageBooks(request, response);
+			break;
+		case "/searchBooks":
+			searchBooks(request, response);
 			break;
 		default:
 			break;
@@ -91,7 +97,7 @@ public class AdminServlet extends HttpServlet {
 			break;
 		}
 		case "/addBook":
-			addBook(request, response);
+			createBook(request, response);
 			break;
 		case "/searchAuthors":
 			searchAuthors(request, response);
@@ -108,19 +114,20 @@ public class AdminServlet extends HttpServlet {
 		}
 	}
 
-	private void addBook(HttpServletRequest request,
+	private void createBook(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String title = request.getParameter("title");
-		// int authorId = Integer.parseInt(request.getParameter("authorId"));
 		int pubId = Integer.parseInt(request.getParameter("pubId"));
-		// int genreId = Integer.parseInt(request.getParameter("genreId"));
 
 		AdministrativeService adminService = new AdministrativeService();
 		List<Author> authors = new ArrayList<Author>();
 		List<Genre> genres = new ArrayList<Genre>();
-		Book book = new Book();
-		book.setTitle(title);
+
 		try {
+			Book book = new Book();
+			book.setTitle(title);
+			book.setPublisher(adminService.readPublisher(pubId));
+
 			String[] authorIds = request.getParameterValues("authorId");
 			for (String s : authorIds) {
 				int authorId = Integer.parseInt(s);
@@ -133,10 +140,8 @@ public class AdminServlet extends HttpServlet {
 				genres.add(adminService.readGenre(genreId));
 			}
 
-			// authors.add(adminService.readAuthor(authorId));
 
 			book.setAuthors(authors);
-			// genres.add(adminService.readGenre(genreId));
 			book.setGenres(genres);
 			adminService.createBook(book);
 			request.setAttribute("result", "Book Added Succesfully!");
@@ -231,8 +236,6 @@ public class AdminServlet extends HttpServlet {
 	private List<Author> viewAuthors(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		int pageNo = Integer.parseInt(request.getParameter("pageNo"));
-
-		System.out.println("here");
 
 		try {
 			return new AdministrativeService().readAuthors(0, PAGE_SIZE);
@@ -386,5 +389,78 @@ public class AdminServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
+
+	private void pageBooks(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		int pageNo = Integer.parseInt(request.getParameter("pageNo"));
+
+		try {
+			List<Book> books;
+
+			if (searchString == null) {
+				books = new AdministrativeService()
+						.readBooks(pageNo, PAGE_SIZE);
+			} else {
+				books = new AdministrativeService().searchBooks(searchString,
+						pageNo, PAGE_SIZE);
+			}
+			request.setAttribute("books", books);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/viewBooks.jsp");
+		rd.forward(request, response);
+	}
+	
+	private void searchBooks(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String searchString = request.getParameter("searchString");
+
+		this.searchString = searchString;
+
+		try {
+			// by default, show the first page of the search results
+			List<Book> books = new AdministrativeService().searchBooks(
+					searchString, 0, PAGE_SIZE);
+			request.setAttribute("books", books);
+			StringBuilder str = new StringBuilder();
+			str.append("<tr><th>Book ID</th><th>Book Title</th><th>Edit Book</th><th>Delete Book</th></tr>");
+			for (Book b : books) {
+				str.append("<tr><td>"
+						+ b.getBookId()
+						+ "</td><td>"
+						+ b.getTitle()
+						+ "</td><td><button type='button' "
+						+ "class='btn btn-md btn-success' data-toggle='modal' data-target='#myModal1' href='editBook.jsp?bookId="
+						+ b.getBookId()
+						+ "'>"
+						+ "Edit</button></td><td><button type='button' class='btn btn-md btn-danger' onclick='javascript:location.href="
+						+ "'deleteBook?bookId=" + b.getBookId()
+						+ "'>Delete</button></td></tr>");
+			}
+			response.getWriter().write(str.toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

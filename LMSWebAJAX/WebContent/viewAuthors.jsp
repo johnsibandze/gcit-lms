@@ -1,13 +1,14 @@
 <%@page import="com.gcit.lms.service.AdministrativeService"%>
 <%@page import="java.util.List"%>
 <%@page import="com.gcit.lms.domain.Author"%>
+<%@page import="com.gcit.lms.web.AdminServlet"%>
 <%
 	AdministrativeService adminService = new AdministrativeService();
 	List<Author> authors = null;
 	if (request.getAttribute("authors") != null) {
 		authors = (List<Author>) request.getAttribute("authors");
 	} else {
-		authors = adminService.readAuthors(0, 10);
+		authors = adminService.readAuthors(0, AdminServlet.PAGE_SIZE);
 	}
 %>
 <%@include file="include.html"%>

@@ -134,7 +134,8 @@ public class AdministrativeService {
 		return gdao.readOne(genreId);
 	}
 
-	public List<Author> searchAuthors(String searchString,int pageNo, int pageSize) throws Exception {
+	public List<Author> searchAuthors(String searchString, int pageNo,
+			int pageSize) throws Exception {
 		ConnectionUtil c = new ConnectionUtil();
 		Connection conn = c.createConnection();
 		AuthorDAO adao = new AuthorDAO(conn);
@@ -183,28 +184,21 @@ public class AdministrativeService {
 		} finally {
 			conn.close();
 		}
-
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	public List<Book> searchBooks(String searchString, int pageNo, int pageSize)
+			throws Exception {
+		ConnectionUtil c = new ConnectionUtil();
+		Connection conn = c.createConnection();
+		BookDAO bdao = new BookDAO(conn);
+		return bdao.readByBookTitle(searchString, pageNo, pageSize);
+	}
+
+	public Publisher readPublisher(int publisherId) throws Exception {
+		ConnectionUtil c = new ConnectionUtil();
+		Connection conn = c.createConnection();
+		PublisherDAO adao = new PublisherDAO(conn);
+		return adao.readOne(publisherId);
+	}
 
 }
