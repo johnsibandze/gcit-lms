@@ -12,7 +12,7 @@ import com.gcit.lms.domain.Book;
 import com.gcit.lms.domain.Genre;
 import com.gcit.lms.domain.Publisher;
 
-public class AdministrativeService {
+public class AdministrativeService extends BaseService {
 
 	public void createAuthor(Author author) throws Exception {
 		ConnectionUtil c = new ConnectionUtil();
@@ -140,13 +140,6 @@ public class AdministrativeService {
 		Connection conn = c.createConnection();
 		AuthorDAO adao = new AuthorDAO(conn);
 		return adao.readByAuthorName(searchString, pageNo, pageSize);
-	}
-
-	public List<Book> readBooks(int pageNo, int pageSize) throws Exception {
-		ConnectionUtil c = new ConnectionUtil();
-		Connection conn = c.createConnection();
-		BookDAO adao = new BookDAO(conn);
-		return adao.readAll(pageNo, pageSize);
 	}
 
 	public void deleteBook(Book book) throws Exception {

@@ -1,15 +1,12 @@
 <%@page import="com.gcit.lms.service.LibrarianService"%>
 <%@page import="java.util.List"%>
 <%@page import="com.gcit.lms.domain.Library"%>
-<%@page import="com.gcit.lms.web.AdminServlet"%>
+<%@page import="com.gcit.lms.domain.Book"%>
+<%@page import="com.gcit.lms.dao.BookDAO"%>
+<%@page import="com.gcit.lms.web.LibrarianServlet"%>
 <%
-	LibrarianService librarianService = new LibrarianService();
-	List<Library> libraries = null;
-	if (request.getAttribute("libraries") != null) {
-		libraries = (List<Library>) request.getAttribute("libraries");
-	} else {
-		libraries = librarianService.readLibraries(0, AdminServlet.PAGE_SIZE);
-	}
+	List<Book> books = LibrarianServlet.library.getBooks();
+	System.out.println("here");
 %>
 <%@include file="include.html"%>
 <script>
@@ -25,47 +22,47 @@
 	}
 </script>
 ${result }
-<form action="searchLibraries" method="post">
+<form action="searchLibraryBooks" method="post">
 	<input type="text" class="col-md-8" id="searchString"
 		name="searchString" placeholder="Enter branch name to search"><input
-		type="button" value="Search!" onclick="javascript:searchLibraries();">
+		type="button" value="Search!" onclick="javascript:searchLibraryBooks();">
 </form>
 
 <nav>
 	<ul class="pagination">
-		<li><a href="pageLibraries?pageNo=1">1</a></li>
-		<li><a href="pageLibraries?pageNo=2">2</a></li>
-		<li><a href="pageLibraries?pageNo=3">3</a></li>
-		<li><a href="pageLibraries?pageNo=4">4</a></li>
+		<li><a href="pageLibraryBooks?pageNo=1">1</a></li>
+		<li><a href="pageLibraryBooks?pageNo=2">2</a></li>
+		<li><a href="pageLibraryBooks?pageNo=3">3</a></li>
+		<li><a href="pageLibraryBooks?pageNo=4">4</a></li>
 		<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 		</a></li>
 	</ul>
 </nav>
 
-<table class="table" id="librariesTable">
+<table class="table" id="libraryBooksTable">
 	<tr>
-		<th>Library ID</th>
-		<th>Library Name</th>
+		<th>Book ID</th>
+		<th>Book Title</th>
 		<!-- <th>Choose Library</th> -->
 	</tr>
 	<%
-		for (Library l : libraries) {
+		for (Book b : books) {
 	%>
 	<tr>
 		<td>
 			<%
-				out.println(l.getBranchId());
+				out.println(b.getBookId());
 			%>
 		</td>
 		<td>
 			<%
-				out.println(l.getBranchName());
+				out.println(b.getTitle());
 			%>
 		</td>
 		<td><button type="button" class="btn btn-md btn-success"
 				data-toggle="modal" data-target="#myModal1"
-				onclick="javascript:location.href='chooseLibrary?branchId=<%=l.getBranchId()%>';">Choose
-				Library</button></td>
+				onclick="javascript:location.href='addCopies?bookId=<%=b.getBookId()%>';">Add
+				Copies</button></td>
 	</tr>
 	<%
 		}

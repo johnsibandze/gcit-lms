@@ -1,7 +1,6 @@
 package com.gcit.lms.web;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -13,9 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.gcit.lms.domain.Author;
 import com.gcit.lms.domain.Book;
-import com.gcit.lms.domain.Genre;
 import com.gcit.lms.domain.Library;
-import com.gcit.lms.domain.Publisher;
 import com.gcit.lms.service.AdministrativeService;
 import com.gcit.lms.service.LibrarianService;
 
@@ -23,11 +20,12 @@ import com.gcit.lms.service.LibrarianService;
  * Servlet implementation class AdminServlet
  */
 @WebServlet({ "/viewLibraries", "/editLibrary", "/searchLibrary",
-		"/pageLibraries" })
+		"/pageLibraries", "/chooseLibrary", "/pageBooksLibrarian" })
 public class LibrarianServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private String searchString;
+	public static Library library;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -53,6 +51,12 @@ public class LibrarianServlet extends HttpServlet {
 			break;
 		case "/searchLibraries":
 			searchAuthors(request, response);
+			break;
+		case "/chooseLibrary":
+			chooseLibrary(request, response);
+			break;
+		case "/pageBooksLibrarian":
+			pageBooks(request, response);
 			break;
 		// case "/pageBooks":
 		// pageBooks(request, response);
@@ -82,9 +86,6 @@ public class LibrarianServlet extends HttpServlet {
 		case "/editLibrary":
 			editAuthor(request, response);
 			break;
-		case "/addBook":
-			createBook(request, response);
-			break;
 		case "/searchLibraries":
 			searchAuthors(request, response);
 			break;
@@ -98,49 +99,6 @@ public class LibrarianServlet extends HttpServlet {
 		default:
 			break;
 		}
-	}
-
-	private void createBook(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		String title = request.getParameter("title");
-		int pubId = Integer.parseInt(request.getParameter("pubId"));
-
-		AdministrativeService adminService = new AdministrativeService();
-		List<Author> authors = new ArrayList<Author>();
-		List<Genre> genres = new ArrayList<Genre>();
-
-		try {
-			Book book = new Book();
-			book.setTitle(title);
-			book.setPublisher(adminService.readPublisher(pubId));
-
-			String[] authorIds = request.getParameterValues("authorId");
-			for (String s : authorIds) {
-				int authorId = Integer.parseInt(s);
-				authors.add(adminService.readAuthor(authorId));
-			}
-
-			String[] genreIds = request.getParameterValues("genreId");
-			for (String s : genreIds) {
-				int genreId = Integer.parseInt(s);
-				genres.add(adminService.readGenre(genreId));
-			}
-
-			book.setAuthors(authors);
-			book.setGenres(genres);
-			adminService.createBook(book);
-			request.setAttribute("result", "Book Added Succesfully!");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			request.setAttribute("result",
-					"Book Addition Failed because: " + e.getMessage());
-			e.printStackTrace();
-		}
-
-		RequestDispatcher rd = getServletContext().getRequestDispatcher(
-				"/viewBooks.jsp");
-		rd.forward(request, response);
-
 	}
 
 	private void editAuthor(HttpServletRequest request,
@@ -172,50 +130,6 @@ public class LibrarianServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	private void createAuthor(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		String authorName = request.getParameter("authorName");
-		Author a = new Author();
-		a.setAuthorName(authorName);
-		AdministrativeService adminService = new AdministrativeService();
-		try {
-			adminService.createAuthor(a);
-			request.setAttribute("result", "Author Added Successfully");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			request.setAttribute("result",
-					"Author add failed " + e.getMessage());
-		}
-		RequestDispatcher rd = getServletContext().getRequestDispatcher(
-				"/admin.jsp");
-		rd.forward(request, response);
-	}
-
-	private void createPublisher(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		String publisherName = request.getParameter("publisherName");
-		String publisherAddress = request.getParameter("publisherAddress");
-		String publisherPhone = request.getParameter("publisherPhone");
-		Publisher p = new Publisher();
-		p.setPublisherName(publisherName);
-		p.setPublisherAddress(publisherAddress);
-		p.setPublisherPhone(publisherPhone);
-		AdministrativeService adminService = new AdministrativeService();
-		try {
-			adminService.createPublisher(p);
-			request.setAttribute("result", "Publisher added Successfully");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			request.setAttribute("result",
-					"Publisher add failed " + e.getMessage());
-		}
-		RequestDispatcher rd = getServletContext().getRequestDispatcher(
-				"/admin.jsp");
-		rd.forward(request, response);
 	}
 
 	private List<Library> viewLibraries(HttpServletRequest request,
@@ -290,62 +204,6 @@ public class LibrarianServlet extends HttpServlet {
 		}
 	}
 
-	private void deleteAuthor(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		String authorId = request.getParameter("authorId");
-		Author author = new Author();
-		author.setAuthorId(Integer.parseInt(authorId));
-
-		RequestDispatcher rd = getServletContext().getRequestDispatcher(
-				"/viewAuthors.jsp");
-		try {
-			new AdministrativeService().deleteAuthor(author);
-
-			request.setAttribute("result", "Author Deleted Succesfully!");
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("result",
-					"Author Delete Failed because: " + e.getMessage());
-		}
-
-		rd.forward(request, response);
-	}
-
-	private List<Book> viewBooks(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		int pageNo = Integer.parseInt(request.getParameter("pageNo"));
-
-		try {
-			return new AdministrativeService().readBooks(0,
-					AdminServlet.PAGE_SIZE);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	private void deleteBook(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		String bookId = request.getParameter("bookId");
-		Book book = new Book();
-		book.setBookId(Integer.parseInt(bookId));
-
-		RequestDispatcher rd = getServletContext().getRequestDispatcher(
-				"/viewBooks.jsp");
-		try {
-			new AdministrativeService().deleteBook(book);
-
-			request.setAttribute("result", "Book Deleted Succesfully!");
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("result",
-					"Book Delete Failed because: " + e.getMessage());
-		}
-
-		rd.forward(request, response);
-	}
-
 	private void editBook(HttpServletRequest request,
 			HttpServletResponse response) {
 		String title = request.getParameter("title");
@@ -377,6 +235,27 @@ public class LibrarianServlet extends HttpServlet {
 		}
 	}
 
+	private void chooseLibrary(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String branchId = request.getParameter("branchId");
+
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/librarianChoice.jsp");
+
+		try {
+			library = new LibrarianService().readLibrary(Integer
+					.parseInt(branchId));
+
+			request.setAttribute("result", "Successfully Chosen Library");
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("result", "Library Choosing Failed Because: "
+					+ e.getMessage());
+		}
+
+		rd.forward(request, response);
+	}
+
 	private void pageBooks(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
@@ -398,41 +277,8 @@ public class LibrarianServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(
-				"/viewBooks.jsp");
+				"/viewBooksLibrarian.jsp");
 		rd.forward(request, response);
-	}
-
-	private void searchBooks(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		String searchString = request.getParameter("searchString");
-
-		this.searchString = searchString;
-
-		try {
-			// by default, show the first page of the search results
-			List<Book> books = new AdministrativeService().searchBooks(
-					searchString, 0, AdminServlet.PAGE_SIZE);
-			request.setAttribute("books", books);
-			StringBuilder str = new StringBuilder();
-			str.append("<tr><th>Book ID</th><th>Book Title</th><th>Edit Book</th><th>Delete Book</th></tr>");
-			for (Book b : books) {
-				str.append("<tr><td>"
-						+ b.getBookId()
-						+ "</td><td>"
-						+ b.getTitle()
-						+ "</td><td><button type='button' "
-						+ "class='btn btn-md btn-success' data-toggle='modal' data-target='#myModal1' href='editBook.jsp?bookId="
-						+ b.getBookId()
-						+ "'>"
-						+ "Edit</button></td><td><button type='button' class='btn btn-md btn-danger' onclick='javascript:location.href="
-						+ "'deleteBook?bookId=" + b.getBookId()
-						+ "'>Delete</button></td></tr>");
-			}
-			response.getWriter().write(str.toString());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 }

@@ -153,7 +153,7 @@ public class AdminServlet extends HttpServlet {
 		}
 
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(
-				"/viewBooks.jsp");
+				"/viewBooksAdmin.jsp");
 		rd.forward(request, response);
 
 	}
@@ -345,7 +345,7 @@ public class AdminServlet extends HttpServlet {
 		book.setBookId(Integer.parseInt(bookId));
 
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(
-				"/viewBooks.jsp");
+				"/viewBooksAdmin.jsp");
 		try {
 			new AdministrativeService().deleteBook(book);
 
@@ -378,7 +378,7 @@ public class AdminServlet extends HttpServlet {
 					"Author update failed " + e.getMessage());
 		}
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(
-				"/viewBooks.jsp");
+				"/viewBooksAdmin.jsp");
 		try {
 			rd.forward(request, response);
 		} catch (ServletException e) {
@@ -411,7 +411,7 @@ public class AdminServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(
-				"/viewBooks.jsp");
+				"/viewBooksAdmin.jsp");
 		rd.forward(request, response);
 	}
 	

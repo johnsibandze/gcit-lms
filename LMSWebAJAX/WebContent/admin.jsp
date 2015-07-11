@@ -17,6 +17,6 @@ ${result}
 <h3>Books</h3>
 <a href="addBook.jsp">Add Book</a>
 <br />
-<a href="viewBooks.jsp">View Books</a>
+<a href="viewBooksAdmin.jsp">View Books</a>
 <br />
 
