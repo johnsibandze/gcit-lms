@@ -64,7 +64,8 @@ ${result }
 		</td>
 		<td><button type="button" class="btn btn-md btn-success"
 				data-toggle="modal" data-target="#myModal1"
-				href="editBook.jsp?bookId=<%=b.getBookId()%>">Edit</button></td>
+				href="addBookCopies.jsp?bookId=<%=b.getBookId()%>">Add
+				Copies</button></td>
 		<%-- <td><button type="button" class="btn btn-md btn-danger"
 				onclick="javascript:location.href='deleteBook?bookId=<%=b.getBookId()%>';">Delete</button></td> --%>
 	</tr>

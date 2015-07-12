@@ -15,4 +15,11 @@ public class BaseService {
 		return adao.readAll(pageNo, pageSize);
 	}
 
+	public Book readBook(int bookId) throws Exception {
+		ConnectionUtil c = new ConnectionUtil();
+		Connection conn = c.createConnection();
+		BookDAO bdao = new BookDAO(conn);
+		return bdao.readOne(bookId);
+	}
+
 }

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.gcit.lms.domain.Author;
 import com.gcit.lms.domain.Book;
+import com.gcit.lms.domain.BookCopies;
 import com.gcit.lms.domain.Library;
 import com.gcit.lms.service.AdministrativeService;
 import com.gcit.lms.service.LibrarianService;
@@ -20,7 +21,8 @@ import com.gcit.lms.service.LibrarianService;
  * Servlet implementation class AdminServlet
  */
 @WebServlet({ "/viewLibraries", "/editLibrary", "/searchLibrary",
-		"/pageLibraries", "/chooseLibrary", "/pageBooksLibrarian" })
+		"/pageLibraries", "/chooseLibrary", "/pageBooksLibrarian",
+		"/addBookCopies" })
 public class LibrarianServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -88,6 +90,9 @@ public class LibrarianServlet extends HttpServlet {
 			break;
 		case "/searchLibraries":
 			searchAuthors(request, response);
+			break;
+		case "/addBookCopies":
+			addBookCopies(request, response);
 			break;
 		// case "/viewBooks":
 		// viewBooks(request, response);
@@ -279,6 +284,51 @@ public class LibrarianServlet extends HttpServlet {
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(
 				"/viewBooksLibrarian.jsp");
 		rd.forward(request, response);
+	}
+
+	private void addBookCopies(HttpServletRequest request,
+			HttpServletResponse response) {
+		int noOfCopies = Integer.parseInt(request.getParameter("noOfCopies"));
+		int bookId = Integer.parseInt(request.getParameter("bookId"));
+		int branchId = Integer.parseInt(request.getParameter("branchId"));
+
+		int oldNoOfCopies = Integer.parseInt(request
+				.getParameter("oldNoOfCopies"));
+
+		System.out.println("old noOfCopies: " + oldNoOfCopies);
+		System.out.println("new noOfCopies: " + noOfCopies);
+
+		LibrarianService librarianService = new LibrarianService();
+
+		try {
+			BookCopies bc = librarianService.readBookCopies(bookId, branchId);
+
+			if (bc == null) {// the current branch has no copy of this book yet
+				bc = new BookCopies(bookId, branchId, noOfCopies);
+				librarianService.createBookCopies(bc);
+			} else {// the current branch already has a copy of the book
+				bc.setNoOfCopies(oldNoOfCopies + noOfCopies);
+				librarianService.updateBookCopies(bc);
+			}
+			request.setAttribute("result", "Book Copies updated Successfully");
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			request.setAttribute("result",
+					"Book Copies update failed " + e.getMessage());
+		}
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/viewBooksLibrarian.jsp");
+		try {
+			rd.forward(request, response);
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

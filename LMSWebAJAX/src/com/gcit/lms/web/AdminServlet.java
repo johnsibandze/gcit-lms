@@ -22,7 +22,7 @@ import com.gcit.lms.service.AdministrativeService;
  */
 @WebServlet({ "/addAuthor", "/addPublisher", "/viewAuthors", "/deleteAuthor",
 		"/editAuthor", "/addBook", "/searchAuthors", "/pageAuthors",
-		"/viewBooks", "/deleteBook", "/editBook", "/pageBooks","/searchBooks" })
+		"/viewBooks", "/deleteBook", "/editBook", "/pageBooks", "/searchBooks" })
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -139,7 +139,6 @@ public class AdminServlet extends HttpServlet {
 				int genreId = Integer.parseInt(s);
 				genres.add(adminService.readGenre(genreId));
 			}
-
 
 			book.setAuthors(authors);
 			book.setGenres(genres);
@@ -414,7 +413,7 @@ public class AdminServlet extends HttpServlet {
 				"/viewBooksAdmin.jsp");
 		rd.forward(request, response);
 	}
-	
+
 	private void searchBooks(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String searchString = request.getParameter("searchString");
@@ -447,20 +446,5 @@ public class AdminServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 }

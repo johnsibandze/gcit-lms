@@ -157,13 +157,6 @@ public class AdministrativeService extends BaseService {
 		}
 	}
 
-	public Book readBook(int bookId) throws Exception {
-		ConnectionUtil c = new ConnectionUtil();
-		Connection conn = c.createConnection();
-		BookDAO bdao = new BookDAO(conn);
-		return bdao.readOne(bookId);
-	}
-
 	public void updateBook(Book b) throws Exception {
 		ConnectionUtil c = new ConnectionUtil();
 		Connection conn = c.createConnection();
