@@ -145,6 +145,7 @@ public class AdminServlet extends HttpServlet {
 			break;
 		case "/addGenre":
 			createGenre(request, response);
+			break;
 		default:
 			break;
 		}
