@@ -326,7 +326,7 @@ public class AdministrativeService extends BaseService {
 			conn.close();
 		}
 	}
-	
+
 	public List<Genre> searchGenres(String searchString, int pageNo,
 			int pageSize) throws Exception {
 		ConnectionUtil c = new ConnectionUtil();
@@ -334,22 +334,21 @@ public class AdministrativeService extends BaseService {
 		GenreDAO gdao = new GenreDAO(conn);
 		return gdao.readByGenreName(searchString, pageNo, pageSize);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	public void updateGenre(Genre g) throws Exception {
+		ConnectionUtil c = new ConnectionUtil();
+		Connection conn = c.createConnection();
+		try {
+			GenreDAO gdao = new GenreDAO(conn);
+			gdao.update(g);
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			conn.rollback();
+		} finally {
+			conn.close();
+		}
+
+	}
 
 }

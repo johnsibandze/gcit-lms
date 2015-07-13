@@ -27,7 +27,7 @@ import com.gcit.lms.service.AdministrativeService;
 		"/searchBooksAdmin", "/pagePublishers", "/searchPublishers",
 		"/pageLibrariesAdmin", "/editPublisher", "/deletePublisher",
 		"/editLibraryAdmin", "/addLibrary", "/deleteLibrary", "/addGenre",
-		"/pageGenres" })
+		"/pageGenres", "/editGenre" })
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -149,6 +149,9 @@ public class AdminServlet extends HttpServlet {
 			break;
 		case "/addGenre":
 			createGenre(request, response);
+			break;
+		case "/editGenre":
+			editGenre(request, response);
 			break;
 		default:
 			break;
@@ -760,6 +763,39 @@ public class AdminServlet extends HttpServlet {
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(
 				"/viewGenres.jsp");
 		rd.forward(request, response);
+	}
+
+	private void editGenre(HttpServletRequest request,
+			HttpServletResponse response) {
+		int genreId = Integer.parseInt(request.getParameter("genre_id"));
+		String genreName = request.getParameter("genre_name");
+
+		Genre g = new Genre();
+		g.setGenreId(genreId);
+		g.setGenreName(genreName);
+
+		AdministrativeService adminService = new AdministrativeService();
+		try {
+			adminService.updateGenre(g);
+			request.setAttribute("result", "Genre updated Successfully");
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			request.setAttribute("result",
+					"Genre update failed " + e.getMessage());
+		}
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/viewGenres.jsp");
+		try {
+			rd.forward(request, response);
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
