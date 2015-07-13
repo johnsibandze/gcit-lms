@@ -5,11 +5,13 @@ import java.util.List;
 
 import com.gcit.lms.dao.AuthorDAO;
 import com.gcit.lms.dao.BookDAO;
+import com.gcit.lms.dao.BorrowerDAO;
 import com.gcit.lms.dao.GenreDAO;
 import com.gcit.lms.dao.LibraryDAO;
 import com.gcit.lms.dao.PublisherDAO;
 import com.gcit.lms.domain.Author;
 import com.gcit.lms.domain.Book;
+import com.gcit.lms.domain.Borrower;
 import com.gcit.lms.domain.Genre;
 import com.gcit.lms.domain.Library;
 import com.gcit.lms.domain.Publisher;
@@ -364,6 +366,13 @@ public class AdministrativeService extends BaseService {
 		} finally {
 			conn.close();
 		}
+	}
+	
+	public List<Borrower> readBorrowers(int pageNo, int pageSize) throws Exception {
+		ConnectionUtil c = new ConnectionUtil();
+		Connection conn = c.createConnection();
+		BorrowerDAO bdao = new BorrowerDAO(conn);
+		return bdao.readAll(pageNo, pageSize);
 	}
 	
 	

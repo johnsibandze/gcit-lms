@@ -71,6 +71,11 @@ ${result}
 		<td><a href="viewGenres.jsp">View Genres</a></td>
 	</tr>
 
+	<tr>
+		<td><a href="addBorrower.jsp">Add Borrower</a></td>
+		<td><a href="viewBorrowers.jsp">View Borrowers</a></td>
+	</tr>
+
 
 
 
