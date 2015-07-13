@@ -289,5 +289,39 @@ public class AdministrativeService extends BaseService {
 			conn.close();
 		}
 	}
+	
+	
+	public void deleteLibrary(Library library) throws Exception {
+		ConnectionUtil c = new ConnectionUtil();
+		Connection conn = c.createConnection();
+		LibraryDAO ldao = new LibraryDAO(conn);
+		try {
+			ldao.delete(library);
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			conn.rollback();
+		} finally {
+			conn.close();
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

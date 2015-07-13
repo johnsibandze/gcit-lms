@@ -26,7 +26,7 @@ import com.gcit.lms.service.AdministrativeService;
 		"/viewBooks", "/deleteBook", "/editBook", "/pageBooks",
 		"/searchBooksAdmin", "/pagePublishers", "/searchPublishers",
 		"/pageLibrariesAdmin", "/editPublisher", "/deletePublisher",
-		"/editLibraryAdmin", "/addLibrary" })
+		"/editLibraryAdmin", "/addLibrary", "/deleteLibrary" })
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -80,6 +80,9 @@ public class AdminServlet extends HttpServlet {
 			break;
 		case "/deletePublisher":
 			deletePublisher(request, response);
+			break;
+		case "/deleteLibrary":
+			deleteLibrary(request, response);
 			break;
 		default:
 			break;
@@ -680,6 +683,28 @@ public class AdminServlet extends HttpServlet {
 		}
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(
 				"/admin.jsp");
+		rd.forward(request, response);
+	}
+
+	private void deleteLibrary(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String branchId = request.getParameter("branchId");
+		Library library = new Library();
+
+		library.setBranchId(Integer.parseInt(branchId));
+
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/viewLibrariesAdmin.jsp");
+		try {
+			new AdministrativeService().deleteLibrary(library);
+
+			request.setAttribute("result", "Library Deleted Succesfully!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("result", "Library Delete Failed because: "
+					+ e.getMessage());
+		}
+
 		rd.forward(request, response);
 	}
 
