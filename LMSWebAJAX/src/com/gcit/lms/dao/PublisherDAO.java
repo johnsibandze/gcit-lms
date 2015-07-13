@@ -83,4 +83,16 @@ public class PublisherDAO extends BaseDAO<Publisher> {
 		return pubs;
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Publisher> readByPublisherName(String searchString, int pageNo,
+			int pageSize) throws Exception {
+		setPageNo(pageNo);
+		setPageSize(pageSize);
+
+		searchString = "%" + searchString + "%";
+		return (List<Publisher>) read(
+				"select * from tbl_publisher where publisherName like ?",
+				new Object[] { searchString });
+	}
+
 }

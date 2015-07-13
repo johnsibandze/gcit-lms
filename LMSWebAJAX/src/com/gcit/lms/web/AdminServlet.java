@@ -22,7 +22,8 @@ import com.gcit.lms.service.AdministrativeService;
  */
 @WebServlet({ "/addAuthor", "/addPublisher", "/viewAuthors", "/deleteAuthor",
 		"/editAuthor", "/addBook", "/searchAuthors", "/pageAuthors",
-		"/viewBooks", "/deleteBook", "/editBook", "/pageBooks", "/searchBooks" })
+		"/viewBooks", "/deleteBook", "/editBook", "/pageBooks", "/searchBooks",
+		"/pagePublishers", "/searchPublishers" })
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -64,6 +65,9 @@ public class AdminServlet extends HttpServlet {
 			break;
 		case "/searchBooks":
 			searchBooks(request, response);
+			break;
+		case "/pagePublishers":
+			pagePublishers(request, response);
 			break;
 		default:
 			break;
@@ -109,6 +113,9 @@ public class AdminServlet extends HttpServlet {
 			editBook(request, response);
 			break;
 		}
+//		case "/searchPublishers":
+//			searchPublishers(request, response);
+//			break;
 		default:
 			break;
 		}
@@ -445,6 +452,31 @@ public class AdminServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private void pagePublishers(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		int pageNo = Integer.parseInt(request.getParameter("pageNo"));
+
+		try {
+			List<Publisher> publishers;
+
+			if (searchString == null) {
+				publishers = new AdministrativeService().readPublishers(pageNo,
+						PAGE_SIZE);
+			} else {
+				publishers = new AdministrativeService().searchPublishers(
+						searchString, pageNo, PAGE_SIZE);
+			}
+			request.setAttribute("publishers", publishers);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/viewPublishers.jsp");
+		rd.forward(request, response);
 	}
 
 }

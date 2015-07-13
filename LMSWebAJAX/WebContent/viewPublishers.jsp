@@ -27,7 +27,7 @@
 ${result }
 <form action="searchPublishers" method="post">
 	<input type="text" class="col-md-8" id="searchString"
-		name="searchString" placeholder="Enter Branch Name to Search"><input
+		name="searchString" placeholder="Enter Publisher Name to Search"><input
 		type="button" value="Search!" onclick="javascript:searchPublishers();">
 </form>
 

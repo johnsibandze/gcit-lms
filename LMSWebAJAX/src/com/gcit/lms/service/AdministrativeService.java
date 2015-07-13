@@ -198,4 +198,12 @@ public class AdministrativeService extends BaseService {
 		return pubs;
 	}
 
+	public List<Publisher> searchPublishers(String searchString, int pageNo,
+			int pageSize) throws Exception {
+		ConnectionUtil c = new ConnectionUtil();
+		Connection conn = c.createConnection();
+		PublisherDAO pdao = new PublisherDAO(conn);
+		return pdao.readByPublisherName(searchString, pageNo, pageSize);
+	}
+
 }
