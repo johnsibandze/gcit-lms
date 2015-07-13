@@ -26,7 +26,7 @@ import com.gcit.lms.service.AdministrativeService;
 		"/viewBooks", "/deleteBook", "/editBook", "/pageBooks",
 		"/searchBooksAdmin", "/pagePublishers", "/searchPublishers",
 		"/pageLibrariesAdmin", "/editPublisher", "/deletePublisher",
-		"/editLibraryAdmin", "/addLibrary", "/deleteLibrary", "/addGenre" })
+		"/editLibraryAdmin", "/addLibrary", "/deleteLibrary", "/addGenre", "/pageGenres" })
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -84,6 +84,8 @@ public class AdminServlet extends HttpServlet {
 		case "/deleteLibrary":
 			deleteLibrary(request, response);
 			break;
+		case "/pageGenres":
+			
 		default:
 			break;
 		}
