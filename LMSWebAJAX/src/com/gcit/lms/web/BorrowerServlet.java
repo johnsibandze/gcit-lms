@@ -20,15 +20,17 @@ import com.gcit.lms.domain.Library;
 import com.gcit.lms.domain.Publisher;
 import com.gcit.lms.service.AdministrativeService;
 import com.gcit.lms.service.BorrowerService;
+import com.gcit.lms.service.LibrarianService;
 
 /**
  * Servlet implementation class AdminServlet
  */
-@WebServlet({ "/validateCardNo" })
+@WebServlet({ "/validateCardNo", "/chooseLibraryBorrower" })
 public class BorrowerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	public static final int PAGE_SIZE = 3;
+	public static Library library;
 
 	private String searchString;
 
@@ -52,6 +54,9 @@ public class BorrowerServlet extends HttpServlet {
 		switch (reqUrl) {
 		case "/validateCardNo":
 			validateCardNo(request, response);
+			break;
+		case "/chooseLibraryBorrower":
+			chooseLibrary(request, response);
 			break;
 		default:
 			break;
@@ -110,6 +115,29 @@ public class BorrowerServlet extends HttpServlet {
 		}
 		rd.forward(request, response);
 
+	}
+
+	private void chooseLibrary(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String branchId = request.getParameter("branchId");
+
+		System.out.println("the branch id: " + branchId);
+
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/viewLibraryBooksBorrower.jsp");
+
+		try {
+			library = new LibrarianService().readLibrary(Integer
+					.parseInt(branchId));
+
+			request.setAttribute("result", "Successfully Chosen Library");
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("result", "Library Choosing Failed Because: "
+					+ e.getMessage());
+		}
+
+		rd.forward(request, response);
 	}
 
 }

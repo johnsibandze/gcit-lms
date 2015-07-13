@@ -11,7 +11,7 @@ ${result}
 
 
 <h3></h3>
-<a href="viewLibraries.jsp">Check out a Book</a>
+<a href="viewLibrariesBorrower.jsp">Check out a Book</a>
 <br />
 <a href="viewLibraryBooks.jsp">Return a Book</a>
 <br />
