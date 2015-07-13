@@ -206,4 +206,12 @@ public class AdministrativeService extends BaseService {
 		return pdao.readByPublisherName(searchString, pageNo, pageSize);
 	}
 
+	public List<Library> searchLibraries(String searchString, int pageNo,
+			int pageSize) throws Exception {
+		ConnectionUtil c = new ConnectionUtil();
+		Connection conn = c.createConnection();
+		LibraryDAO adao = new LibraryDAO(conn);
+		return adao.readByLibraryName(searchString, pageNo, pageSize);
+	}
+
 }

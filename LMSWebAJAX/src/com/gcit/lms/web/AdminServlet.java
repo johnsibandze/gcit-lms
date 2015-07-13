@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.gcit.lms.domain.Author;
 import com.gcit.lms.domain.Book;
 import com.gcit.lms.domain.Genre;
+import com.gcit.lms.domain.Library;
 import com.gcit.lms.domain.Publisher;
 import com.gcit.lms.service.AdministrativeService;
 
@@ -23,7 +24,8 @@ import com.gcit.lms.service.AdministrativeService;
 @WebServlet({ "/addAuthor", "/addPublisher", "/viewAuthors", "/deleteAuthor",
 		"/editAuthor", "/addBook", "/searchAuthors", "/pageAuthors",
 		"/viewBooks", "/deleteBook", "/editBook", "/pageBooks",
-		"/searchBooksAdmin", "/pagePublishers", "/searchPublishers" })
+		"/searchBooksAdmin", "/pagePublishers", "/searchPublishers",
+		"/pageLibrariesAdmin" })
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -71,6 +73,9 @@ public class AdminServlet extends HttpServlet {
 			break;
 		case "/searchPublishers":
 			searchPublishers(request, response);
+			break;
+		case "/pageLibrariesAdmin":
+			pageLibraries(request, response);
 			break;
 		default:
 			break;
@@ -521,6 +526,31 @@ public class AdminServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private void pageLibraries(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		int pageNo = Integer.parseInt(request.getParameter("pageNo"));
+
+		try {
+			List<Library> libraries;
+
+			if (searchString == null) {
+				libraries = new AdministrativeService().readLibraries(pageNo,
+						PAGE_SIZE);
+			} else {
+				libraries = new AdministrativeService().searchLibraries(
+						searchString, pageNo, PAGE_SIZE);
+			}
+			request.setAttribute("libraries", libraries);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/viewLibrariesAdmin.jsp");
+		rd.forward(request, response);
 	}
 
 }
