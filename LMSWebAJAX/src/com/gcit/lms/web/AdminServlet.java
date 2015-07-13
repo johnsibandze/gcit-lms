@@ -29,7 +29,7 @@ import com.gcit.lms.service.AdministrativeService;
 		"/pageLibrariesAdmin", "/editPublisher", "/deletePublisher",
 		"/editLibraryAdmin", "/addLibrary", "/deleteLibrary", "/addGenre",
 		"/pageGenres", "/editGenre", "/deleteGenre", "/pageBorrowers",
-		"/editBorrower", "/addBorrower" })
+		"/editBorrower", "/addBorrower", "/deleteBorrower" })
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -95,6 +95,9 @@ public class AdminServlet extends HttpServlet {
 			break;
 		case "/pageBorrowers":
 			pageBorrowers(request, response);
+			break;
+		case "/deleteBorrower":
+			deleteBorrower(request, response);
 			break;
 		default:
 			break;
@@ -918,6 +921,27 @@ public class AdminServlet extends HttpServlet {
 		}
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(
 				"/admin.jsp");
+		rd.forward(request, response);
+	}
+
+	private void deleteBorrower(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String cardNo = request.getParameter("cardNo");
+		Borrower borrower = new Borrower();
+		borrower.setCardNo(Integer.parseInt(cardNo));
+
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/viewBorrowers.jsp");
+		try {
+			new AdministrativeService().deleteBorrower(borrower);
+
+			request.setAttribute("result", "Borrower Deleted Succesfully!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("result", "Borrower Delete Failed because: "
+					+ e.getMessage());
+		}
+
 		rd.forward(request, response);
 	}
 

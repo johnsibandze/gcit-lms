@@ -422,6 +422,22 @@ public class AdministrativeService extends BaseService {
 		}
 	}
 	
+	public void deleteBorrower(Borrower borrower) throws Exception {
+		ConnectionUtil c = new ConnectionUtil();
+		Connection conn = c.createConnection();
+		BorrowerDAO adao = new BorrowerDAO(conn);
+		try {
+			adao.delete(borrower);
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			conn.rollback();
+		} finally {
+			conn.close();
+		}
+	}
+
+	
 	
 	
 	
