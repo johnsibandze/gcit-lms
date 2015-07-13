@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gcit.lms.domain.Author;
+import com.gcit.lms.domain.Book;
 
 public class AuthorDAO extends BaseDAO<Author> {
 
@@ -30,6 +31,7 @@ public class AuthorDAO extends BaseDAO<Author> {
 				new Object[] { author.getAuthorId() });
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Author> readAll(int pageNo, int pageSize) throws Exception {
 		setPageNo(pageNo);
 		setPageSize(pageSize);
@@ -38,6 +40,7 @@ public class AuthorDAO extends BaseDAO<Author> {
 	}
 
 	public Author readOne(int authorId) throws Exception {
+		@SuppressWarnings("unchecked")
 		List<Author> authors = (List<Author>) read(
 				"select * from tbl_author where authorId = ?",
 				new Object[] { authorId });
@@ -56,12 +59,13 @@ public class AuthorDAO extends BaseDAO<Author> {
 			Author a = new Author();
 			a.setAuthorId(rs.getInt("authorId"));
 			a.setAuthorName(rs.getString("authorName"));
-			// @SuppressWarnings("unchecked")
-			// List<Book> books = (List<Book>)
-			// bDao.readFirstLevel("select * from tbl_book where bookId In"
-			// + "(select bookId from tbl_book_authors where authorId=?)", new
-			// Object[] {rs.getInt("authorId")});
-			// a.setBooks(books);
+			@SuppressWarnings("unchecked")
+			List<Book> books = (List<Book>) bDao
+					.readFirstLevel(
+							"select * from tbl_book where bookId In"
+									+ "(select bookId from tbl_book_authors where authorId=?)",
+							new Object[] { rs.getInt("authorId") });
+			a.setBooks(books);
 			authors.add(a);
 		}
 		return authors;
@@ -70,7 +74,6 @@ public class AuthorDAO extends BaseDAO<Author> {
 	@Override
 	public List<Author> extractDataFirstLevel(ResultSet rs) throws Exception {
 		List<Author> authors = new ArrayList<Author>();
-		BookDAO bDao = new BookDAO(getConnection());
 
 		while (rs.next()) {
 			Author a = new Author();
