@@ -25,7 +25,8 @@ import com.gcit.lms.service.LibrarianService;
 /**
  * Servlet implementation class AdminServlet
  */
-@WebServlet({ "/validateCardNo", "/chooseLibraryBorrower" })
+@WebServlet({ "/validateCardNo", "/chooseLibraryBorrower",
+		"/pageLibrariesBorrower" })
 public class BorrowerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -57,6 +58,9 @@ public class BorrowerServlet extends HttpServlet {
 			break;
 		case "/chooseLibraryBorrower":
 			chooseLibrary(request, response);
+			break;
+		case "/pageLibrariesBorrower":
+			pageLibraries(request, response);
 			break;
 		default:
 			break;
@@ -137,6 +141,31 @@ public class BorrowerServlet extends HttpServlet {
 					+ e.getMessage());
 		}
 
+		rd.forward(request, response);
+	}
+
+	private void pageLibraries(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		int pageNo = Integer.parseInt(request.getParameter("pageNo"));
+
+		try {
+			List<Library> libraries;
+
+			if (searchString == null) {
+				libraries = new BorrowerService().readLibraries(pageNo,
+						AdminServlet.PAGE_SIZE);
+			} else {
+				libraries = new BorrowerService().searchLibraries(searchString,
+						pageNo, AdminServlet.PAGE_SIZE);
+			}
+			request.setAttribute("libraries", libraries);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/viewLibrariesBorrower.jsp");
 		rd.forward(request, response);
 	}
 
