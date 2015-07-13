@@ -20,3 +20,9 @@ ${result}
 <a href="viewBooksAdmin.jsp">View Books</a>
 <br />
 
+<h3>Libraries</h3>
+<a href="addLibrary.jsp">Add Library</a>
+<br />
+<a href="viewLibrariesAdmin.jsp">View Libraries</a>
+<br />
+

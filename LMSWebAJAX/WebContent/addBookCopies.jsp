@@ -12,6 +12,10 @@
 
 	BookCopies bc = librarianService.readBookCopies(book.getBookId(),
 			library.getBranchId());
+
+	System.out.println("============================");
+	System.out.println("book id: " + book.getBookId());
+	System.out.println("branch id: " + library.getBranchId());
 %>
 <div class="modal-body">
 	<form action="addBookCopies" method="post">
