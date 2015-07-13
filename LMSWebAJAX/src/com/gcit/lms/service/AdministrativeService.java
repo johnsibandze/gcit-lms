@@ -244,14 +244,13 @@ public class AdministrativeService extends BaseService {
 			conn.close();
 		}
 	}
-	
+
 	public Library readLibrary(int branchId) throws Exception {
 		ConnectionUtil c = new ConnectionUtil();
 		Connection conn = c.createConnection();
 		LibraryDAO ldao = new LibraryDAO(conn);
 		return ldao.readOne(branchId);
 	}
-	
 
 	public void updateLibrary(Library a) throws Exception {
 		ConnectionUtil c = new ConnectionUtil();
@@ -269,27 +268,26 @@ public class AdministrativeService extends BaseService {
 
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public void createLibrary(Library library) throws Exception {
+		ConnectionUtil c = new ConnectionUtil();
+		Connection conn = c.createConnection();
+		try {
+			// if (library == null || library.getAuthorName() == null
+			// || library.getAuthorName().length() == 0
+			// || library.getAuthorName().length() > 45) {
+			// throw new Exception(
+			// "Author Name cannot be empty or more than 45 Chars");
+			// } else {
+			LibraryDAO adao = new LibraryDAO(conn);
+			adao.create(library);
+			conn.commit();
+			// }
+		} catch (Exception e) {
+			e.printStackTrace();
+			conn.rollback();
+		} finally {
+			conn.close();
+		}
+	}
 
 }

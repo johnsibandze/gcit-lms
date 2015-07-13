@@ -3,7 +3,6 @@ package com.gcit.lms.web;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -27,7 +26,7 @@ import com.gcit.lms.service.AdministrativeService;
 		"/viewBooks", "/deleteBook", "/editBook", "/pageBooks",
 		"/searchBooksAdmin", "/pagePublishers", "/searchPublishers",
 		"/pageLibrariesAdmin", "/editPublisher", "/deletePublisher",
-		"/editLibraryAdmin" })
+		"/editLibraryAdmin", "/addLibrary" })
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -138,6 +137,8 @@ public class AdminServlet extends HttpServlet {
 		case "/editLibraryAdmin":
 			editLibrary(request, response);
 			break;
+		case "/addLibrary":
+			createLibrary(request, response);
 		default:
 			break;
 		}
@@ -656,6 +657,30 @@ public class AdminServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private void createLibrary(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String branchName = request.getParameter("branchName");
+		String branchAddress = request.getParameter("branchAddress");
+
+		Library l = new Library();
+		l.setBranchName(branchName);
+		l.setBranchAddress(branchAddress);
+
+		AdministrativeService adminService = new AdministrativeService();
+		try {
+			adminService.createLibrary(l);
+			request.setAttribute("result", "Library Added Successfully");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			request.setAttribute("result",
+					"Library add failed " + e.getMessage());
+		}
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/admin.jsp");
+		rd.forward(request, response);
 	}
 
 }
