@@ -230,4 +230,35 @@ public class AdministrativeService extends BaseService {
 
 	}
 
+	public void deletePublisher(Publisher publisher) throws Exception {
+		ConnectionUtil c = new ConnectionUtil();
+		Connection conn = c.createConnection();
+		PublisherDAO pdao = new PublisherDAO(conn);
+		try {
+			pdao.delete(publisher);
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			conn.rollback();
+		} finally {
+			conn.close();
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 }

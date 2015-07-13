@@ -25,7 +25,7 @@ import com.gcit.lms.service.AdministrativeService;
 		"/editAuthor", "/addBook", "/searchAuthors", "/pageAuthors",
 		"/viewBooks", "/deleteBook", "/editBook", "/pageBooks",
 		"/searchBooksAdmin", "/pagePublishers", "/searchPublishers",
-		"/pageLibrariesAdmin", "/editPublisher" })
+		"/pageLibrariesAdmin", "/editPublisher", "/deletePublisher" })
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -76,6 +76,9 @@ public class AdminServlet extends HttpServlet {
 			break;
 		case "/pageLibrariesAdmin":
 			pageLibraries(request, response);
+			break;
+		case "/deletePublisher":
+			deletePublisher(request, response);
 			break;
 		default:
 			break;
@@ -574,7 +577,6 @@ public class AdminServlet extends HttpServlet {
 		try {
 			adminService.updatePublisher(p);
 			request.setAttribute("result", "Author updated Successfully");
-
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -592,6 +594,27 @@ public class AdminServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	private void deletePublisher(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String publisherId = request.getParameter("publisherId");
+		Publisher publisher = new Publisher();
+		publisher.setPublisherId(Integer.parseInt(publisherId));
+
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/viewPublishers.jsp");
+		try {
+			new AdministrativeService().deletePublisher(publisher);
+
+			request.setAttribute("result", "Publisher Deleted Succesfully!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("result",
+					"Publisher Delete Failed because: " + e.getMessage());
+		}
+
+		rd.forward(request, response);
 	}
 
 }
