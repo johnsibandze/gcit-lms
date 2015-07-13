@@ -9,7 +9,7 @@
 			</tr>
 			<tr>
 				<td>Enter Borrower Address:</td>
-				<td><input type="text" name="nddress" /></td>
+				<td><input type="text" name="address" /></td>
 			</tr>
 			<tr>
 				<td>Enter Borrower Phone:</td>
