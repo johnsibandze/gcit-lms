@@ -113,11 +113,11 @@ public class AdministrativeService extends BaseService {
 
 	}
 
-	public List<Genre> readGenres() throws Exception {
+	public List<Genre> readGenres(int pageNo, int pageSize) throws Exception {
 		ConnectionUtil c = new ConnectionUtil();
 		Connection conn = c.createConnection();
 		GenreDAO gdao = new GenreDAO(conn);
-		List<Genre> genres = gdao.readAll();
+		List<Genre> genres = gdao.readAll(pageNo, pageSize);
 		return genres;
 	}
 

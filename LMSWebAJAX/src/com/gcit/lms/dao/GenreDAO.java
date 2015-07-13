@@ -31,7 +31,9 @@ public class GenreDAO extends BaseDAO<Genre> {
 				new Object[] { genre.getGenreId() });
 	}
 
-	public List<Genre> readAll() throws Exception {
+	public List<Genre> readAll(int pageNo, int pageSize) throws Exception {
+		setPageNo(pageNo);
+		setPageSize(pageSize);
 		return (List<Genre>) read("select * from tbl_genre", null);
 
 	}

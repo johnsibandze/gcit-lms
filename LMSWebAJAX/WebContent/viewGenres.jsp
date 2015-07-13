@@ -1,73 +1,73 @@
 <%@page import="com.gcit.lms.service.AdministrativeService"%>
 <%@page import="java.util.List"%>
-<%@page import="com.gcit.lms.domain.Author"%>
+<%@page import="com.gcit.lms.domain.Genre"%>
 <%@page import="com.gcit.lms.web.AdminServlet"%>
 <%
 	AdministrativeService adminService = new AdministrativeService();
-	List<Author> authors = null;
-	if (request.getAttribute("authors") != null) {
-		authors = (List<Author>) request.getAttribute("authors");
+	List<Genre> genres = null;
+	if (request.getAttribute("genres") != null) {
+		genres = (List<Genre>) request.getAttribute("genres");
 	} else {
-		authors = adminService.readAuthors(0, AdminServlet.PAGE_SIZE);
+		genres = adminService.readGenres(0, AdminServlet.PAGE_SIZE);
 	}
 %>
 <%@include file="include.html"%>
 <script>
-	function searchAuthors() {
+	function searchGenres() {
 		$.ajax({
-			url : "searchAuthors",
+			url : "searchGenres",
 			data : {
 				searchString : $('#searchString').val()
 			}
 		}).done(function(data) {
-			$('#authorsTable').html(data);
+			$('#genresTable').html(data);
 		});
 	}
 </script>
 ${result }
-<form action="searchAuthors" method="post">
+<form action="searchGenres" method="post">
 	<input type="text" class="col-md-8" id="searchString"
 		name="searchString" placeholder="Enter title name to search"><input
-		type="button" value="Search!" onclick="javascript:searchAuthors();">
+		type="button" value="Search!" onclick="javascript:searchGenres();">
 </form>
 
 <nav>
 	<ul class="pagination">
-		<li><a href="pageAuthors?pageNo=1">1</a></li>
-		<li><a href="pageAuthors?pageNo=2">2</a></li>
-		<li><a href="pageAuthors?pageNo=3">3</a></li>
-		<li><a href="pageAuthors?pageNo=4">4</a></li>
+		<li><a href="pageGenres?pageNo=1">1</a></li>
+		<li><a href="pageGenres?pageNo=2">2</a></li>
+		<li><a href="pageGenres?pageNo=3">3</a></li>
+		<li><a href="pageGenres?pageNo=4">4</a></li>
 		<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 		</a></li>
 	</ul>
 </nav>
 
-<table class="table table-hover table-bordered" id="authorsTable">
+<table class="table table-hover table-bordered" id="genresTable">
 	<tr>
-		<th>Author ID</th>
-		<th>Author Name</th>
-		<th>Edit Author</th>
-		<th>Delete Author</th>
+		<th>Genre ID</th>
+		<th>Genre Name</th>
+		<th>Edit Genre</th>
+		<th>Delete Genre</th>
 	</tr>
 	<%
-		for (Author a : authors) {
+		for (Genre g : genres) {
 	%>
 	<tr>
 		<td>
 			<%
-				out.println(a.getAuthorId());
+				out.println(g.getGenreId());
 			%>
 		</td>
 		<td>
 			<%
-				out.println(a.getAuthorName());
+				out.println(g.getGenreName());
 			%>
 		</td>
 		<td><button type="button" class="btn btn-md btn-success"
 				data-toggle="modal" data-target="#myModal1"
-				href="editAuthor.jsp?authorId=<%=a.getAuthorId()%>">Edit</button></td>
+				href="editGenre.jsp?genre_id=<%=g.getGenreId()%>">Edit</button></td>
 		<td><button type="button" class="btn btn-md btn-danger"
-				onclick="javascript:location.href='deleteAuthor?authorId=<%=a.getAuthorId()%>';">Delete</button></td>
+				onclick="javascript:location.href='deleteGenre?genre_id=<%=g.getGenreId()%>';">Delete</button></td>
 	</tr>
 	<%
 		}
