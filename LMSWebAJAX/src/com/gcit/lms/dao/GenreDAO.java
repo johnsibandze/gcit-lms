@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gcit.lms.domain.Author;
 import com.gcit.lms.domain.Genre;
 
 @SuppressWarnings("unchecked")
@@ -73,5 +74,36 @@ public class GenreDAO extends BaseDAO<Genre> {
 		}
 		return genres;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Genre> readByGenreName(String searchString, int pageNo,
+			int pageSize) throws Exception {
+		setPageNo(pageNo);
+		setPageSize(pageSize);
+
+		searchString = "%" + searchString + "%";
+		return (List<Genre>) read(
+				"select * from tbl_genre where genre_name like ?",
+				new Object[] { searchString });
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

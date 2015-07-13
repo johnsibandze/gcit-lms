@@ -26,7 +26,8 @@ import com.gcit.lms.service.AdministrativeService;
 		"/viewBooks", "/deleteBook", "/editBook", "/pageBooks",
 		"/searchBooksAdmin", "/pagePublishers", "/searchPublishers",
 		"/pageLibrariesAdmin", "/editPublisher", "/deletePublisher",
-		"/editLibraryAdmin", "/addLibrary", "/deleteLibrary", "/addGenre", "/pageGenres" })
+		"/editLibraryAdmin", "/addLibrary", "/deleteLibrary", "/addGenre",
+		"/pageGenres" })
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -85,7 +86,8 @@ public class AdminServlet extends HttpServlet {
 			deleteLibrary(request, response);
 			break;
 		case "/pageGenres":
-			
+			pageGenres(request, response);
+			break;
 		default:
 			break;
 		}
@@ -732,6 +734,31 @@ public class AdminServlet extends HttpServlet {
 		}
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(
 				"/admin.jsp");
+		rd.forward(request, response);
+	}
+
+	private void pageGenres(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		int pageNo = Integer.parseInt(request.getParameter("pageNo"));
+
+		try {
+			List<Genre> genres;
+
+			if (searchString == null) {
+				genres = new AdministrativeService().readGenres(pageNo,
+						PAGE_SIZE);
+			} else {
+				genres = new AdministrativeService().searchGenres(searchString,
+						pageNo, PAGE_SIZE);
+			}
+			request.setAttribute("genres", genres);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/viewGenres.jsp");
 		rd.forward(request, response);
 	}
 

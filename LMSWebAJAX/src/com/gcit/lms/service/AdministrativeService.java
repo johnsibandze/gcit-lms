@@ -326,5 +326,30 @@ public class AdministrativeService extends BaseService {
 			conn.close();
 		}
 	}
+	
+	public List<Genre> searchGenres(String searchString, int pageNo,
+			int pageSize) throws Exception {
+		ConnectionUtil c = new ConnectionUtil();
+		Connection conn = c.createConnection();
+		GenreDAO gdao = new GenreDAO(conn);
+		return gdao.readByGenreName(searchString, pageNo, pageSize);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
