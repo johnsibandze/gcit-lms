@@ -91,8 +91,10 @@ public class BorrowerServlet extends HttpServlet {
 
 			if (b != null) {
 
-				request.setAttribute("result", "Card Validated Successfully");
-				rd = getServletContext().getRequestDispatcher("/admin.jsp");
+				// request.setAttribute("result",
+				// "Card Validated Successfully");
+				rd = getServletContext().getRequestDispatcher(
+						"/borrowerChoice.jsp");
 			} else {
 				request.setAttribute("result",
 						"Please enter a valid Card Number");

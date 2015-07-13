@@ -1,11 +1,15 @@
 <%@page import="com.gcit.lms.service.AdministrativeService"%>
 <%@page import="java.util.List"%>
 <%@page import="com.gcit.lms.domain.Library"%>
+<%@page import="com.gcit.lms.web.LibrarianServlet"%>
 <%
 	AdministrativeService adminService = new AdministrativeService();
 	String branchId = request.getParameter("branchId");
-	Library library = adminService.readLibrary(Integer
-			.parseInt(branchId));
+
+	/* Library library = adminService.readLibrary(Integer
+			.parseInt(branchId)); */
+
+	Library library = LibrarianServlet.library;
 %>
 <div class="modal-body">
 	<form action="editLibraryAdmin" method="post">
