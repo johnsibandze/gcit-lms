@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.gcit.lms.domain.Author;
 import com.gcit.lms.domain.Book;
+import com.gcit.lms.domain.Borrower;
 import com.gcit.lms.domain.Genre;
 import com.gcit.lms.domain.Library;
 import com.gcit.lms.domain.Publisher;
@@ -27,7 +28,7 @@ import com.gcit.lms.service.AdministrativeService;
 		"/searchBooksAdmin", "/pagePublishers", "/searchPublishers",
 		"/pageLibrariesAdmin", "/editPublisher", "/deletePublisher",
 		"/editLibraryAdmin", "/addLibrary", "/deleteLibrary", "/addGenre",
-		"/pageGenres", "/editGenre", "/deleteGenre" })
+		"/pageGenres", "/editGenre", "/deleteGenre", "/pageBorrowers" })
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -90,6 +91,9 @@ public class AdminServlet extends HttpServlet {
 			break;
 		case "/deleteGenre":
 			deleteGenre(request, response);
+			break;
+		case "/pageBorrowers":
+			pageBorrowers(request, response);
 			break;
 		default:
 			break;
@@ -819,6 +823,31 @@ public class AdminServlet extends HttpServlet {
 					"Genre Delete Failed because: " + e.getMessage());
 		}
 
+		rd.forward(request, response);
+	}
+
+	private void pageBorrowers(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		int pageNo = Integer.parseInt(request.getParameter("pageNo"));
+
+		try {
+			List<Borrower> borrowers;
+
+			if (searchString == null) {
+				borrowers = new AdministrativeService().readBorrowers(pageNo,
+						PAGE_SIZE);
+			} else {
+				borrowers = new AdministrativeService().searchBorrowers(
+						searchString, pageNo, PAGE_SIZE);
+			}
+			request.setAttribute("borrowers", borrowers);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/viewBorrowers.jsp");
 		rd.forward(request, response);
 	}
 

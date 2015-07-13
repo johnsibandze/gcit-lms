@@ -375,6 +375,14 @@ public class AdministrativeService extends BaseService {
 		return bdao.readAll(pageNo, pageSize);
 	}
 	
+	public List<Borrower> searchBorrowers(String searchString, int pageNo,
+			int pageSize) throws Exception {
+		ConnectionUtil c = new ConnectionUtil();
+		Connection conn = c.createConnection();
+		BorrowerDAO bdao = new BorrowerDAO(conn);
+		return bdao.readByBorrowerName(searchString, pageNo, pageSize);
+	}
+	
 	
 	
 	
