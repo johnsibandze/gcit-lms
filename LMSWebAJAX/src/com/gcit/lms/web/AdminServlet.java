@@ -22,8 +22,8 @@ import com.gcit.lms.service.AdministrativeService;
  */
 @WebServlet({ "/addAuthor", "/addPublisher", "/viewAuthors", "/deleteAuthor",
 		"/editAuthor", "/addBook", "/searchAuthors", "/pageAuthors",
-		"/viewBooks", "/deleteBook", "/editBook", "/pageBooks", "/searchBooks",
-		"/pagePublishers", "/searchPublishers" })
+		"/viewBooks", "/deleteBook", "/editBook", "/pageBooks",
+		"/searchBooksAdmin", "/pagePublishers", "/searchPublishers" })
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -63,7 +63,7 @@ public class AdminServlet extends HttpServlet {
 		case "/pageBooks":
 			pageBooks(request, response);
 			break;
-		case "/searchBooks":
+		case "/searchBooksAdmin":
 			searchBooks(request, response);
 			break;
 		case "/pagePublishers":
@@ -119,7 +119,7 @@ public class AdminServlet extends HttpServlet {
 		case "/searchPublishers":
 			searchPublishers(request, response);
 			break;
-		case "/searchBooks":
+		case "/searchBooksAdmin":
 			searchBooks(request, response);
 			break;
 		default:
@@ -433,6 +433,8 @@ public class AdminServlet extends HttpServlet {
 
 		this.searchString = searchString;
 
+		System.out.println("search string: " + searchString);
+
 		try {
 			// by default, show the first page of the search results
 			List<Book> books = new AdministrativeService().searchBooks(
@@ -441,6 +443,7 @@ public class AdminServlet extends HttpServlet {
 			StringBuilder str = new StringBuilder();
 			str.append("<tr><th>Book ID</th><th>Book Title</th><th>Edit Book</th><th>Delete Book</th></tr>");
 			for (Book b : books) {
+				System.out.println("title: " + b.getTitle());
 				str.append("<tr><td>"
 						+ b.getBookId()
 						+ "</td><td>"

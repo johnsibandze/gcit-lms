@@ -15,9 +15,9 @@
 %>
 <%@include file="include.html"%>
 <script>
-	function searchBooks() {
+	function searchBooksAdmin() {
 		$.ajax({
-			url : "searchBooks",
+			url : "searchBooksAdmin",
 			data : {
 				searchString : $('#searchString').val()
 			}
@@ -27,10 +27,10 @@
 	}
 </script>
 ${result }
-<form action="searchBooks" method="post">
+<form action="searchBooksAdmin" method="post">
 	<input type="text" class="col-md-8" id="searchString"
 		name="searchString" placeholder="Enter book title to search"><input
-		type="button" value="Search!" onclick="javascript:searchBooks();">
+		type="button" value="Search!" onclick="javascript:searchBooksAdmin();">
 </form>
 
 <nav>
