@@ -25,7 +25,7 @@ import com.gcit.lms.service.AdministrativeService;
 		"/editAuthor", "/addBook", "/searchAuthors", "/pageAuthors",
 		"/viewBooks", "/deleteBook", "/editBook", "/pageBooks",
 		"/searchBooksAdmin", "/pagePublishers", "/searchPublishers",
-		"/pageLibrariesAdmin" })
+		"/pageLibrariesAdmin", "/editPublisher" })
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -126,6 +126,9 @@ public class AdminServlet extends HttpServlet {
 			break;
 		case "/searchBooksAdmin":
 			searchBooks(request, response);
+			break;
+		case "/editPublisher":
+			editPublisher(request, response);
 			break;
 		default:
 			break;
@@ -551,6 +554,44 @@ public class AdminServlet extends HttpServlet {
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(
 				"/viewLibrariesAdmin.jsp");
 		rd.forward(request, response);
+	}
+
+	private void editPublisher(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		int publisherId = Integer.parseInt(request.getParameter("publisherId"));
+		String publisherName = request.getParameter("publisherName");
+		String publisherAddress = request.getParameter("publisherAddress");
+		String publisherPhone = request.getParameter("publisherAddress");
+
+		Publisher p = new Publisher();
+		p.setPublisherId(publisherId);
+		p.setPublisherName(publisherName);
+		p.setPublisherAddress(publisherAddress);
+		p.setPublisherPhone(publisherPhone);
+
+		AdministrativeService adminService = new AdministrativeService();
+		try {
+			adminService.updatePublisher(p);
+			request.setAttribute("result", "Author updated Successfully");
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			request.setAttribute("result",
+					"Author update failed " + e.getMessage());
+		}
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/viewPublishers.jsp");
+		try {
+			rd.forward(request, response);
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

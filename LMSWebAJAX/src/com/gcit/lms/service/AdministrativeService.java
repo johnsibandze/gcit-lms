@@ -214,4 +214,20 @@ public class AdministrativeService extends BaseService {
 		return adao.readByLibraryName(searchString, pageNo, pageSize);
 	}
 
+	public void updatePublisher(Publisher p) throws Exception {
+		ConnectionUtil c = new ConnectionUtil();
+		Connection conn = c.createConnection();
+		try {
+			PublisherDAO pdao = new PublisherDAO(conn);
+			pdao.update(p);
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			conn.rollback();
+		} finally {
+			conn.close();
+		}
+
+	}
+
 }
