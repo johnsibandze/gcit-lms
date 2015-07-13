@@ -113,9 +113,9 @@ public class AdminServlet extends HttpServlet {
 			editBook(request, response);
 			break;
 		}
-//		case "/searchPublishers":
-//			searchPublishers(request, response);
-//			break;
+		case "/searchPublishers":
+			searchPublishers(request, response);
+			break;
 		default:
 			break;
 		}
@@ -477,6 +477,39 @@ public class AdminServlet extends HttpServlet {
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(
 				"/viewPublishers.jsp");
 		rd.forward(request, response);
+	}
+
+	private void searchPublishers(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String searchString = request.getParameter("searchString");
+
+		this.searchString = searchString;
+
+		try {
+			// by default, show the first page of the search results
+			List<Publisher> publishers = new AdministrativeService()
+					.searchPublishers(searchString, 0, PAGE_SIZE);
+			request.setAttribute("authors", publishers);
+			StringBuilder str = new StringBuilder();
+			str.append("<tr><th>Author ID</th><th>Author Name</th><th>Edit Author</th><th>Delete Author</th></tr>");
+			for (Publisher p : publishers) {
+				str.append("<tr><td>"
+						+ p.getPublisherId()
+						+ "</td><td>"
+						+ p.getPublisherName()
+						+ "</td><td><button type='button' "
+						+ "class='btn btn-md btn-success' data-toggle='modal' data-target='#myModal1' href='editAuthor.jsp?authorId="
+						+ p.getPublisherId()
+						+ "'>"
+						+ "Edit</button></td><td><button type='button' class='btn btn-md btn-danger' onclick='javascript:location.href="
+						+ "'deleteAuthor?authorId=" + p.getPublisherId()
+						+ "'>Delete</button></td></tr>");
+			}
+			response.getWriter().write(str.toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
