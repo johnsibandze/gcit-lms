@@ -29,7 +29,7 @@ public class BookDAO extends BaseDAO<Book> {
 
 		for (Genre g : book.getGenres()) {
 			save("insert into tbl_book_genres (bookId, genre_id) values (?,?)",
-					new Object[] { bookId, g.getGenre_id() });
+					new Object[] { bookId, g.getGenreId() });
 		}
 	}
 

@@ -26,3 +26,8 @@ ${result}
 <a href="viewLibrariesAdmin.jsp">View Libraries</a>
 <br />
 
+<h3>Genres</h3>
+<a href="addGenre.jsp">Add Genre</a>
+<br />
+<a href="viewGenres.jsp">View Genres</a>
+<br />
