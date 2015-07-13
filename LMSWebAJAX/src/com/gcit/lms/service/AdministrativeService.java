@@ -352,7 +352,7 @@ public class AdministrativeService extends BaseService {
 		}
 
 	}
-	
+
 	public void deleteGenre(Genre genre) throws Exception {
 		ConnectionUtil c = new ConnectionUtil();
 		Connection conn = c.createConnection();
@@ -367,14 +367,15 @@ public class AdministrativeService extends BaseService {
 			conn.close();
 		}
 	}
-	
-	public List<Borrower> readBorrowers(int pageNo, int pageSize) throws Exception {
+
+	public List<Borrower> readBorrowers(int pageNo, int pageSize)
+			throws Exception {
 		ConnectionUtil c = new ConnectionUtil();
 		Connection conn = c.createConnection();
 		BorrowerDAO bdao = new BorrowerDAO(conn);
 		return bdao.readAll(pageNo, pageSize);
 	}
-	
+
 	public List<Borrower> searchBorrowers(String searchString, int pageNo,
 			int pageSize) throws Exception {
 		ConnectionUtil c = new ConnectionUtil();
@@ -382,6 +383,32 @@ public class AdministrativeService extends BaseService {
 		BorrowerDAO bdao = new BorrowerDAO(conn);
 		return bdao.readByBorrowerName(searchString, pageNo, pageSize);
 	}
+
+	public Borrower readBorrower(int cardNo) throws Exception {
+		ConnectionUtil c = new ConnectionUtil();
+		Connection conn = c.createConnection();
+		BorrowerDAO adao = new BorrowerDAO(conn);
+		return adao.readOne(cardNo);
+	}
+	
+	public void updateBorrower(Borrower b) throws Exception {
+		ConnectionUtil c = new ConnectionUtil();
+		Connection conn = c.createConnection();
+		try {
+			BorrowerDAO bdao = new BorrowerDAO(conn);
+			bdao.update(b);
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			conn.rollback();
+		} finally {
+			conn.close();
+		}
+
+	}
+	
+	
+	
 	
 	
 	

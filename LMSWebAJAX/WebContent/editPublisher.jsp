@@ -12,11 +12,11 @@
 		Enter Publisher Name: <input type="text" name="publisherName"
 			value=<%=publisher.getPublisherName()%>> <input type="hidden"
 			name="publisherId" value=<%=publisher.getPublisherId()%>>
-		Enter Publisher Address: <input type="text" name="publisherName"
+		Enter Publisher Address: <input type="text" name="publisherAddress"
 			value=<%=publisher.getPublisherAddress()%>> <input
 			type="hidden" name="publisherId"
 			value=<%=publisher.getPublisherId()%>> Enter Publisher Phone:
-		<input type="text" name="publisherName"
+		<input type="text" name="publisherPhone"
 			value=<%=publisher.getPublisherPhone()%>> <input
 			type="hidden" name="publisherId"
 			value=<%=publisher.getPublisherId()%>> <input type="submit" />

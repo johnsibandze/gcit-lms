@@ -28,7 +28,8 @@ import com.gcit.lms.service.AdministrativeService;
 		"/searchBooksAdmin", "/pagePublishers", "/searchPublishers",
 		"/pageLibrariesAdmin", "/editPublisher", "/deletePublisher",
 		"/editLibraryAdmin", "/addLibrary", "/deleteLibrary", "/addGenre",
-		"/pageGenres", "/editGenre", "/deleteGenre", "/pageBorrowers" })
+		"/pageGenres", "/editGenre", "/deleteGenre", "/pageBorrowers",
+		"/editBorrower" })
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -160,6 +161,8 @@ public class AdminServlet extends HttpServlet {
 		case "/editGenre":
 			editGenre(request, response);
 			break;
+		case "/editBorrower":
+			editBorrower(request, response);
 		default:
 			break;
 		}
@@ -592,7 +595,7 @@ public class AdminServlet extends HttpServlet {
 		int publisherId = Integer.parseInt(request.getParameter("publisherId"));
 		String publisherName = request.getParameter("publisherName");
 		String publisherAddress = request.getParameter("publisherAddress");
-		String publisherPhone = request.getParameter("publisherAddress");
+		String publisherPhone = request.getParameter("publisherPhone");
 
 		Publisher p = new Publisher();
 		p.setPublisherId(publisherId);
@@ -603,12 +606,12 @@ public class AdminServlet extends HttpServlet {
 		AdministrativeService adminService = new AdministrativeService();
 		try {
 			adminService.updatePublisher(p);
-			request.setAttribute("result", "Author updated Successfully");
+			request.setAttribute("result", "Publisher updated Successfully");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			request.setAttribute("result",
-					"Author update failed " + e.getMessage());
+					"Publisher update failed " + e.getMessage());
 		}
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(
 				"/viewPublishers.jsp");
@@ -849,6 +852,43 @@ public class AdminServlet extends HttpServlet {
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(
 				"/viewBorrowers.jsp");
 		rd.forward(request, response);
+	}
+
+	private void editBorrower(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		int cardNo = Integer.parseInt(request.getParameter("cardNo"));
+		String name = request.getParameter("name");
+		String address = request.getParameter("address");
+		String phone = request.getParameter("phone");
+
+		Borrower b = new Borrower();
+		b.setCardNo(cardNo);
+		b.setName(name);
+		b.setAddress(address);
+		b.setPhone(phone);
+
+		AdministrativeService adminService = new AdministrativeService();
+		try {
+			adminService.updateBorrower(b);
+			request.setAttribute("result", "Borrower updated Successfully");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			request.setAttribute("result",
+					"Borrower update failed " + e.getMessage());
+		}
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/viewBorrowers.jsp");
+		try {
+			rd.forward(request, response);
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
