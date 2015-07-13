@@ -42,10 +42,11 @@ ${result }
 	</ul>
 </nav>
 
-<table class="table" id="librariesTable">
+<table class="table table-hover table-bordered" id="librariesTable">
 	<tr>
 		<th>Library ID</th>
 		<th>Library Name</th>
+		<th>Choose Library</th>
 		<!-- <th>Choose Library</th> -->
 	</tr>
 	<%

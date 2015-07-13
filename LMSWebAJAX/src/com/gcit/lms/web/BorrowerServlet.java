@@ -26,7 +26,7 @@ import com.gcit.lms.service.LibrarianService;
  * Servlet implementation class AdminServlet
  */
 @WebServlet({ "/validateCardNo", "/chooseLibraryBorrower",
-		"/pageLibrariesBorrower" })
+		"/pageLibrariesBorrower", "/pageLibraryBooksBorrower" })
 public class BorrowerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -62,6 +62,8 @@ public class BorrowerServlet extends HttpServlet {
 		case "/pageLibrariesBorrower":
 			pageLibraries(request, response);
 			break;
+		case "/pageLibraryBooksBorrower":
+			pageLibraryBooks(request, response);
 		default:
 			break;
 		}
@@ -166,6 +168,30 @@ public class BorrowerServlet extends HttpServlet {
 		}
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(
 				"/viewLibrariesBorrower.jsp");
+		rd.forward(request, response);
+	}
+
+	private void pageLibraryBooks(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		int pageNo = Integer.parseInt(request.getParameter("pageNo"));
+
+		try {
+			List<Book> books;
+
+			if (searchString == null) {
+				books = library.getBooks();
+			} else {
+				books = new BorrowerService().searchBooks(searchString, pageNo,
+						AdminServlet.PAGE_SIZE);
+			}
+			request.setAttribute("books", books);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/viewLibraryBooksBorrower.jsp");
 		rd.forward(request, response);
 	}
 
