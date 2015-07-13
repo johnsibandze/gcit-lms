@@ -407,6 +407,21 @@ public class AdministrativeService extends BaseService {
 
 	}
 	
+	public void createBorrower(Borrower borrower) throws Exception {
+		ConnectionUtil c = new ConnectionUtil();
+		Connection conn = c.createConnection();
+		try {
+			BorrowerDAO bdao = new BorrowerDAO(conn);
+			bdao.create(borrower);
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			conn.rollback();
+		} finally {
+			conn.close();
+		}
+	}
+	
 	
 	
 	

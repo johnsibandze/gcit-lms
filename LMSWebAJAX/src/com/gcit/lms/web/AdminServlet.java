@@ -29,7 +29,7 @@ import com.gcit.lms.service.AdministrativeService;
 		"/pageLibrariesAdmin", "/editPublisher", "/deletePublisher",
 		"/editLibraryAdmin", "/addLibrary", "/deleteLibrary", "/addGenre",
 		"/pageGenres", "/editGenre", "/deleteGenre", "/pageBorrowers",
-		"/editBorrower" })
+		"/editBorrower", "/addBorrower" })
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -163,6 +163,10 @@ public class AdminServlet extends HttpServlet {
 			break;
 		case "/editBorrower":
 			editBorrower(request, response);
+			break;
+		case "/addBorrower":
+			createBorrower(request, response);
+			break;
 		default:
 			break;
 		}
@@ -889,6 +893,32 @@ public class AdminServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private void createBorrower(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String name = request.getParameter("name");
+		String address = request.getParameter("address");
+		String phone = request.getParameter("phone");
+
+		Borrower b = new Borrower();
+		b.setName(name);
+		b.setAddress(address);
+		b.setPhone(phone);
+
+		AdministrativeService adminService = new AdministrativeService();
+		try {
+			adminService.createBorrower(b);
+			request.setAttribute("result", "Borrower added Successfully");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			request.setAttribute("result",
+					"Borrower add failed " + e.getMessage());
+		}
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/admin.jsp");
+		rd.forward(request, response);
 	}
 
 }
