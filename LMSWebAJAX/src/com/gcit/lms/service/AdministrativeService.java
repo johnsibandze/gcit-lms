@@ -289,8 +289,7 @@ public class AdministrativeService extends BaseService {
 			conn.close();
 		}
 	}
-	
-	
+
 	public void deleteLibrary(Library library) throws Exception {
 		ConnectionUtil c = new ConnectionUtil();
 		Connection conn = c.createConnection();
@@ -305,23 +304,27 @@ public class AdministrativeService extends BaseService {
 			conn.close();
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	public void createGenre(Genre genre) throws Exception {
+		ConnectionUtil c = new ConnectionUtil();
+		Connection conn = c.createConnection();
+		try {
+			// if (author == null || author.getAuthorName() == null
+			// || author.getAuthorName().length() == 0
+			// || author.getAuthorName().length() > 45) {
+			// throw new Exception(
+			// "Author Name cannot be empty or more than 45 Chars");
+			// } else {
+			GenreDAO adao = new GenreDAO(conn);
+			adao.create(genre);
+			conn.commit();
+			// }
+		} catch (Exception e) {
+			e.printStackTrace();
+			conn.rollback();
+		} finally {
+			conn.close();
+		}
+	}
 
 }

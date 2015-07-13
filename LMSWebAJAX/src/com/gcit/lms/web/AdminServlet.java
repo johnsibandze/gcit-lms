@@ -144,7 +144,7 @@ public class AdminServlet extends HttpServlet {
 			createLibrary(request, response);
 			break;
 		case "/addGenre":
-			
+			createGenre(request, response);
 		default:
 			break;
 		}
@@ -708,6 +708,27 @@ public class AdminServlet extends HttpServlet {
 					+ e.getMessage());
 		}
 
+		rd.forward(request, response);
+	}
+
+	private void createGenre(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String genreName = request.getParameter("genre_name");
+
+		Genre genre = new Genre();
+		genre.setGenreName(genreName);
+
+		AdministrativeService adminService = new AdministrativeService();
+		try {
+			adminService.createGenre(genre);
+			request.setAttribute("result", "Genre Added Successfully");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			request.setAttribute("result", "Genre add failed " + e.getMessage());
+		}
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/admin.jsp");
 		rd.forward(request, response);
 	}
 
