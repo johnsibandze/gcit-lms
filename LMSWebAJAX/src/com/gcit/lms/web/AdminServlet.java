@@ -26,7 +26,7 @@ import com.gcit.lms.service.AdministrativeService;
 		"/viewBooks", "/deleteBook", "/editBook", "/pageBooks",
 		"/searchBooksAdmin", "/pagePublishers", "/searchPublishers",
 		"/pageLibrariesAdmin", "/editPublisher", "/deletePublisher",
-		"/editLibraryAdmin", "/addLibrary", "/deleteLibrary" })
+		"/editLibraryAdmin", "/addLibrary", "/deleteLibrary", "/addGenre" })
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -142,6 +142,9 @@ public class AdminServlet extends HttpServlet {
 			break;
 		case "/addLibrary":
 			createLibrary(request, response);
+			break;
+		case "/addGenre":
+			
 		default:
 			break;
 		}
