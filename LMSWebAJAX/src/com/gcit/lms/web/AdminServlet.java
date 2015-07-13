@@ -27,7 +27,7 @@ import com.gcit.lms.service.AdministrativeService;
 		"/searchBooksAdmin", "/pagePublishers", "/searchPublishers",
 		"/pageLibrariesAdmin", "/editPublisher", "/deletePublisher",
 		"/editLibraryAdmin", "/addLibrary", "/deleteLibrary", "/addGenre",
-		"/pageGenres", "/editGenre" })
+		"/pageGenres", "/editGenre", "/deleteGenre" })
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -87,6 +87,9 @@ public class AdminServlet extends HttpServlet {
 			break;
 		case "/pageGenres":
 			pageGenres(request, response);
+			break;
+		case "/deleteGenre":
+			deleteGenre(request, response);
 			break;
 		default:
 			break;
@@ -796,6 +799,27 @@ public class AdminServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private void deleteGenre(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String genreId = request.getParameter("genre_id");
+		Genre genre = new Genre();
+		genre.setGenreId(Integer.parseInt(genreId));
+
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/viewGenres.jsp");
+		try {
+			new AdministrativeService().deleteGenre(genre);
+
+			request.setAttribute("result", "Genre Deleted Succesfully!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("result",
+					"Genre Delete Failed because: " + e.getMessage());
+		}
+
+		rd.forward(request, response);
 	}
 
 }

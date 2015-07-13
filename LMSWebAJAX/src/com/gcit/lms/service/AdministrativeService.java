@@ -350,5 +350,45 @@ public class AdministrativeService extends BaseService {
 		}
 
 	}
+	
+	public void deleteGenre(Genre genre) throws Exception {
+		ConnectionUtil c = new ConnectionUtil();
+		Connection conn = c.createConnection();
+		GenreDAO gdao = new GenreDAO(conn);
+		try {
+			gdao.delete(genre);
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			conn.rollback();
+		} finally {
+			conn.close();
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
