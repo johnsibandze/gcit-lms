@@ -1,5 +1,5 @@
 <%@include file="include.html"%>
-<form action="validateCardNo" method="post">
+<form action="validateCardNo" method="get">
 	<body>
 		<h2>Hello Borrower - Please Validate Your Card Number</h2>
 		<p>

@@ -51,7 +51,8 @@ public class BorrowerServlet extends HttpServlet {
 				request.getRequestURI().length());
 		switch (reqUrl) {
 		case "/validateCardNo":
-
+			validateCardNo(request, response);
+			break;
 		default:
 			break;
 		}
@@ -64,15 +65,16 @@ public class BorrowerServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String reqUrl = request.getRequestURI().substring(
-				request.getContextPath().length(),
-				request.getRequestURI().length());
-		switch (reqUrl) {
-		case "/validateCardNo":
-
-		default:
-			break;
-		}
+		// String reqUrl = request.getRequestURI().substring(
+		// request.getContextPath().length(),
+		// request.getRequestURI().length());
+		// switch (reqUrl) {
+		// case "/validateCardNo":
+		// validateCardNo(request, response);
+		// break;
+		// default:
+		// break;
+		// }
 	}
 
 	private void validateCardNo(HttpServletRequest request,
@@ -90,12 +92,12 @@ public class BorrowerServlet extends HttpServlet {
 			if (b != null) {
 
 				request.setAttribute("result", "Card Validated Successfully");
+				rd = getServletContext().getRequestDispatcher("/admin.jsp");
 			} else {
 				request.setAttribute("result",
 						"Please enter a valid Card Number");
 				rd = getServletContext().getRequestDispatcher(
 						"/validateCardNo.jsp");
-				rd = getServletContext().getRequestDispatcher("/admin.jsp");
 			}
 
 		} catch (Exception e) {
