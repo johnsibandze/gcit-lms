@@ -36,7 +36,9 @@ public class PublisherDAO extends BaseDAO<Publisher> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Publisher> readAll() throws Exception {
+	public List<Publisher> readAll(int pageNo, int pageSize) throws Exception {
+		setPageNo(pageNo);
+		setPageSize(pageSize);
 		return (List<Publisher>) read("select * from tbl_publisher", null);
 
 	}

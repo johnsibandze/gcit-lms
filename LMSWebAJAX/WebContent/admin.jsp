@@ -11,7 +11,7 @@ ${result}
 <h3>Publishers</h3>
 <a href="addPublisher.jsp">Add Publisher</a>
 <br />
-<a href="borrower.html">View Publisher</a>
+<a href="viewPublishers.jsp">View Publisher</a>
 <br />
 
 <h3>Books</h3>

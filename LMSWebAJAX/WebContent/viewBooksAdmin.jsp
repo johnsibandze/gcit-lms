@@ -44,7 +44,7 @@ ${result }
 	</ul>
 </nav>
 
-<table class="table" id="booksTable">
+<table class="table table-hover table-bordered" id="authorsTable">
 	<tr>
 		<th>Book ID</th>
 		<th>Book Title</th>

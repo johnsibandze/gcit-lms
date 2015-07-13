@@ -121,14 +121,6 @@ public class AdministrativeService extends BaseService {
 		return genres;
 	}
 
-	public List<Publisher> readPublishers() throws Exception {
-		ConnectionUtil c = new ConnectionUtil();
-		Connection conn = c.createConnection();
-		PublisherDAO pdao = new PublisherDAO(conn);
-		List<Publisher> pubs = pdao.readAll();
-		return pubs;
-	}
-
 	public Genre readGenre(int genreId) throws Exception {
 		ConnectionUtil c = new ConnectionUtil();
 		Connection conn = c.createConnection();
@@ -188,12 +180,22 @@ public class AdministrativeService extends BaseService {
 		PublisherDAO adao = new PublisherDAO(conn);
 		return adao.readOne(publisherId);
 	}
-	
-	public List<Library> readLibraries(int pageNo, int pageSize) throws Exception {
+
+	public List<Library> readLibraries(int pageNo, int pageSize)
+			throws Exception {
 		ConnectionUtil c = new ConnectionUtil();
 		Connection conn = c.createConnection();
 		LibraryDAO ldao = new LibraryDAO(conn);
 		return ldao.readAll(pageNo, pageSize);
+	}
+
+	public List<Publisher> readPublishers(int pageNo, int pageSize)
+			throws Exception {
+		ConnectionUtil c = new ConnectionUtil();
+		Connection conn = c.createConnection();
+		PublisherDAO pdao = new PublisherDAO(conn);
+		List<Publisher> pubs = pdao.readAll(pageNo, pageSize);
+		return pubs;
 	}
 
 }
