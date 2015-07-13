@@ -245,6 +245,37 @@ public class AdministrativeService extends BaseService {
 		}
 	}
 	
+	public Library readLibrary(int branchId) throws Exception {
+		ConnectionUtil c = new ConnectionUtil();
+		Connection conn = c.createConnection();
+		LibraryDAO ldao = new LibraryDAO(conn);
+		return ldao.readOne(branchId);
+	}
+	
+
+	public void updateLibrary(Library a) throws Exception {
+		ConnectionUtil c = new ConnectionUtil();
+		Connection conn = c.createConnection();
+		try {
+			LibraryDAO ldao = new LibraryDAO(conn);
+			ldao.update(a);
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			conn.rollback();
+		} finally {
+			conn.close();
+		}
+
+	}
+
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

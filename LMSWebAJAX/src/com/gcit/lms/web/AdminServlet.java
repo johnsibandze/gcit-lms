@@ -3,6 +3,7 @@ package com.gcit.lms.web;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -25,7 +26,8 @@ import com.gcit.lms.service.AdministrativeService;
 		"/editAuthor", "/addBook", "/searchAuthors", "/pageAuthors",
 		"/viewBooks", "/deleteBook", "/editBook", "/pageBooks",
 		"/searchBooksAdmin", "/pagePublishers", "/searchPublishers",
-		"/pageLibrariesAdmin", "/editPublisher", "/deletePublisher" })
+		"/pageLibrariesAdmin", "/editPublisher", "/deletePublisher",
+		"/editLibraryAdmin" })
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -132,6 +134,9 @@ public class AdminServlet extends HttpServlet {
 			break;
 		case "/editPublisher":
 			editPublisher(request, response);
+			break;
+		case "/editLibraryAdmin":
+			editLibrary(request, response);
 			break;
 		default:
 			break;
@@ -595,7 +600,7 @@ public class AdminServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void deletePublisher(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String publisherId = request.getParameter("publisherId");
@@ -610,11 +615,47 @@ public class AdminServlet extends HttpServlet {
 			request.setAttribute("result", "Publisher Deleted Succesfully!");
 		} catch (Exception e) {
 			e.printStackTrace();
-			request.setAttribute("result",
-					"Publisher Delete Failed because: " + e.getMessage());
+			request.setAttribute("result", "Publisher Delete Failed because: "
+					+ e.getMessage());
 		}
 
 		rd.forward(request, response);
+	}
+
+	private void editLibrary(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		int branchId = Integer.parseInt(request.getParameter("branchId"));
+		String branchName = request.getParameter("branchName");
+		String branchAddress = request.getParameter("branchAddress");
+
+		Library l = new Library();
+		l.setBranchId(branchId);
+		l.setBranchName(branchName);
+		l.setBranchAddress(branchAddress);
+
+		AdministrativeService adminService = new AdministrativeService();
+		try {
+			adminService.updateLibrary(l);
+			request.setAttribute("result", "Library updated Successfully");
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			request.setAttribute("result",
+					"Library update failed " + e.getMessage());
+		}
+		RequestDispatcher rd = getServletContext().getRequestDispatcher(
+				"/viewLibrariesAdmin.jsp");
+		try {
+			rd.forward(request, response);
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
