@@ -1,6 +1,7 @@
 package com.gcit.lms.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,14 @@ public class BorrowerDAO extends BaseDAO<Borrower> {
 		setPageNo(pageNo);
 		setPageSize(pageSize);
 		return (List<Borrower>) read("select * from tbl_borrower", null);
+
+	}
+
+	/** reads everything. */
+	@SuppressWarnings("unchecked")
+	public List<Borrower> readAll() throws Exception {
+
+		return (List<Borrower>) readAll("select * from tbl_borrower", null);
 
 	}
 
@@ -102,6 +111,24 @@ public class BorrowerDAO extends BaseDAO<Borrower> {
 		return (List<Borrower>) read(
 				"select * from tbl_borrower where authorName like ?",
 				new Object[] { searchString });
+	}
+
+	/** to be used locally to read everything. */
+	public List<?> readAll(String query, Object[] vals) throws Exception {
+
+		Connection conn = getConnection();
+
+		PreparedStatement stmt = conn.prepareStatement(query);
+
+		if (vals != null) {
+			int count = 1;
+			for (Object o : vals) {
+				stmt.setObject(count, o);
+				count++;
+			}
+		}
+		ResultSet rs = stmt.executeQuery();
+		return extractData(rs);
 	}
 
 }

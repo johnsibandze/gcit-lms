@@ -6,7 +6,7 @@
 <%
 	AdministrativeService adminService = new AdministrativeService();
 	List<Author> authors = adminService.readAuthors(0, 10);
-	List<Genre> genres = adminService.readGenres();
+	List<Genre> genres = adminService.readGenres(0, 10);
 	List<Publisher> pubs = adminService.readPublishers(0, 10);
 %>
 <%@include file="include.html"%>

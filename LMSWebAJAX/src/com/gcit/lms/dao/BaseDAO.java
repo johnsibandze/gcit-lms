@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseDAO<T> {
@@ -54,7 +53,7 @@ public abstract class BaseDAO<T> {
 	}
 
 	public List<?> read(String query, Object[] vals) throws Exception {
-		List<T> objects = new ArrayList<T>();
+
 		Connection conn = getConnection();
 		// int pageNo = getPageNo();
 		// System.out.println(pageSize);
@@ -82,7 +81,6 @@ public abstract class BaseDAO<T> {
 	public abstract List<T> extractData(ResultSet rs) throws Exception;
 
 	public List<?> readFirstLevel(String query, Object[] vals) throws Exception {
-		List<T> objects = new ArrayList<T>();
 		Connection conn = getConnection();
 		PreparedStatement stmt = conn.prepareStatement(query);
 
