@@ -26,9 +26,6 @@ import com.gcit.lms.service.LibrarianService;
 public class LibrarianServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private String searchString;
-	public static Library library;
-
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -288,6 +285,9 @@ public class LibrarianServlet extends HttpServlet {
 		rd.forward(request, response);
 	}
 
+	private String searchString;
+	public static Library library;
+
 	private void addBookCopies(HttpServletRequest request,
 			HttpServletResponse response) {
 		int noOfCopies = Integer.parseInt(request.getParameter("noOfCopies"));
@@ -297,8 +297,8 @@ public class LibrarianServlet extends HttpServlet {
 		int oldNoOfCopies = Integer.parseInt(request
 				.getParameter("oldNoOfCopies"));
 
-		System.out.println("old noOfCopies: " + oldNoOfCopies);
-		System.out.println("new noOfCopies: " + noOfCopies);
+		// System.out.println("old noOfCopies: " + oldNoOfCopies);
+		// System.out.println("new noOfCopies: " + noOfCopies);
 
 		LibrarianService librarianService = new LibrarianService();
 

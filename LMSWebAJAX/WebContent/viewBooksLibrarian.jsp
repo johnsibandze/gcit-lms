@@ -62,10 +62,18 @@ ${result }
 				out.println(b.getTitle());
 			%>
 		</td>
-		<td><button type="button" class="btn btn-md btn-success"
+		<%-- <td><button type="button" class="btn btn-md btn-success"
 				data-toggle="modal" data-target="#myModal1"
 				href="addBookCopies.jsp?bookId=<%=b.getBookId()%>">Add
+				Copies</button></td> --%>
+
+		<td><button type="button" class="btn btn-md btn-success"
+				data-toggle="modal" data-target="#myModal1"
+				onclick="javascript:location.href='addBookCopies.jsp?bookId=<%=b.getBookId()%>';">Add
 				Copies</button></td>
+		<%-- href="addBookCopies.jsp?bookId=<%=b.getBookId()%>">Add
+				Copies</button></td> --%>
+
 		<%-- <td><button type="button" class="btn btn-md btn-danger"
 				onclick="javascript:location.href='deleteBook?bookId=<%=b.getBookId()%>';">Delete</button></td> --%>
 	</tr>

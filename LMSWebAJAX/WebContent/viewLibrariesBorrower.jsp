@@ -3,12 +3,14 @@
 <%@page import="com.gcit.lms.domain.Library"%>
 <%@page import="com.gcit.lms.web.AdminServlet"%>
 <%
+	/* int bookId = Integer.parseInt((String)request.getAttribute("cardNo")); */
 	BorrowerService borrowerService = new BorrowerService();
 	List<Library> libraries = null;
 	if (request.getAttribute("libraries") != null) {
 		libraries = (List<Library>) request.getAttribute("libraries");
 	} else {
-		libraries = borrowerService.readLibraries(0, AdminServlet.PAGE_SIZE);
+		libraries = borrowerService.readLibraries(0,
+		AdminServlet.PAGE_SIZE);
 	}
 %>
 <%@include file="include.html"%>

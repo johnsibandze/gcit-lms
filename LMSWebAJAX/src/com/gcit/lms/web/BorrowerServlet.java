@@ -31,9 +31,6 @@ public class BorrowerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	public static final int PAGE_SIZE = 3;
-	public static Library library;
-
-	private String searchString;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -93,6 +90,8 @@ public class BorrowerServlet extends HttpServlet {
 
 		int cardNo = Integer.parseInt(request.getParameter("cardNo"));
 
+		request.setAttribute("cardNo", cardNo);
+
 		BorrowerService borrowerService = new BorrowerService();
 
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(
@@ -145,6 +144,9 @@ public class BorrowerServlet extends HttpServlet {
 
 		rd.forward(request, response);
 	}
+
+	public static Library library;
+	private String searchString;
 
 	private void pageLibraries(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
