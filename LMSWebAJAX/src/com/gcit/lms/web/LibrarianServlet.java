@@ -241,7 +241,7 @@ public class LibrarianServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		String branchId = request.getParameter("branchId");
 
-		System.out.println("the branch id: " + branchId);
+		// System.out.println("the branch id: " + branchId);
 
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(
 				"/librarianChoice.jsp");

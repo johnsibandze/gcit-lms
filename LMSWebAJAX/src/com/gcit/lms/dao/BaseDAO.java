@@ -20,6 +20,20 @@ public abstract class BaseDAO<T> {
 		return connection;
 	}
 
+	/**
+	 * @return the number of entities available in the database.
+	 */
+	public int count(String query) throws Exception {
+		Connection conn = getConnection();
+		PreparedStatement stmt = conn.prepareStatement(query);
+
+		ResultSet rs = stmt.executeQuery();
+		rs.next();
+
+		return rs.getInt(1);
+
+	}
+
 	public void save(String query, Object[] vals) throws Exception {
 		Connection conn = getConnection();
 
