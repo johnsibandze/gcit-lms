@@ -13,6 +13,8 @@
 	BookCopies bc = librarianService.readBookCopies(book.getBookId(),
 			library.getBranchId());
 
+	int noOfCopies = bc == null ? 0 : bc.getNoOfCopies();
+
 	/* System.out.println("============================");
 	System.out.println("book id: " + book.getBookId());
 	System.out.println("branch id: " + library.getBranchId()); */
@@ -20,10 +22,10 @@
 <div class="modal-body">
 	<form action="addBookCopies" method="post">
 		Enter Number of Copies You Want to Add: <input type="text"
-			name="noOfCopies" value=<%=bc.getNoOfCopies()%>> <input
-			type="hidden" name="bookId" value=<%=book.getBookId()%>> <input
+			name="noOfCopies" value=<%=noOfCopies%>> <input type="hidden"
+			name="bookId" value=<%=book.getBookId()%>> <input
 			type="hidden" name="branchId" value=<%=library.getBranchId()%>>
-		<input type="hidden" name="oldNoOfCopies"
-			value=<%=bc.getNoOfCopies()%>> <input type="submit" />
+		<input type="hidden" name="oldNoOfCopies" value=<%=noOfCopies%>>
+		<input type="submit" />
 	</form>
 </div>

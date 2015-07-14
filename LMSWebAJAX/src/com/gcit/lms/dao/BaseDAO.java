@@ -69,8 +69,7 @@ public abstract class BaseDAO<T> {
 	public List<?> read(String query, Object[] vals) throws Exception {
 
 		Connection conn = getConnection();
-		// int pageNo = getPageNo();
-		// System.out.println(pageSize);
+
 		if (pageNo > -1) {
 			int start = (pageNo - 1) * pageSize;
 			if (start > 0) {

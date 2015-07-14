@@ -114,7 +114,6 @@ public class LibrarianServlet extends HttpServlet {
 		try {
 			adminService.updateAuthor(a);
 			request.setAttribute("result", "Author updated Successfully");
-
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
