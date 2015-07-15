@@ -10,6 +10,9 @@
 	} else {
 		authors = adminService.readAuthors(0, AdminServlet.PAGE_SIZE);
 	}
+	
+	int numAuthors = authors.size();
+	int numPages = numAuthors / AdminServlet.PAGE_SIZE;
 %>
 <%@include file="include.html"%>
 <script>
@@ -33,10 +36,18 @@ ${result }
 
 <nav>
 	<ul class="pagination">
-		<li><a href="pageAuthors?pageNo=1">1</a></li>
+
+		<%
+			for (int i = 0; i < numPages + 2; i++) {
+		%>
+		<li><a href="pageAuthors?pageNo=<%=i + 1%>"><%=i + 1%> </a></li>
+		<%
+			}
+		%>
+		<!-- <li><a href="pageAuthors?pageNo=1">1</a></li>
 		<li><a href="pageAuthors?pageNo=2">2</a></li>
 		<li><a href="pageAuthors?pageNo=3">3</a></li>
-		<li><a href="pageAuthors?pageNo=4">4</a></li>
+		<li><a href="pageAuthors?pageNo=4">4</a></li> -->
 		<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 		</a></li>
 	</ul>

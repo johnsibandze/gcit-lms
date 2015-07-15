@@ -295,6 +295,7 @@ public class AdminServlet extends HttpServlet {
 
 	private List<Author> viewAuthors(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("here");
 		int pageNo = Integer.parseInt(request.getParameter("pageNo"));
 
 		try {
@@ -358,6 +359,8 @@ public class AdminServlet extends HttpServlet {
 						+ "'>Delete</button></td></tr>");
 			}
 			response.getWriter().write(str.toString());
+			request.setAttribute("pageNo", "1");
+			pageAuthors(request, response);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
