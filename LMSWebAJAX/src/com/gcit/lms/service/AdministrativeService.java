@@ -1,7 +1,6 @@
 package com.gcit.lms.service;
 
 import java.sql.Connection;
-import java.util.List;
 
 import com.gcit.lms.dao.AuthorDAO;
 import com.gcit.lms.dao.BookDAO;
@@ -67,18 +66,6 @@ public class AdministrativeService extends BaseService {
 		}
 	}
 
-	public List<Author> readAuthors(int pageNo, int pageSize) throws Exception {
-		Connection conn = ConnectionUtil.createConnection();
-		AuthorDAO adao = new AuthorDAO(conn);
-		return adao.readAll(pageNo, pageSize);
-	}
-
-	public Author readAuthor(int authorId) throws Exception {
-		Connection conn = ConnectionUtil.createConnection();
-		AuthorDAO adao = new AuthorDAO(conn);
-		return adao.readOne(authorId);
-	}
-
 	public void deleteAuthor(Author author) throws Exception {
 		Connection conn = ConnectionUtil.createConnection();
 		AuthorDAO adao = new AuthorDAO(conn);
@@ -106,26 +93,6 @@ public class AdministrativeService extends BaseService {
 			conn.close();
 		}
 
-	}
-
-	public List<Genre> readGenres(int pageNo, int pageSize) throws Exception {
-		Connection conn = ConnectionUtil.createConnection();
-		GenreDAO gdao = new GenreDAO(conn);
-		List<Genre> genres = gdao.readAll(pageNo, pageSize);
-		return genres;
-	}
-
-	public Genre readGenre(int genreId) throws Exception {
-		Connection conn = ConnectionUtil.createConnection();
-		GenreDAO gdao = new GenreDAO(conn);
-		return gdao.readOne(genreId);
-	}
-
-	public List<Author> searchAuthors(String searchString, int pageNo,
-			int pageSize) throws Exception {
-		Connection conn = ConnectionUtil.createConnection();
-		AuthorDAO adao = new AuthorDAO(conn);
-		return adao.readByAuthorName(searchString, pageNo, pageSize);
 	}
 
 	public void deleteBook(Book book) throws Exception {
@@ -156,48 +123,6 @@ public class AdministrativeService extends BaseService {
 		}
 	}
 
-	public List<Book> searchBooks(String searchString, int pageNo, int pageSize)
-			throws Exception {
-		Connection conn = ConnectionUtil.createConnection();
-		BookDAO bdao = new BookDAO(conn);
-		return bdao.readByBookTitle(searchString, pageNo, pageSize);
-	}
-
-	public Publisher readPublisher(int publisherId) throws Exception {
-		Connection conn = ConnectionUtil.createConnection();
-		PublisherDAO adao = new PublisherDAO(conn);
-		return adao.readOne(publisherId);
-	}
-
-	public List<Library> readLibraries(int pageNo, int pageSize)
-			throws Exception {
-		Connection conn = ConnectionUtil.createConnection();
-		LibraryDAO ldao = new LibraryDAO(conn);
-		return ldao.readAll(pageNo, pageSize);
-	}
-
-	public List<Publisher> readPublishers(int pageNo, int pageSize)
-			throws Exception {
-		Connection conn = ConnectionUtil.createConnection();
-		PublisherDAO pdao = new PublisherDAO(conn);
-		List<Publisher> pubs = pdao.readAll(pageNo, pageSize);
-		return pubs;
-	}
-
-	public List<Publisher> searchPublishers(String searchString, int pageNo,
-			int pageSize) throws Exception {
-		Connection conn = ConnectionUtil.createConnection();
-		PublisherDAO pdao = new PublisherDAO(conn);
-		return pdao.readByPublisherName(searchString, pageNo, pageSize);
-	}
-
-	public List<Library> searchLibraries(String searchString, int pageNo,
-			int pageSize) throws Exception {
-		Connection conn = ConnectionUtil.createConnection();
-		LibraryDAO adao = new LibraryDAO(conn);
-		return adao.readByLibraryName(searchString, pageNo, pageSize);
-	}
-
 	public void updatePublisher(Publisher p) throws Exception {
 		Connection conn = ConnectionUtil.createConnection();
 		try {
@@ -225,12 +150,6 @@ public class AdministrativeService extends BaseService {
 		} finally {
 			conn.close();
 		}
-	}
-
-	public Library readLibrary(int branchId) throws Exception {
-		Connection conn = ConnectionUtil.createConnection();
-		LibraryDAO ldao = new LibraryDAO(conn);
-		return ldao.readOne(branchId);
 	}
 
 	public void updateLibrary(Library a) throws Exception {
@@ -304,13 +223,6 @@ public class AdministrativeService extends BaseService {
 		}
 	}
 
-	public List<Genre> searchGenres(String searchString, int pageNo,
-			int pageSize) throws Exception {
-		Connection conn = ConnectionUtil.createConnection();
-		GenreDAO gdao = new GenreDAO(conn);
-		return gdao.readByGenreName(searchString, pageNo, pageSize);
-	}
-
 	public void updateGenre(Genre g) throws Exception {
 		Connection conn = ConnectionUtil.createConnection();
 		try {
@@ -338,26 +250,6 @@ public class AdministrativeService extends BaseService {
 		} finally {
 			conn.close();
 		}
-	}
-
-	public List<Borrower> readBorrowers(int pageNo, int pageSize)
-			throws Exception {
-		Connection conn = ConnectionUtil.createConnection();
-		BorrowerDAO bdao = new BorrowerDAO(conn);
-		return bdao.readAll(pageNo, pageSize);
-	}
-
-	public List<Borrower> searchBorrowers(String searchString, int pageNo,
-			int pageSize) throws Exception {
-		Connection conn = ConnectionUtil.createConnection();
-		BorrowerDAO bdao = new BorrowerDAO(conn);
-		return bdao.readByBorrowerName(searchString, pageNo, pageSize);
-	}
-
-	public Borrower readBorrower(int cardNo) throws Exception {
-		Connection conn = ConnectionUtil.createConnection();
-		BorrowerDAO adao = new BorrowerDAO(conn);
-		return adao.readOne(cardNo);
 	}
 
 	public void updateBorrower(Borrower b) throws Exception {

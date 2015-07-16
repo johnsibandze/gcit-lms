@@ -12,6 +12,7 @@
 		libraries = borrowerService.readLibraries(0,
 		AdminServlet.PAGE_SIZE);
 	}
+	
 %>
 <%@include file="include.html"%>
 <script>

@@ -1,7 +1,6 @@
 package com.gcit.lms.web;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -11,14 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.gcit.lms.domain.Author;
 import com.gcit.lms.domain.Book;
-import com.gcit.lms.domain.BookCopies;
 import com.gcit.lms.domain.Borrower;
-import com.gcit.lms.domain.Genre;
 import com.gcit.lms.domain.Library;
-import com.gcit.lms.domain.Publisher;
-import com.gcit.lms.service.AdministrativeService;
 import com.gcit.lms.service.BorrowerService;
 import com.gcit.lms.service.LibrarianService;
 
@@ -125,8 +119,6 @@ public class BorrowerServlet extends HttpServlet {
 	private void chooseLibrary(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String branchId = request.getParameter("branchId");
-
-		System.out.println("the branch id: " + branchId);
 
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(
 				"/viewLibraryBooksBorrower.jsp");
