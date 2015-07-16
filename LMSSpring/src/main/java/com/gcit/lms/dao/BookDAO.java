@@ -46,7 +46,6 @@ public class BookDAO extends BaseDAO<Book> implements
 
 	public List<Book> readAll() throws Exception {
 		return (List<Book>) template.query("select * from tbl_book", this);
-
 	}
 
 	@Override

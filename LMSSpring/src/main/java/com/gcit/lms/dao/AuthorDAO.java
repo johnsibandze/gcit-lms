@@ -26,7 +26,6 @@ public class AuthorDAO extends BaseDAO<Author> implements
 		template.update(
 				"update tbl_author set authorName = ? where authorId = ?",
 				new Object[] { author.getAuthorName(), author.getAuthorId() });
-
 	}
 
 	public void delete(Author author) throws Exception {
@@ -38,7 +37,6 @@ public class AuthorDAO extends BaseDAO<Author> implements
 		setPageNo(pageNo);
 		setPageSize(pageSize);
 		return (List<Author>) template.query("select * from tbl_author", this);
-
 	}
 
 	public int readCount(int pageNo, int pageSize) throws Exception {
@@ -47,7 +45,6 @@ public class AuthorDAO extends BaseDAO<Author> implements
 
 		return template.queryForObject("select count() from tbl_author",
 				Integer.class);
-
 	}
 
 	public Author readOne(int authorId) throws Exception {

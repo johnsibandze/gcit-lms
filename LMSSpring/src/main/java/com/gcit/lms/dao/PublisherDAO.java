@@ -41,7 +41,6 @@ public class PublisherDAO extends BaseDAO<Publisher> implements
 		setPageSize(pageSize);
 		return (List<Publisher>) template.query("select * from tbl_publisher",
 				this);
-
 	}
 
 	public int readCount(int pageNo, int pageSize) throws Exception {
@@ -50,7 +49,6 @@ public class PublisherDAO extends BaseDAO<Publisher> implements
 
 		return template.queryForObject("select count() from tbl_publisher",
 				Integer.class);
-
 	}
 
 	public Publisher readOne(int publisherId) throws Exception {

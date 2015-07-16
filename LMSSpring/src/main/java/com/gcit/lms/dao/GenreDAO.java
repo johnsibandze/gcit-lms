@@ -26,7 +26,6 @@ public class GenreDAO extends BaseDAO<Genre> implements
 		template.update(
 				"update tbl_genre set genre_name = ? where genre_id = ?",
 				new Object[] { genre.getGenreName(), genre.getGenreId() });
-
 	}
 
 	public void delete(Genre genre) throws Exception {
@@ -38,7 +37,6 @@ public class GenreDAO extends BaseDAO<Genre> implements
 		setPageNo(pageNo);
 		setPageSize(pageSize);
 		return (List<Genre>) template.query("select * from tbl_genre", this);
-
 	}
 
 	public int readCount(int pageNo, int pageSize) throws Exception {
@@ -47,7 +45,6 @@ public class GenreDAO extends BaseDAO<Genre> implements
 
 		return template.queryForObject("select count() from tbl_genre",
 				Integer.class);
-
 	}
 
 	public Genre readOne(int genre_id) throws Exception {
