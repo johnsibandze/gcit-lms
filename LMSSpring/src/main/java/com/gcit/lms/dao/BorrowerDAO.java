@@ -39,7 +39,7 @@ public class BorrowerDAO extends BaseDAO<Borrower> implements
 	public List<Borrower> readAll(int pageNo, int pageSize) throws Exception {
 		setPageNo(pageNo);
 		setPageSize(pageSize);
-		return (List<Borrower>) template.query("select * from tbl_borrower",
+		return  template.query("select * from tbl_borrower",
 				this);
 	}
 
@@ -47,12 +47,12 @@ public class BorrowerDAO extends BaseDAO<Borrower> implements
 		setPageNo(pageNo);
 		setPageSize(pageSize);
 
-		return template.queryForObject("select count() from tbl_borrower",
+		return template.queryForObject("select count(*) from tbl_borrower",
 				Integer.class);
 	}
 
 	public Borrower readOne(int cardNo) throws Exception {
-		List<Borrower> borrowers = (List<Borrower>) template.query(
+		List<Borrower> borrowers =  template.query(
 				"select * from tbl_borrower where cardNo = ?",
 				new Object[] { cardNo }, this);
 		if (borrowers != null && borrowers.size() > 0) {
@@ -72,7 +72,7 @@ public class BorrowerDAO extends BaseDAO<Borrower> implements
 			b.setAddress(rs.getString("address"));
 			b.setPhone(rs.getString("phone"));
 
-			List<Book> books = (List<Book>) template
+			List<Book> books =  template
 					.query("select * from tbl_book where bookId In"
 							+ "(select bookId from tbl_book_loans where cardNo = ?)",
 							new Object[] { rs.getInt("cardNo") }, bDao);
@@ -86,7 +86,7 @@ public class BorrowerDAO extends BaseDAO<Borrower> implements
 	public List<Borrower> readByBorrowerName(String searchString)
 			throws Exception {
 		searchString = "%" + searchString + "%";
-		return (List<Borrower>) template.query(
+		return  template.query(
 				"select * from tbl_borrower where name like ?",
 				new Object[] { searchString }, this);
 	}
@@ -94,7 +94,7 @@ public class BorrowerDAO extends BaseDAO<Borrower> implements
 	public List<Book> readBookByBorrowerName(String searchString)
 			throws Exception {
 		searchString = "%" + searchString + "%";
-		return (List<Book>) template
+		return  template
 				.query("select * from tbl_book_loans join tbl_book join tbl_borrower  where name like ?",
 						new Object[] { searchString }, bDao);
 	}

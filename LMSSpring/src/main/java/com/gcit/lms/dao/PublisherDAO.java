@@ -39,7 +39,7 @@ public class PublisherDAO extends BaseDAO<Publisher> implements
 	public List<Publisher> readAll(int pageNo, int pageSize) throws Exception {
 		setPageNo(pageNo);
 		setPageSize(pageSize);
-		return (List<Publisher>) template.query("select * from tbl_publisher",
+		return  template.query("select * from tbl_publisher",
 				this);
 	}
 
@@ -47,12 +47,12 @@ public class PublisherDAO extends BaseDAO<Publisher> implements
 		setPageNo(pageNo);
 		setPageSize(pageSize);
 
-		return template.queryForObject("select count() from tbl_publisher",
+		return template.queryForObject("select count(*) from tbl_publisher",
 				Integer.class);
 	}
 
 	public Publisher readOne(int publisherId) throws Exception {
-		List<Publisher> publishers = (List<Publisher>) template.query(
+		List<Publisher> publishers =  template.query(
 				"select * from tbl_publisher where publisherId = ?",
 				new Object[] { publisherId }, this);
 		if (publishers != null && publishers.size() > 0) {
@@ -72,7 +72,7 @@ public class PublisherDAO extends BaseDAO<Publisher> implements
 			p.setPublisherAddress(rs.getString("publisherAddress"));
 			p.setPublisherPhone(rs.getString("publisherPhone"));
 
-			List<Book> books = (List<Book>) template
+			List<Book> books =  template
 					.query("select * from tbl_book join tbl_publisher where publisherId = pubId and publisherId = ?",
 							new Object[] { rs.getInt("publisherId") }, bDao);
 			p.setBooks(books);
@@ -85,7 +85,7 @@ public class PublisherDAO extends BaseDAO<Publisher> implements
 	public List<Publisher> readByPublisherName(String searchString)
 			throws Exception {
 		searchString = "%" + searchString + "%";
-		return (List<Publisher>) template.query(
+		return  template.query(
 				"select * from tbl_publisher where publisherName like ?",
 				new Object[] { searchString }, this);
 	}
@@ -93,7 +93,7 @@ public class PublisherDAO extends BaseDAO<Publisher> implements
 	public List<Book> readBookByPublisherName(String searchString)
 			throws Exception {
 		searchString = "%" + searchString + "%";
-		return (List<Book>) template
+		return  template
 				.query("select * from tbl_book join tbl_publisher  where pubId = publisherId and publisherName like ?",
 						new Object[] { searchString }, bDao);
 	}

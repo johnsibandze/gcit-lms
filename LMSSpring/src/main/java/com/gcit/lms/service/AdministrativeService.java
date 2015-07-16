@@ -95,7 +95,7 @@ public class AdministrativeService {
 
 		Connection conn = ds.getConnection();
 		
-		List<Genre> genres = gdao.readAll();
+		List<Genre> genres = gdao.readAll(0, 10);
 		return genres;
 	}
 
@@ -103,7 +103,7 @@ public class AdministrativeService {
 
 		Connection conn = ds.getConnection();
 		
-		List<Publisher> pubs = pdao.readAll();
+		List<Publisher> pubs = pdao.readAll(0, 10);
 		return pubs;
 	}
 

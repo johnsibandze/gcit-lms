@@ -39,8 +39,7 @@ public class LibraryDAO extends BaseDAO<Library> implements
 	public List<Library> readAll(int pageNo, int pageSize) throws Exception {
 		setPageNo(pageNo);
 		setPageSize(pageSize);
-		return (List<Library>) template.query(
-				"select * from tbl_library_branch", this);
+		return template.query("select * from tbl_library_branch", this);
 	}
 
 	public int readCount(int pageNo, int pageSize) throws Exception {
@@ -48,11 +47,11 @@ public class LibraryDAO extends BaseDAO<Library> implements
 		setPageSize(pageSize);
 
 		return template.queryForObject(
-				"select count() from tbl_library_branch", Integer.class);
+				"select count(*) from tbl_library_branch", Integer.class);
 	}
 
 	public Library readOne(int branchId) throws Exception {
-		List<Library> libraries = (List<Library>) template.query(
+		List<Library> libraries = template.query(
 				"select * from tbl_library_branch where branchId = ?",
 				new Object[] { branchId }, this);
 		if (libraries != null && libraries.size() > 0) {
@@ -71,7 +70,7 @@ public class LibraryDAO extends BaseDAO<Library> implements
 			l.setBranchName(rs.getString("branchName"));
 			l.setBranchAddress(rs.getString("branchAddress"));
 
-			List<Book> books = (List<Book>) template
+			List<Book> books =  template
 					.query("select * from tbl_book where bookId In"
 							+ "(select bookId from tbl_book_copies where branchId = ?)",
 							new Object[] { rs.getInt("branchId") }, bDao);
@@ -84,7 +83,7 @@ public class LibraryDAO extends BaseDAO<Library> implements
 
 	public List<Library> readByBranchName(String searchString) throws Exception {
 		searchString = "%" + searchString + "%";
-		return (List<Library>) template.query(
+		return template.query(
 				"select * from tbl_library_branch where branchName like ?",
 				new Object[] { searchString }, this);
 	}
@@ -92,7 +91,7 @@ public class LibraryDAO extends BaseDAO<Library> implements
 	public List<Book> readBookByBranchName(String searchString)
 			throws Exception {
 		searchString = "%" + searchString + "%";
-		return (List<Book>) template
+		return  template
 				.query("select * from tbl_book_book_copies join tbl_book join tbl_library_branch  where branchName like ?",
 						new Object[] { searchString }, bDao);
 	}

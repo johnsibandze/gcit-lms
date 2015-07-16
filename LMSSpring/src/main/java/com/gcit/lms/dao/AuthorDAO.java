@@ -36,19 +36,19 @@ public class AuthorDAO extends BaseDAO<Author> implements
 	public List<Author> readAll(int pageNo, int pageSize) throws Exception {
 		setPageNo(pageNo);
 		setPageSize(pageSize);
-		return (List<Author>) template.query("select * from tbl_author", this);
+		return template.query("select * from tbl_author", this);
 	}
 
 	public int readCount(int pageNo, int pageSize) throws Exception {
 		setPageNo(pageNo);
 		setPageSize(pageSize);
 
-		return template.queryForObject("select count() from tbl_author",
+		return template.queryForObject("select count(*) from tbl_author",
 				Integer.class);
 	}
 
 	public Author readOne(int authorId) throws Exception {
-		List<Author> authors = (List<Author>) template.query(
+		List<Author> authors = template.query(
 				"select * from tbl_author where authorId = ?",
 				new Object[] { authorId }, this);
 		if (authors != null && authors.size() > 0) {
@@ -66,7 +66,7 @@ public class AuthorDAO extends BaseDAO<Author> implements
 			a.setAuthorId(rs.getInt("authorId"));
 			a.setAuthorName(rs.getString("authorName"));
 
-			List<Book> books = (List<Book>) template
+			List<Book> books =  template
 					.query("select * from tbl_book where bookId In"
 							+ "(select bookId from tbl_book_authors where authorId=?)",
 							new Object[] { rs.getInt("authorId") }, bDao);
@@ -79,7 +79,7 @@ public class AuthorDAO extends BaseDAO<Author> implements
 
 	public List<Author> readByAuthorName(String searchString) throws Exception {
 		searchString = "%" + searchString + "%";
-		return (List<Author>) template.query(
+		return template.query(
 				"select * from tbl_author where authorName like ?",
 				new Object[] { searchString }, this);
 	}
@@ -87,7 +87,7 @@ public class AuthorDAO extends BaseDAO<Author> implements
 	public List<Book> readBookByAuthorName(String searchString)
 			throws Exception {
 		searchString = "%" + searchString + "%";
-		return (List<Book>) template
+		return  template
 				.query("select * from tbl_book_authors join tbl_book join tbl_author  where authorName like ?",
 						new Object[] { searchString }, bDao);
 	}

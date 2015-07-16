@@ -27,8 +27,9 @@ public class BookDAO extends BaseDAO<Book> implements
 
 	public void create(Book book) throws Exception {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
-		template.update("insert into tbl_book (title, pubId) values(?, 3)",
-				new Object[] { book.getTitle() }, keyHolder);
+		template.update("insert into tbl_book (title, pubId) values(?, ?)",
+				new Object[] { book.getTitle(),
+						book.getPublisher().getPublisherId() }, keyHolder);
 		int bookId = keyHolder.getKey().intValue();
 
 		for (Author a : book.getAuthors()) {
@@ -45,7 +46,15 @@ public class BookDAO extends BaseDAO<Book> implements
 	}
 
 	public List<Book> readAll() throws Exception {
-		return (List<Book>) template.query("select * from tbl_book", this);
+		return  template.query("select * from tbl_book", this);
+	}
+
+	public int readCount(int pageNo, int pageSize) throws Exception {
+		setPageNo(pageNo);
+		setPageSize(pageSize);
+
+		return template.queryForObject("select count(*) from tbl_book",
+				Integer.class);
 	}
 
 	@Override
@@ -63,12 +72,12 @@ public class BookDAO extends BaseDAO<Book> implements
 				e.printStackTrace();
 			}
 
-			List<Author> authors = (List<Author>) template
+			List<Author> authors =  template
 					.query("select * from tbl_author where authorId In"
 							+ "(select authorId from tbl_book_authors where bookId=?)",
 							new Object[] { rs.getInt("bookId") }, aDao);
 
-			List<Genre> genres = (List<Genre>) template
+			List<Genre> genres =  template
 					.query("select * from tbl_genre where genre_id In"
 							+ "(select genre_id from tbl_book_genres where bookId=?)",
 							new Object[] { rs.getInt("bookId") }, gDao);
@@ -83,7 +92,7 @@ public class BookDAO extends BaseDAO<Book> implements
 
 	public List<Book> readByBookTitle(String searchString) throws Exception {
 		searchString = "%" + searchString + "%";
-		return (List<Book>) template.query(
+		return  template.query(
 				"select * from tbl_book where title like ?",
 				new Object[] { searchString }, this);
 	}
@@ -91,7 +100,7 @@ public class BookDAO extends BaseDAO<Book> implements
 	public List<Author> readAuthorByBookTitle(String searchString)
 			throws Exception {
 		searchString = "%" + searchString + "%";
-		return (List<Author>) template
+		return  template
 				.query("select * from tbl_book_authors join tbl_book join tbl_author  where title like ?",
 						new Object[] { searchString }, aDao);
 	}

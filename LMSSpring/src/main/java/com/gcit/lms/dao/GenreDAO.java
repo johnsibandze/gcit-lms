@@ -36,19 +36,19 @@ public class GenreDAO extends BaseDAO<Genre> implements
 	public List<Genre> readAll(int pageNo, int pageSize) throws Exception {
 		setPageNo(pageNo);
 		setPageSize(pageSize);
-		return (List<Genre>) template.query("select * from tbl_genre", this);
+		return template.query("select * from tbl_genre", this);
 	}
 
 	public int readCount(int pageNo, int pageSize) throws Exception {
 		setPageNo(pageNo);
 		setPageSize(pageSize);
 
-		return template.queryForObject("select count() from tbl_genre",
+		return template.queryForObject("select count(*) from tbl_genre",
 				Integer.class);
 	}
 
 	public Genre readOne(int genre_id) throws Exception {
-		List<Genre> genres = (List<Genre>) template.query(
+		List<Genre> genres = template.query(
 				"select * from tbl_genre where genre_id = ?",
 				new Object[] { genre_id }, this);
 		if (genres != null && genres.size() > 0) {
@@ -66,7 +66,7 @@ public class GenreDAO extends BaseDAO<Genre> implements
 			g.setGenreId(rs.getInt("genre_id"));
 			g.setGenreName(rs.getString("genre_name"));
 
-			List<Book> books = (List<Book>) template
+			List<Book> books =  template
 					.query("select * from tbl_book where bookId In"
 							+ "(select bookId from tbl_book_genres where genre_id = ?)",
 							new Object[] { rs.getInt("genre_id") }, bDao);
@@ -79,14 +79,14 @@ public class GenreDAO extends BaseDAO<Genre> implements
 
 	public List<Genre> readByGenreName(String searchString) throws Exception {
 		searchString = "%" + searchString + "%";
-		return (List<Genre>) template.query(
+		return template.query(
 				"select * from tbl_genre where genre_name like ?",
 				new Object[] { searchString }, this);
 	}
 
 	public List<Book> readBookByGenreName(String searchString) throws Exception {
 		searchString = "%" + searchString + "%";
-		return (List<Book>) template
+		return  template
 				.query("select * from tbl_book_genres join tbl_book join tbl_genre  where genre_name like ?",
 						new Object[] { searchString }, bDao);
 	}
