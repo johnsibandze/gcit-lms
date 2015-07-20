@@ -9,7 +9,6 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
 import com.gcit.lms.domain.Author;
@@ -23,40 +22,25 @@ public class AuthorDAO extends BaseDAO<Author> implements
 	private final String AUTH_COLLECTION = "Authors";
 
 	public void create(Author author) throws Exception {
-		// template.update("insert into tbl_author (authorName) values(?)",
-		// new Object[] { author.getAuthorName() });
 		mongoOps.insert(author, AUTH_COLLECTION);
 	}
 
 	public void update(Author author) throws Exception {
-		// template.update(
-		// "update tbl_author set authorName = ? where authorId = ?",
-		// new Object[] { author.getAuthorName(), author.getAuthorId() });
-
 		Query query = new Query(Criteria.where("_id").is(author.getAuthorId()));
 		Author oldAuthor = mongoOps.findOne(query, Author.class,
 				AUTH_COLLECTION);
 
 		oldAuthor.setAuthorName(author.getAuthorName());
 		mongoOps.save(oldAuthor, AUTH_COLLECTION);
-
 	}
 
 	public void delete(Author author) throws Exception {
-		// template.update("delete from tbl_author where authorId = ?",
-		// new Object[] { author.getAuthorId() });
 		Query query = new Query(Criteria.where("_id").is(author.getAuthorId()));
 		mongoOps.remove(query, AUTH_COLLECTION);
 	}
 
 	public List<Author> readAll(int pageNo, int pageSize) throws Exception {
-		// setPageNo(pageNo);
-		// setPageSize(pageSize);
-		// (List<Author>)
-		// template.query("select * from tbl_author LIMIT "+pageNo+", "+pageSize
-		// , this);
 		return mongoOps.findAll(Author.class, AUTH_COLLECTION);
-
 	}
 
 	public int readCount(int pageNo, int pageSize) throws Exception {
@@ -69,13 +53,6 @@ public class AuthorDAO extends BaseDAO<Author> implements
 	}
 
 	public Author readOne(UUID authorId) throws Exception {
-		// List<Author> authors = (List<Author>)
-		// template.query("select * from tbl_author where authorId = ?", new
-		// Object[] {authorId}, this);
-		// if(authors!=null && authors.size()>0){
-		// return authors.get(0);
-		// }
-		// return null;
 		Query query = new Query(Criteria.where("_id").is(authorId));
 		return this.mongoOps.findOne(query, Author.class, AUTH_COLLECTION);
 	}

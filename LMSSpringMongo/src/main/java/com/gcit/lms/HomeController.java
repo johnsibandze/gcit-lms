@@ -110,7 +110,7 @@ public class HomeController {
 	}
 
 	@Transactional
-	@RequestMapping(value = "/books/add", method = { RequestMethod.GET,
+	@RequestMapping(value = "/book/add", method = { RequestMethod.GET,
 			RequestMethod.POST }, consumes = "application/json")
 	public String addBook(@RequestBody Book book) {
 		try {
@@ -155,10 +155,39 @@ public class HomeController {
 			return "Author update failed";
 		}
 	}
+
+	@Transactional
+	@RequestMapping(value = "/book/delete", method = { RequestMethod.GET,
+			RequestMethod.POST }, consumes = "application/json")
+	public String deleteBook(@RequestBody Book book) {
+		try {
+			bookDAO.delete(book);
+			return "Book deleted sucessfully";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Book delete failed";
+		}
+	}
 	
+	@Transactional
+	@RequestMapping(value = "/book/update", method = { RequestMethod.GET,
+			RequestMethod.POST }, consumes = "application/json")
+	public String updateBook(@RequestBody Book book) {
+		try {
+			bookDAO.update(book);
+			return "Book updated sucessfully";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Book update failed";
+		}
+	}
 	
-	
-	
+	@RequestMapping(value = "/book/get", method = RequestMethod.POST, consumes = "application/json")
+	public Book getBook(@RequestBody Book book) throws Exception {
+		return bookDAO.readOne(book.getBookId());
+	}
 	
 	
 	
