@@ -10,10 +10,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
-import com.gcit.lms.domain.Author;
-import com.gcit.lms.domain.Book;
 import com.gcit.lms.domain.Genre;
-import com.gcit.lms.domain.Publisher;
 
 public class GenreDAO extends BaseDAO<Genre> implements
 		ResultSetExtractor<List<Genre>> {
@@ -38,7 +35,6 @@ public class GenreDAO extends BaseDAO<Genre> implements
 	}
 
 	public List<Genre> readAll() throws Exception {
-		// return (List<Genre>) template.query("select * from tbl_genre", this);
 		return mongoOps.findAll(Genre.class, GENRE_COLLECTION);
 
 	}

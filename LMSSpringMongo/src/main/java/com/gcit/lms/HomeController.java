@@ -18,8 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gcit.lms.dao.AuthorDAO;
 import com.gcit.lms.dao.BookDAO;
+import com.gcit.lms.dao.GenreDAO;
+import com.gcit.lms.dao.PublisherDAO;
 import com.gcit.lms.domain.Author;
 import com.gcit.lms.domain.Book;
+import com.gcit.lms.domain.Genre;
+import com.gcit.lms.domain.Publisher;
 import com.gcit.lms.service.AdministrativeService;
 
 /**
@@ -36,6 +40,12 @@ public class HomeController {
 
 	@Autowired
 	BookDAO bookDAO;
+
+	@Autowired
+	GenreDAO genreDAO;
+
+	@Autowired
+	PublisherDAO publisherDAO;
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(HomeController.class);
@@ -169,7 +179,7 @@ public class HomeController {
 			return "Book delete failed";
 		}
 	}
-	
+
 	@Transactional
 	@RequestMapping(value = "/book/update", method = { RequestMethod.GET,
 			RequestMethod.POST }, consumes = "application/json")
@@ -183,11 +193,141 @@ public class HomeController {
 			return "Book update failed";
 		}
 	}
-	
+
 	@RequestMapping(value = "/book/get", method = RequestMethod.POST, consumes = "application/json")
 	public Book getBook(@RequestBody Book book) throws Exception {
 		return bookDAO.readOne(book.getBookId());
 	}
+
+	@Transactional
+	@RequestMapping(value = "/genre/add", method = { RequestMethod.GET,
+			RequestMethod.POST }, consumes = "application/json")
+	public String addGenre(@RequestBody Genre genre) {
+		try {
+			genreDAO.create(genre);
+			return "Genre added sucessfully";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Genre add failed";
+		}
+	}
+
+	@RequestMapping(value = "/genres/get", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = "application/json")
+	public List<Genre> getGenres() {
+		try {
+			return genreDAO.readAll();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@RequestMapping(value = "/genre/get", method = RequestMethod.POST, consumes = "application/json")
+	public Genre getGenre(@RequestBody Genre genre) throws Exception {
+		return genreDAO.readOne(genre.getGenreId());
+	}
+
+	@Transactional
+	@RequestMapping(value = "/genre/delete", method = { RequestMethod.GET,
+			RequestMethod.POST }, consumes = "application/json")
+	public String deleteGenre(@RequestBody Genre genre) {
+		try {
+			genreDAO.delete(genre);
+			return "Genre deleted sucessfully";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Genre delete failed";
+		}
+	}
+
+	@Transactional
+	@RequestMapping(value = "/genre/update", method = { RequestMethod.GET,
+			RequestMethod.POST }, consumes = "application/json")
+	public String updateGenre(@RequestBody Genre genre) {
+		try {
+			genreDAO.update(genre);
+			return "Genre updated sucessfully";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Genre update failed";
+		}
+	}
+
+	@Transactional
+	@RequestMapping(value = "/publisher/add", method = { RequestMethod.GET,
+			RequestMethod.POST }, consumes = "application/json")
+	public String addPublisher(@RequestBody Publisher publisher) {
+		try {
+			publisherDAO.create(publisher);
+			return "Publisher added sucessfully";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Publisher add failed";
+		}
+	}
+
+	@RequestMapping(value = "/publishers/get", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = "application/json")
+	public List<Publisher> getPublishers() {
+		try {
+			return publisherDAO.readAll();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@RequestMapping(value = "/publisher/get", method = RequestMethod.POST, consumes = "application/json")
+	public Publisher getPublisher(@RequestBody Publisher publisher)
+			throws Exception {
+		return publisherDAO.readOne(publisher.getPublisherId());
+	}
+
+	@Transactional
+	@RequestMapping(value = "/publisher/delete", method = { RequestMethod.GET,
+			RequestMethod.POST }, consumes = "application/json")
+	public String deletePublisher(@RequestBody Publisher publisher) {
+		try {
+			publisherDAO.delete(publisher);
+			return "Publisher deleted sucessfully";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Publisher delete failed";
+		}
+	}
+	
+	@Transactional
+	@RequestMapping(value = "/publisher/update", method = { RequestMethod.GET,
+			RequestMethod.POST }, consumes = "application/json")
+	public String updatePublisher(@RequestBody Publisher publisher) {
+		try {
+			publisherDAO.update(publisher);
+			return "Publisher updated sucessfully";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Publisher update failed";
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

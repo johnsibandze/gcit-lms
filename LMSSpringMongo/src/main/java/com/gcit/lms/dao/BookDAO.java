@@ -48,7 +48,7 @@ public class BookDAO extends BaseDAO<Book> implements
 	public List<Book> readAll() throws Exception {
 		return mongoOps.findAll(Book.class, BOOK_COLLECTION);
 	}
-	
+
 	public Book readOne(UUID bookId) throws Exception {
 		Query query = new Query(Criteria.where("_id").is(bookId));
 		return this.mongoOps.findOne(query, Book.class, BOOK_COLLECTION);
@@ -68,13 +68,13 @@ public class BookDAO extends BaseDAO<Book> implements
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			@SuppressWarnings("unchecked")
+			// @SuppressWarnings("unchecked")
 			List<Author> authors = (List<Author>) aDao.template
 					.query("select * from tbl_author where authorId In"
 							+ "(select authorId from tbl_book_authors where bookId=?)",
 							new Object[] { rs.getInt("bookId") }, aDao);
 			b.setAuthors(authors);
-			@SuppressWarnings("unchecked")
+			// @SuppressWarnings("unchecked")
 			List<Genre> genres = (List<Genre>) gDao.template
 					.query("select * from tbl_genre where genre_id In"
 							+ "(select genre_id from tbl_book_genres where bookId=?)",

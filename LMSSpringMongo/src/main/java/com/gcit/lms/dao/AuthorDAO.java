@@ -49,7 +49,6 @@ public class AuthorDAO extends BaseDAO<Author> implements
 
 		return template.queryForObject("select count() from tbl_author",
 				Integer.class);
-
 	}
 
 	public Author readOne(UUID authorId) throws Exception {

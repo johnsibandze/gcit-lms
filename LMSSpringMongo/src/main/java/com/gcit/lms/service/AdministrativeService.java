@@ -108,7 +108,7 @@ public class AdministrativeService {
 		return pubs;
 	}
 
-	public Genre readGenre(int genreId) throws Exception {
+	public Genre readGenre(UUID genreId) throws Exception {
 
 		Connection conn = ds.getConnection();
 

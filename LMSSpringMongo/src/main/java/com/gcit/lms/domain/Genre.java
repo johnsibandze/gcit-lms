@@ -1,33 +1,29 @@
 package com.gcit.lms.domain;
 
+import java.util.UUID;
+
+import org.springframework.data.annotation.Id;
+
 public class Genre {
-	private int genre_id;
-	private String genre_name;
-	/**
-	 * @return the genre_id
-	 */
-	public int getGenre_id() {
-		return genre_id;
-	}
-	/**
-	 * @param genre_id the genre_id to set
-	 */
-	public void setGenre_id(int genre_id) {
-		this.genre_id = genre_id;
-	}
-	/**
-	 * @return the genre_name
-	 */
-	public String getGenre_name() {
-		return genre_name;
-	}
-	/**
-	 * @param genre_name the genre_name to set
-	 */
-	public void setGenre_name(String genre_name) {
-		this.genre_name = genre_name;
+
+	private UUID genreId = UUID.randomUUID();
+	private String genreName;
+
+	@Id
+	public UUID getGenreId() {
+		return genreId;
 	}
 
-	
-	
+	public void setGenreId(UUID genreId) {
+		this.genreId = genreId;
+	}
+
+	public String getGenreName() {
+		return genreName;
+	}
+
+	public void setGenreName(String genreName) {
+		this.genreName = genreName;
+	}
+
 }
