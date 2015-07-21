@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gcit.lms.dao.AuthorDAO;
 import com.gcit.lms.dao.BookDAO;
+import com.gcit.lms.dao.BorrowerDAO;
 import com.gcit.lms.dao.GenreDAO;
 import com.gcit.lms.dao.LibraryDAO;
 import com.gcit.lms.dao.PublisherDAO;
 import com.gcit.lms.domain.Author;
 import com.gcit.lms.domain.Book;
+import com.gcit.lms.domain.Borrower;
 import com.gcit.lms.domain.Genre;
 import com.gcit.lms.domain.Library;
 import com.gcit.lms.domain.Publisher;
@@ -51,6 +53,9 @@ public class HomeController {
 
 	@Autowired
 	LibraryDAO libraryDAO;
+
+	@Autowired
+	BorrowerDAO borrowerDAO;
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(HomeController.class);
@@ -381,26 +386,65 @@ public class HomeController {
 			return "Library update failed";
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	@Transactional
+	@RequestMapping(value = "/borrower/add", method = { RequestMethod.GET,
+			RequestMethod.POST }, consumes = "application/json")
+	public String addBorrower(@RequestBody Borrower borrower) {
+		try {
+			borrowerDAO.create(borrower);
+			return "Borrower added sucessfully";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Borrower add failed";
+		}
+	}
+
+	@RequestMapping(value = "/borrowers/get", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = "application/json")
+	public List<Borrower> getBorrowers() {
+		try {
+			return borrowerDAO.readAll();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@RequestMapping(value = "/borrower/get", method = RequestMethod.POST, consumes = "application/json")
+	public Borrower getBorrower(@RequestBody Borrower borrower)
+			throws Exception {
+		return borrowerDAO.readOne(borrower.getCardNo());
+	}
+
+	@Transactional
+	@RequestMapping(value = "/borrower/delete", method = { RequestMethod.GET,
+			RequestMethod.POST }, consumes = "application/json")
+	public String deleteBorrower(@RequestBody Borrower borrower) {
+		try {
+			borrowerDAO.delete(borrower);
+			return "Borrower deleted sucessfully";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Borrower delete failed";
+		}
+	}
+
+	@Transactional
+	@RequestMapping(value = "/borrower/update", method = { RequestMethod.GET,
+			RequestMethod.POST }, consumes = "application/json")
+	public String updateBorrower(@RequestBody Borrower borrower) {
+		try {
+			borrowerDAO.update(borrower);
+			return "Borrower updated sucessfully";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Borrower update failed";
+		}
+	}
 
 }

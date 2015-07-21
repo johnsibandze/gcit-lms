@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.gcit.lms.dao.AuthorDAO;
 import com.gcit.lms.dao.BookDAO;
+import com.gcit.lms.dao.BorrowerDAO;
 import com.gcit.lms.dao.GenreDAO;
 import com.gcit.lms.dao.LibraryDAO;
 import com.gcit.lms.dao.PublisherDAO;
@@ -22,79 +23,84 @@ import com.mongodb.MongoClient;
 @EnableTransactionManagement
 @Configuration
 public class LMSConfig {
-	
+
 	private static String driver = "com.mysql.jdbc.Driver";
 	private static String connection = "jdbc:mysql://localhost:3306/library";
 	private static String user = "root";
 	private static String pass = "";
-	
+
 	@Bean
-	public AdministrativeService adminService(){
+	public AdministrativeService adminService() {
 		return new AdministrativeService();
 	}
-	
+
 	@Bean
-	public PlatformTransactionManager txManager(){
+	public PlatformTransactionManager txManager() {
 		DataSourceTransactionManager tx = new DataSourceTransactionManager();
 		tx.setDataSource(datasource());
-		
+
 		return tx;
 	}
-	
+
 	@Bean
-	public JdbcTemplate template(){
+	public JdbcTemplate template() {
 		JdbcTemplate template = new JdbcTemplate();
 		template.setDataSource(datasource());
-		
+
 		return template;
-		
+
 	}
-	
+
 	@Bean
-	public AuthorDAO authorDAO(){
+	public AuthorDAO authorDAO() {
 		return new AuthorDAO();
 	}
-	
+
 	@Bean
-	public BookDAO bookDAO(){
+	public BookDAO bookDAO() {
 		return new BookDAO();
 	}
-	
+
 	@Bean
-	public PublisherDAO publisherDAO(){
+	public PublisherDAO publisherDAO() {
 		return new PublisherDAO();
 	}
-	
+
 	@Bean
-	public GenreDAO genreDAO(){
+	public GenreDAO genreDAO() {
 		return new GenreDAO();
 	}
-	
+
 	@Bean
 	public LibraryDAO libraryDAO() {
 		return new LibraryDAO();
 	}
-	
+
 	@Bean
-	public BasicDataSource datasource(){
+	public BorrowerDAO borrowerDAO() {
+		return new BorrowerDAO();
+	}
+
+	@Bean
+	public BasicDataSource datasource() {
 		BasicDataSource ds = new BasicDataSource();
 		ds.setDriverClassName(driver);
 		ds.setUrl(connection);
 		ds.setUsername(user);
 		ds.setPassword(pass);
-		
+
 		return ds;
 	}
-	
+
 	@Bean
 	public MongoDbFactory mongoDbFactory() throws Exception {
 		return new SimpleMongoDbFactory(new MongoClient(), "local");
 	}
- 
+
 	@Bean
 	public MongoTemplate mongoTemplate() throws Exception {
- 		MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory());
- 		return mongoTemplate;
- 
+		MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory());
+		return mongoTemplate;
+
 	}
 }

@@ -63,7 +63,7 @@ public class BookDAO extends BaseDAO<Book> implements
 			// b.setBookId(rs.getInt("bookId"));
 			b.setTitle(rs.getString("title"));
 			try {
-				b.setPublisher(pdao.readOne(rs.getInt("pubId")));
+				// b.setPublisher(pdao.readOne(rs.getInt("pubId")));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
