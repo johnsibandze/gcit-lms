@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import com.gcit.lms.dao.AuthorDAO;
 import com.gcit.lms.dao.BookDAO;
 import com.gcit.lms.dao.GenreDAO;
+import com.gcit.lms.dao.LibraryDAO;
 import com.gcit.lms.dao.PublisherDAO;
 import com.gcit.lms.service.AdministrativeService;
 import com.mongodb.MongoClient;
@@ -67,6 +68,11 @@ public class LMSConfig {
 	@Bean
 	public GenreDAO genreDAO(){
 		return new GenreDAO();
+	}
+	
+	@Bean
+	public LibraryDAO libraryDAO() {
+		return new LibraryDAO();
 	}
 	
 	@Bean

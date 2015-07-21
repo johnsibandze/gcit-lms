@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gcit.lms.dao.AuthorDAO;
 import com.gcit.lms.dao.BookDAO;
 import com.gcit.lms.dao.GenreDAO;
+import com.gcit.lms.dao.LibraryDAO;
 import com.gcit.lms.dao.PublisherDAO;
 import com.gcit.lms.domain.Author;
 import com.gcit.lms.domain.Book;
 import com.gcit.lms.domain.Genre;
+import com.gcit.lms.domain.Library;
 import com.gcit.lms.domain.Publisher;
 import com.gcit.lms.service.AdministrativeService;
 
@@ -46,6 +48,9 @@ public class HomeController {
 
 	@Autowired
 	PublisherDAO publisherDAO;
+
+	@Autowired
+	LibraryDAO libraryDAO;
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(HomeController.class);
@@ -303,7 +308,7 @@ public class HomeController {
 			return "Publisher delete failed";
 		}
 	}
-	
+
 	@Transactional
 	@RequestMapping(value = "/publisher/update", method = { RequestMethod.GET,
 			RequestMethod.POST }, consumes = "application/json")
@@ -317,17 +322,65 @@ public class HomeController {
 			return "Publisher update failed";
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	@Transactional
+	@RequestMapping(value = "/library/add", method = { RequestMethod.GET,
+			RequestMethod.POST }, consumes = "application/json")
+	public String addLibrary(@RequestBody Library library) {
+		try {
+			libraryDAO.create(library);
+			return "Library added sucessfully";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Library add failed";
+		}
+	}
+
+	@RequestMapping(value = "/libraries/get", method = { RequestMethod.GET,
+			RequestMethod.POST }, produces = "application/json")
+	public List<Library> getLibraries() {
+		try {
+			return libraryDAO.readAll();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@RequestMapping(value = "/library/get", method = RequestMethod.POST, consumes = "application/json")
+	public Library getLibrary(@RequestBody Library library) throws Exception {
+		return libraryDAO.readOne(library.getBranchId());
+	}
+
+	@Transactional
+	@RequestMapping(value = "/library/delete", method = { RequestMethod.GET,
+			RequestMethod.POST }, consumes = "application/json")
+	public String deleteLibrary(@RequestBody Library library) {
+		try {
+			libraryDAO.delete(library);
+			return "Library deleted sucessfully";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Library delete failed";
+		}
+	}
+
+	@Transactional
+	@RequestMapping(value = "/library/update", method = { RequestMethod.GET,
+			RequestMethod.POST }, consumes = "application/json")
+	public String updateLibrary(@RequestBody Library library) {
+		try {
+			libraryDAO.update(library);
+			return "Library updated sucessfully";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Library update failed";
+		}
+	}
 	
 	
 	
