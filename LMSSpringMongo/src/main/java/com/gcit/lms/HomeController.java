@@ -119,6 +119,7 @@ public class HomeController {
 	@RequestMapping(value = "/author/add", method = { RequestMethod.GET,
 			RequestMethod.POST }, consumes = "application/json")
 	public String addAuthor(@RequestBody Author author) {
+		System.out.println("here");
 		try {
 			authorDAO.create(author);
 			return "Author added sucessfully";

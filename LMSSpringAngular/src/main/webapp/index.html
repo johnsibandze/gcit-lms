@@ -1,0 +1,81 @@
+<title>Library Management System</title>
+
+<!-- Bootstrap core CSS -->
+<link href="http://getbootstrap.com/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<!-- Bootstrap theme -->
+<link href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css"
+	rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="http://getbootstrap.com/examples/theme/theme.css"
+	rel="stylesheet">
+
+<script src="./resources/ie-emulation-modes-warning.js"></script>
+
+<script src="./resources/ie10-viewport-bug-workaround.js"></script>
+
+<script data-require="angular.js@*" data-semver="1.2.13"
+	src="http://code.angularjs.org/1.2.13/angular.js"></script>
+<script data-require="angular-route.js@*" data-semver="1.2.13"
+	src="http://code.angularjs.org/1.2.13/angular-route.js"></script>
+<script data-require="angular-route.js@*" data-semver="1.2.13"
+	src="http://code.angularjs.org/1.2.13/angular-cookies.js"></script>
+<script src="./resources/app.js"></script>
+
+<style id="holderjs-style" type="text/css"></style>
+
+</head>
+
+<html ng-app="libraryApp">
+<body style="margin-left: 2%;">
+	<!-- Fixed navbar -->
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="index.jsp">Library Management
+					System</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="#">Home</a></li>
+					<li class="dropdown"><a href="javascript:;"
+						class="dropdown-toggle" data-toggle="dropdown">Administrator<span
+							class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#/listAuthors">Author Services</a></li>
+							<li><a href="#/editAuthor">Publisher Services</a></li>
+							<li><a href="#">Book Services</a></li>
+							<li><a href="#">Borrower Services</a></li>
+							<li><a href="#">Branch Services</a></li>
+							<li><a href="#/test">Testing</a></li>
+						</ul></li>
+					<li><a href="#">Librarian</a></li>
+					<li><a href="#">Borrower</a></li>
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</div>
+
+	<script>
+		function editAuthor() {
+			alert('hello john');
+		}
+	</script>
+
+	<div class="view-container">
+		<section data-ng-view="" id="content" class="animate-fade-up"></section>
+	</div>
+
+	<script src="./resources/jquery.min.js"></script>
+	<script src="./resources/bootstrap.min.js"></script>
+	<script src="./resources/docs.min.js"></script>
+
+</body>
+</html>

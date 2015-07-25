@@ -1,0 +1,67 @@
+
+<div data-ng-controller="authorCtrl">
+
+	<nav>
+		<ul class="pagination">
+			<li><a href="pageAuthors?pageNo=1">1</a></li>
+			<li><a href="pageAuthors?pageNo=2">2</a></li>
+		</ul>
+	</nav>
+
+
+	<table class="table table-hover table-bordered" id="authorsTable">
+		<tr>
+			<th>Author Id</th>
+			<th>Author Name</th>
+			<th>Edit</th>
+			<th>Delete</th>
+		</tr>
+
+		<tr ng-repeat="a in authors">
+			<td>{{a.authorId}}</td>
+			<td>{{a.authorName}}</td>
+			<!-- <td><button class="btn btn-success"
+					href="editAuthor.html?authorIdToEdit" data-target="#myModal1"
+					data-toggle="modal">Edit</button></td> -->
+
+			<!-- <td><a class="btn btn-success" href="javascript:;"
+				ng-click="showEditAuthor(a.authorId)" role="button">Edit Author
+					&raquo;</a></td> -->
+
+
+			<td><button type="button" class="btn btn-md btn-success"
+					data-ng-click="editAuthor()">Edit</button></td>
+
+
+			<!-- <td><button type="button" class="btn btn-md btn-success"
+					data-toggle="modal" data-target="#myModal1" href="editAuthor.html">Edit</button></td> -->
+
+			<!-- <td><button class="btn btn-success"
+					onclick="window.location.href='#/editAuthor'">Edit</button></td> -->
+
+			<td><button class="btn btn-danger"
+					onclick="javascript:location.href='deleteAuthor?authorId';">Delete</button></td>
+		</tr>
+
+	</table>
+
+	<button class="btn btn-info"
+		onclick="window.location.href='#/addAuthor'">Add Author</button>
+
+
+
+
+
+
+	<!-- <button class="btn btn-success" href="#/addAuthor"
+		data-target="#myModal1" data-toggle="modal">Add Author</button> -->
+
+	<!-- <a href="#/addAuthor">Add Author</a> -->
+
+
+	<div id="myModal1" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content"></div>
+		</div>
+	</div>
+</div>
