@@ -1,124 +1,58 @@
 package com.gcit.lms.domain;
 
-import java.io.Serializable;
+import java.util.List;
+import java.util.UUID;
 
-public class Borrower implements Serializable{
+import org.springframework.data.annotation.Id;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4873452564049064403L;
+public class Borrower {
 
-	private int cardNo;
-	
-	private String borrowerName;
-	
-	private String borrowerAddress;
-	
-	private String borrowerPhone;
+	private UUID cardNo = UUID.randomUUID();
+	private String name;
+	private String address;
+	private String phone;
 
-	/**
-	 * @return the cardNo
-	 */
-	public int getCardNo() {
+	private List<Book> books;
+
+	@Id
+	public UUID getCardNo() {
 		return cardNo;
 	}
 
-	/**
-	 * @param cardNo the cardNo to set
-	 */
-	public void setCardNo(int cardNo) {
+	public void setCardNo(UUID cardNo) {
 		this.cardNo = cardNo;
 	}
 
-	/**
-	 * @return the borrowerName
-	 */
-	public String getBorrowerName() {
-		return borrowerName;
+	public String getName() {
+		return name;
 	}
 
-	/**
-	 * @param borrowerName the borrowerName to set
-	 */
-	public void setBorrowerName(String borrowerName) {
-		this.borrowerName = borrowerName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	/**
-	 * @return the borrowerAddress
-	 */
-	public String getBorrowerAddress() {
-		return borrowerAddress;
+	public String getAddress() {
+		return address;
 	}
 
-	/**
-	 * @param borrowerAddress the borrowerAddress to set
-	 */
-	public void setBorrowerAddress(String borrowerAddress) {
-		this.borrowerAddress = borrowerAddress;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
-	/**
-	 * @return the borrowerPhone
-	 */
-	public String getBorrowerPhone() {
-		return borrowerPhone;
+	public String getPhone() {
+		return phone;
 	}
 
-	/**
-	 * @param borrowerPhone the borrowerPhone to set
-	 */
-	public void setBorrowerPhone(String borrowerPhone) {
-		this.borrowerPhone = borrowerPhone;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((borrowerAddress == null) ? 0 : borrowerAddress.hashCode());
-		result = prime * result
-				+ ((borrowerName == null) ? 0 : borrowerName.hashCode());
-		result = prime * result
-				+ ((borrowerPhone == null) ? 0 : borrowerPhone.hashCode());
-		result = prime * result + cardNo;
-		return result;
+	public List<Book> getBooks() {
+		return books;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Borrower other = (Borrower) obj;
-		if (borrowerAddress == null) {
-			if (other.borrowerAddress != null)
-				return false;
-		} else if (!borrowerAddress.equals(other.borrowerAddress))
-			return false;
-		if (borrowerName == null) {
-			if (other.borrowerName != null)
-				return false;
-		} else if (!borrowerName.equals(other.borrowerName))
-			return false;
-		if (borrowerPhone == null) {
-			if (other.borrowerPhone != null)
-				return false;
-		} else if (!borrowerPhone.equals(other.borrowerPhone))
-			return false;
-		if (cardNo != other.cardNo)
-			return false;
-		return true;
+	public void setBooks(List<Book> books) {
+		this.books = books;
 	}
+
 }

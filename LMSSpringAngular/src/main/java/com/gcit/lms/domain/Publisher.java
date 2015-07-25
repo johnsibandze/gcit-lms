@@ -1,150 +1,86 @@
 package com.gcit.lms.domain;
 
-import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
-public class Publisher implements Serializable{
+import org.springframework.data.annotation.Id;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 199727936225938754L;
+public class Publisher {
 
-	private int id;
+	private UUID publisherId = UUID.randomUUID();
+	private String publisherName;
+	private String publisherAddress;
+	private String publisherPhone;
 
-	private String name;
-
-	private String address;
-
-	private String phoneNumber;
-
-	List<Book> books;
+	private List<Book> books;
 
 	/**
-	 * @return the id
+	 * @return the publisherId
 	 */
-	public int getId() {
-		return id;
+	@Id
+	public UUID getPublisherId() {
+		return publisherId;
 	}
 
 	/**
-	 * @param id
-	 *            the id to set
+	 * @param publisherId
+	 *            the publisherId to set
 	 */
-	public void setId(int id) {
-		this.id = id;
+	public void setPublisherId(UUID publisherId) {
+		this.publisherId = publisherId;
 	}
 
 	/**
-	 * @return the name
+	 * @return the publisherName
 	 */
-	public String getName() {
-		return name;
+	public String getPublisherName() {
+		return publisherName;
 	}
 
 	/**
-	 * @param name
-	 *            the name to set
+	 * @param publisherName
+	 *            the publisherName to set
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setPublisherName(String publisherName) {
+		this.publisherName = publisherName;
 	}
 
 	/**
-	 * @return the address
+	 * @return the publisherAddress
 	 */
-	public String getAddress() {
-		return address;
+	public String getPublisherAddress() {
+		return publisherAddress;
 	}
 
 	/**
-	 * @param address
-	 *            the address to set
+	 * @param publisherAddress
+	 *            the publisherAddress to set
 	 */
-	public void setAddress(String address) {
-		this.address = address;
+	public void setPublisherAddress(String publisherAddress) {
+		this.publisherAddress = publisherAddress;
 	}
 
 	/**
-	 * @return the phoneNumber
+	 * @return the publisherPhone
 	 */
-	public String getPhoneNumber() {
-		return phoneNumber;
+	public String getPublisherPhone() {
+		return publisherPhone;
 	}
 
 	/**
-	 * @param phoneNumber
-	 *            the phoneNumber to set
+	 * @param publisherPhone
+	 *            the publisherPhone to set
 	 */
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setPublisherPhone(String publisherPhone) {
+		this.publisherPhone = publisherPhone;
 	}
 
-	/**
-	 * @return the books
-	 */
 	public List<Book> getBooks() {
 		return books;
 	}
 
-	/**
-	 * @param books
-	 *            the books to set
-	 */
 	public void setBooks(List<Book> books) {
 		this.books = books;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((address == null) ? 0 : address.hashCode());
-		result = prime * result + ((books == null) ? 0 : books.hashCode());
-		result = prime * result + id;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result
-				+ ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
-		return result;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Publisher other = (Publisher) obj;
-		if (address == null) {
-			if (other.address != null)
-				return false;
-		} else if (!address.equals(other.address))
-			return false;
-		if (books == null) {
-			if (other.books != null)
-				return false;
-		} else if (!books.equals(other.books))
-			return false;
-		if (id != other.id)
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (phoneNumber == null) {
-			if (other.phoneNumber != null)
-				return false;
-		} else if (!phoneNumber.equals(other.phoneNumber))
-			return false;
-		return true;
-	}
 }

@@ -22,10 +22,10 @@ public class AdministratorService {
 
 	@Autowired
 	private AuthorDAO authorDAO;
-	
+
 	@Autowired
 	private PublisherDAO pubDAO;
-	
+
 	@Autowired
 	private BookDAO bookDAO;
 
@@ -41,7 +41,7 @@ public class AdministratorService {
 
 	@Transactional
 	public void addPublisher(Publisher p) throws Exception {
-			pubDAO.addPublisher(p);
+		pubDAO.create(p);
 	}
 
 	public List<Author> getAuthors(int pageNo, int pageSize) throws Exception {
@@ -61,19 +61,19 @@ public class AdministratorService {
 	public Author getAuthor(UUID authorId) throws Exception {
 		return authorDAO.readOne(authorId);
 	}
-	
+
 	@Transactional
 	public void editAuthor(Author author) throws Exception {
 		authorDAO.update(author);
 	}
-	
+
 	@Transactional
 	public void addBook(Book b) throws Exception {
-			bookDAO.addBook(b);
+		bookDAO.create(b);
 	}
 
-	public List<Book> searchBooks(String searchString) throws Exception {
-		return bookDAO.searchBookByTitle(searchString);
-	}
+	// public List<Book> searchBooks(String searchString) throws Exception {
+	// return bookDAO.searchBookByTitle(searchString);
+	// }
 
 }

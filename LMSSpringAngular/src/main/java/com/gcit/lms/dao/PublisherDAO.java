@@ -1,62 +1,68 @@
 package com.gcit.lms.dao;
 
-import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
+import com.gcit.lms.domain.Author;
 import com.gcit.lms.domain.Publisher;
 
-public class PublisherDAO extends BaseDAO<Publisher> implements Serializable,
+public class PublisherDAO extends BaseDAO<Publisher> implements
 		ResultSetExtractor<List<Publisher>> {
 
-	private static final long serialVersionUID = 1619700647002508164L;
+	private final String PUBLISHER_COLLECTION = "Publishers";
 
-	public void addPublisher(Publisher publisher) throws SQLException {
-		template.update("insert into tbl_publisher (publisherName) values (?)",
-				new Object[] { publisher.getName() });
-
+	public void create(Publisher publisher) throws Exception {
+		mongoOps.insert(publisher, PUBLISHER_COLLECTION);
 	}
 
-	public void updatePublisher(Publisher publisher) throws SQLException {
-		template.update(
-				"update tbl_publisher set publisherName = ? where publisherId = ?",
-				new Object[] { publisher.getName(), publisher.getId() });
+	public void update(Publisher publisher) throws Exception {
+		Query query = new Query(Criteria.where("_id").is(
+				publisher.getPublisherId()));
+		Publisher oldPublisher = mongoOps.findOne(query, Publisher.class,
+				PUBLISHER_COLLECTION);
+
+		oldPublisher.setPublisherName(publisher.getPublisherName());
+		oldPublisher.setPublisherAddress(publisher.getPublisherAddress());
+		oldPublisher.setPublisherPhone(publisher.getPublisherPhone());
+
+		mongoOps.save(oldPublisher, PUBLISHER_COLLECTION);
 	}
 
-	public void removePublisher(Publisher publisher) throws SQLException {
-		template.update("delete from tbl_publisher where publisherId=?",
-				new Object[] { publisher.getId() });
+	public void delete(Publisher publisher) throws Exception {
+		Query query = new Query(Criteria.where("_id").is(
+				publisher.getPublisherId()));
+		mongoOps.remove(query, PUBLISHER_COLLECTION);
 	}
 
-	public List<Publisher> readAll() throws SQLException {
-		return template.query("select * from tbl_publisher", this);
+	public List<Publisher> readAll() throws Exception {
+		return mongoOps.findAll(Publisher.class, PUBLISHER_COLLECTION);
 	}
 
-	public Publisher readOne(int publisherId) throws SQLException {
-		List<Publisher> publishers = template.query(
-				"select * from tbl_publisher where publisherId = ?",
-				new Object[] { publisherId }, this);
-		if (publishers != null && publishers.size() > 0) {
-			return publishers.get(0);
-		} else {
-			return null;
-		}
+	public Publisher readOne(UUID publisherId) throws SQLException {
+		Query query = new Query(Criteria.where("_id").is(publisherId));
+		return this.mongoOps.findOne(query, Publisher.class,
+				PUBLISHER_COLLECTION);
 	}
 
 	@Override
 	public List<Publisher> extractData(ResultSet rs) throws SQLException {
-		List<Publisher> publishers = new ArrayList<Publisher>();
-		while (rs.next()) {
-			Publisher a = new Publisher();
-			a.setId(rs.getInt("publisherId"));
-			a.setName(rs.getString("publisherName"));
+		List<Publisher> pubs = new ArrayList<Publisher>();
 
-			publishers.add(a);
+		while (rs.next()) {
+			Publisher pub = new Publisher();
+			// pub.setPublisherId(rs.getInt("publisherId"));
+			pub.setPublisherName(rs.getString("publisherName"));
+			pub.setPublisherAddress(rs.getString("publisherAddress"));
+			pub.setPublisherPhone(rs.getString("publisherPhone"));
+			pubs.add(pub);
 		}
-		return publishers;
+		return pubs;
 	}
 }

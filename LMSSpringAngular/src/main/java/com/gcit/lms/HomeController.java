@@ -71,7 +71,7 @@ public class HomeController {
 	public List<Book> getBooks() {
 		try {
 			return bookDAO.readAll();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
@@ -112,9 +112,9 @@ public class HomeController {
 			RequestMethod.POST }, consumes = "application/json")
 	public String addBook(@RequestBody Book book) {
 		try {
-			bookDAO.addBook(book);
+			bookDAO.create(book);
 			return "Book added sucessfully";
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return "Book add failed";

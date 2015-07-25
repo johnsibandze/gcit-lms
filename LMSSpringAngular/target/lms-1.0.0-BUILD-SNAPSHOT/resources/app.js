@@ -11,6 +11,8 @@ libraryModule.config([ "$routeProvider", function($routeProvider) {
 		templateUrl : "addAuthor.html"
 	}).when("/editAuthor", {
 		templateUrl : "editAuthor.html"
+	}).when("/listBooks", {
+		templateUrl : "listBooks.html"
 	}).when("/test", {
 		templateUrl : "test.html"
 	})
@@ -87,22 +89,12 @@ libraryModule.controller('authorCtrl', function($rootScope, $scope, $http,
 });
 
 libraryModule.controller('bookCtrl', function($scope, $http, $cookieStore) {
-	// get all authors and display initially
-	$http.get('http://localhost:8080/lms/author/get').success(function(data) {
-		$scope.authors = data;
-		console.log($scope.authors);
+
+	$http.get('http://localhost:8080/lms/book/get').success(function(data) {
+		$scope.books = data;
+		console.log($scope.books);
 	});
 
-	// $scope.addAuthor = function addAuthor() {
-	// if($scope.addAuthorFrm.$valid){
-	// $http.post('addAuthor/' +$scope.authorName).
-	// success(function(data) {
-	// alert('Author Added');
-	// $scope.authors = data;
-	// showAddAuthor();
-	// });
-	// }
-	// };
 });
 
 libraryModule.controller('testCtrl', function($scope, $http, $cookieStore) {
