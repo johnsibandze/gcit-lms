@@ -8,6 +8,9 @@
 		</ul>
 	</nav>
 
+	<script type="text/javascript">
+		document.write('fdf');
+	</script>
 
 	<table class="table table-hover table-bordered" id="authorsTable">
 		<tr>
@@ -16,6 +19,8 @@
 			<th>Edit</th>
 			<th>Delete</th>
 		</tr>
+
+
 
 		<tr ng-repeat="a in authors">
 			<td>{{a.authorId}}</td>
@@ -30,17 +35,21 @@
 
 
 			<td><button type="button" class="btn btn-md btn-success"
-					data-ng-click="editAuthor()">Edit</button></td>
+					data-ng-click="showEditAuthor(a.authorId)">Edit</button></td>
 
 
 			<!-- <td><button type="button" class="btn btn-md btn-success"
-					data-toggle="modal" data-target="#myModal1" href="editAuthor.html">Edit</button></td> -->
+					data-toggle="modal" data-target="#myModal1" href="editAuthor.html"
+					method="get">Edit</button></td> -->
 
 			<!-- <td><button class="btn btn-success"
 					onclick="window.location.href='#/editAuthor'">Edit</button></td> -->
 
-			<td><button class="btn btn-danger"
-					onclick="javascript:location.href='deleteAuthor?authorId';">Delete</button></td>
+			<td><button type="button" class="btn btn-md btn-danger"
+					data-ng-click="deleteAuthor(a.authorId)">Delete</button></td>
+
+			<!-- <td><button class="btn btn-danger"
+					onclick="javascript:location.href='deleteAuthor?authorId';">Delete</button></td> -->
 		</tr>
 
 	</table>

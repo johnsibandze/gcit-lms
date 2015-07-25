@@ -16,8 +16,9 @@ libraryModule.config([ "$routeProvider", function($routeProvider) {
 	})
 } ]);
 
-libraryModule.controller('authorCtrl', function($scope, $http, $cookieStore) {
-	$scope.author;
+libraryModule.controller('authorCtrl', function($rootScope, $scope, $http,
+		$cookieStore) {
+
 	// get all authors and display initially
 
 	$http.get('http://localhost:8080/lms/author/get').success(function(data) {
@@ -42,43 +43,45 @@ libraryModule.controller('authorCtrl', function($scope, $http, $cookieStore) {
 
 	$scope.editAuthor = function editAuthor() {
 		alert('here');
-		window.location.href = "http://localhost:8080/lms/#/editAuthor";
+		// window.location.href = "http://localhost:8080/lms/#/editAuthor";
 
-		// alert($scope.authorName);
-		// alert($scope.author);
-		//
-		// $http.post('http://localhost:8080/lms/author/update', {
-		// 'authorName' : $scope.authorName,
-		// 'authorId' : $scope.author.authorId
-		// }).success(function(data) {
-		// alert('Author Edited Successfully');
-		// $scope.authors = data;
-		// });
+		alert($scope.authorName);
+		alert($rootScope.author);
+
+		$http.post('http://localhost:8080/lms/author/update', {
+			'authorName' : $scope.authorName,
+			'authorId' : $scope.author.authorId
+		}).success(function(data) {
+			alert('Author Edited Successfully');
+			$scope.authors = data;
+		});
 	};
 
 	$scope.showEditAuthor = function showEditAuthor(authorId) {
+		alert(authorId);
 		$http.post('http://localhost:8080/lms/author/getOne', {
 			'authorId' : authorId
 		}).success(function(data) {
-			$scope.author = data;
+			$rootScope.author = data;
 			console.log($scope.author);
 
 			// go to the edit
 			window.location.href = "http://localhost:8080/lms/#/editAuthor";
-
 			alert($scope.author.authorName);
-
 		});
+	};
 
-		// alert($scope.author);
-		// alert('Editing author');
-		// $http.post('http://localhost:8080/lms/author/update', {
-		// authorId : $scope.authorId
-		// }).success(function(data) {
-		// alert('Author Edited Successfully');
-		// $scope.authors = data;
-		// });
+	$scope.deleteAuthor = function deleteAuthor(authorId) {
+		alert('Deleting Author');
 
+		alert(authorId);
+
+		$http.post('http://localhost:8080/lms/author/delete', {
+			'authorId' : authorId
+		}).success(function(data) {
+			alert('Author Deleted Successfully');
+			$scope.authors = data;
+		});
 	};
 
 });

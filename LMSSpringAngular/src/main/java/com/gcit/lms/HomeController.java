@@ -147,4 +147,18 @@ public class HomeController {
 		}
 	}
 
+	@Transactional
+	@RequestMapping(value = "/author/delete", method = { RequestMethod.GET,
+			RequestMethod.POST }, consumes = "application/json")
+	public String deleteAuthor(@RequestBody Author author) {
+		try {
+			authorDAO.delete(author);
+			return "Author deleted sucessfully";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Author delete failed";
+		}
+	}
+
 }
