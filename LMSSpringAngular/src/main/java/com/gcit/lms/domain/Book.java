@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Book {
 
 	@Id
-	private long bookId;
+	private UUID bookId;
 
 	private String title;
 
@@ -23,7 +23,7 @@ public class Book {
 	/**
 	 * @return the bookId
 	 */
-	public long getBookId() {
+	public UUID getBookId() {
 		return bookId;
 	}
 
@@ -31,7 +31,7 @@ public class Book {
 	 * @param bookId
 	 *            the bookId to set
 	 */
-	public void setBookId(long bookId) {
+	public void setBookId(UUID bookId) {
 		this.bookId = bookId;
 	}
 

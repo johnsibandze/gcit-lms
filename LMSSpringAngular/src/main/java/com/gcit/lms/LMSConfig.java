@@ -13,7 +13,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.gcit.lms.dao.AuthorDAO;
 import com.gcit.lms.dao.BookDAO;
+import com.gcit.lms.dao.BorrowerDAO;
 import com.gcit.lms.dao.GenreDAO;
+import com.gcit.lms.dao.LibraryDAO;
 import com.gcit.lms.dao.PublisherDAO;
 import com.gcit.lms.service.AdministratorService;
 import com.mongodb.MongoClient;
@@ -46,10 +48,20 @@ public class LMSConfig {
 	public PublisherDAO pubDao() {
 		return new PublisherDAO();
 	}
-	
+
 	@Bean
 	public GenreDAO genrreDAO() {
 		return new GenreDAO();
+	}
+
+	@Bean
+	public LibraryDAO libraryDAO() {
+		return new LibraryDAO();
+	}
+
+	@Bean
+	public BorrowerDAO borrowerDAO() {
+		return new BorrowerDAO();
 	}
 
 	@Bean
