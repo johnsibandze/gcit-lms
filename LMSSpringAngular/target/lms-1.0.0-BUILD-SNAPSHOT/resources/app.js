@@ -19,6 +19,12 @@ libraryModule.config([ "$routeProvider", function($routeProvider) {
 		templateUrl : "editBook.html"
 	}).when("/listPublishers", {
 		templateUrl : "listPublishers.html"
+	}).when("/addPublisher", {
+		templateUrl : "addPublisher.html"
+	}).when("/editPublisher", {
+		templateUrl : "editPublisher.html"
+	}).when("/listBorrowers", {
+		templateUrl : "listBorrowers.html"
 	}).when("/test", {
 		templateUrl : "test.html"
 	})
@@ -155,6 +161,63 @@ libraryModule.controller('publisherCtrl', function($rootScope, $scope, $route,
 				$scope.publishers = data;
 				console.log($scope.publishers);
 			});
+
+	$scope.addPublisher = function addPublisher() {
+		$http.post('http://localhost:8080/lms/publisher/add', {
+			publisherName : $scope.publisherName
+		}).success(function(data) {
+			alert('Publisher Added Successfully');
+		});
+
+		window.location.href = "http://localhost:8080/lms/#/listPublishers";
+
+	};
+
+	$scope.editPublisher = function editPublisher() {
+		alert('here');
+		$http.post('http://localhost:8080/lms/publisher/update', {
+			'publisherName' : $scope.publisherName,
+			'publisherId' : $scope.publisher.publisherId
+		}).success(function(data) {
+			alert('Publisher Edited Successfully');
+		});
+
+		window.location.href = "http://localhost:8080/lms/#/listPublishers";
+
+	};
+
+	$scope.showEditPublisher = function showEditPublisher(publisherId) {
+		$http.post('http://localhost:8080/lms/publisher/getOne', {
+			'publisherId' : publisherId
+		}).success(function(data) {
+			$rootScope.publisher = data;
+
+			window.location.href = "http://localhost:8080/lms/#/editPublisher";
+		});
+	};
+
+	$scope.deletePublisher = function deletePublisher(publisherId) {
+		$http.post('http://localhost:8080/lms/publisher/delete', {
+			'publisherId' : publisherId
+		}).success(function(data) {
+			alert('Publisher Deleted Successfully');
+			// console.log('author deleted');
+			// $scope.authors = data;
+		});
+		// reload the listAuthors page
+		$route.reload();
+	};
+
+});
+
+libraryModule.controller('borrowerCtrl', function($rootScope, $scope, $route,
+		$http, $cookieStore) {
+
+	// get all authors and display initially
+	$http.get('http://localhost:8080/lms/borrower/get').success(function(data) {
+		$scope.borrowers = data;
+		console.log($scope.borrowers);
+	});
 
 	$scope.addAuthor = function addAuthor() {
 		$http.post('http://localhost:8080/lms/author/add', {

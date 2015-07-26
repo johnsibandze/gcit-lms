@@ -1,4 +1,31 @@
-<%@include file="include.html" %>
+
+<div data-ng-app="libraryApp">
+	<div data-ng-controller="publisherCtrl">
+		<!-- <form data-ng-model="addAuthorFrm"> -->
+		<label>Enter Publisher Name: </label><input type="text"
+			name="publisherName" data-ng-model="publisherName" autofocus /> <input
+			type="button" value="Add Publisher" class="btn btn-sm btn-default"
+			style="margin: 5px; width: 100px;" data-ng-click="addPublisher()" />
+
+		<button class="btn btn-sm btn-danger"
+			style="margin: 5px; width: 100px;"
+			onclick="window.location.href='#/listPublishers'">Cancel</button>
+		<!-- </form> -->
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <%@include file="include.html" %>
 	<form action="addPublisher" method="post">
 		<table class="table">
 		<tr>
@@ -16,4 +43,4 @@
 		</tr>
 		</table>
 		<input type="submit"/>
-	</form>
+	</form> -->

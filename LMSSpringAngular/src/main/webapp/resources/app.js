@@ -23,6 +23,8 @@ libraryModule.config([ "$routeProvider", function($routeProvider) {
 		templateUrl : "addPublisher.html"
 	}).when("/editPublisher", {
 		templateUrl : "editPublisher.html"
+	}).when("/listBorrowers", {
+		templateUrl : "listBorrowers.html"
 	}).when("/test", {
 		templateUrl : "test.html"
 	})
@@ -172,6 +174,7 @@ libraryModule.controller('publisherCtrl', function($rootScope, $scope, $route,
 	};
 
 	$scope.editPublisher = function editPublisher() {
+		alert('here');
 		$http.post('http://localhost:8080/lms/publisher/update', {
 			'publisherName' : $scope.publisherName,
 			'publisherId' : $scope.publisher.publisherId
@@ -200,6 +203,68 @@ libraryModule.controller('publisherCtrl', function($rootScope, $scope, $route,
 			alert('Publisher Deleted Successfully');
 			// console.log('author deleted');
 			// $scope.authors = data;
+		});
+		// reload the listAuthors page
+		$route.reload();
+	};
+
+});
+
+libraryModule.controller('borrowerCtrl', function($rootScope, $scope, $route,
+		$http, $cookieStore) {
+
+	// get all authors and display initially
+	$http.get('http://localhost:8080/lms/borrower/get').success(function(data) {
+		$scope.borrowers = data;
+		console.log($scope.borrowers);
+	});
+
+	$scope.addAuthor = function addAuthor() {
+		$http.post('http://localhost:8080/lms/author/add', {
+			authorName : $scope.authorName
+		}).success(function(data) {
+			alert('Author Added Successfully');
+			$scope.authors = data;
+		});
+
+		window.location.href = "http://localhost:8080/lms/#/listAuthors";
+
+	};
+
+	$scope.editAuthor = function editAuthor() {
+		$http.post('http://localhost:8080/lms/author/update', {
+			'authorName' : $scope.authorName,
+			'authorId' : $scope.author.authorId
+		}).success(function(data) {
+			alert('Author Edited Successfully');
+			$scope.authors = data;
+		});
+
+		window.location.href = "http://localhost:8080/lms/#/listAuthors";
+
+	};
+
+	$scope.showEditAuthor = function showEditAuthor(authorId) {
+		alert('show');
+		$http.post('http://localhost:8080/lms/author/getOne', {
+			'authorId' : authorId
+		}).success(function(data) {
+			$rootScope.author = data;
+			console.log($scope.author);
+
+			// go to the edit
+			window.location.href = "http://localhost:8080/lms/#/editAuthor";
+		});
+	};
+
+	$scope.deleteAuthor = function deleteAuthor(authorId) {
+
+		$http.post('http://localhost:8080/lms/author/delete', {
+			'authorId' : authorId
+		}).success(function(data) {
+			alert('Author Deleted Successfully');
+			// console.log('author deleted');
+			$scope.authors = data;
 		});
 		// reload the listAuthors page
 		$route.reload();

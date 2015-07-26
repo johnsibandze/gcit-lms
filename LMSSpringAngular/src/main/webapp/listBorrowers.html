@@ -1,0 +1,40 @@
+
+<div data-ng-controller="borrowerCtrl">
+
+	<nav>
+		<ul class="pagination">
+			<li><a href="pageBorrowers?pageNo=1">1</a></li>
+			<li><a href="pageBorrowers?pageNo=2">2</a></li>
+		</ul>
+	</nav>
+
+	<table class="table table-hover table-bordered" id="borrowersTable">
+		<tr>
+			<th>Card #</th>
+			<th>Borrower Name</th>
+			<th>Edit</th>
+			<th>Delete</th>
+		</tr>
+
+		<tr data-ng-repeat="b in borrowers">
+			<td>{{b.cardNo}}</td>
+			<td>{{b.name}}</td>
+
+			<td><button type="button" class="btn btn-md btn-success"
+					data-ng-click="showEditBorrower(b.cardNo)">Edit</button></td>
+
+			<td><button type="button" class="btn btn-md btn-danger"
+					data-ng-click="deleteBorrower(b.cardNo)">Delete</button></td>
+		</tr>
+
+	</table>
+
+	<button class="btn btn-info"
+		onclick="window.location.href='#/addBorrower'">Add Borrower</button>
+
+	<div id="myModal1" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content"></div>
+		</div>
+	</div>
+</div>
