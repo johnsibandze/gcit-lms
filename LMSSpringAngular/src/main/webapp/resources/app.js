@@ -260,14 +260,13 @@ libraryModule.controller('borrowerCtrl', function($rootScope, $scope, $route,
 		});
 	};
 
-	$scope.deleteAuthor = function deleteAuthor(authorId) {
-
-		$http.post('http://localhost:8080/lms/author/delete', {
-			'authorId' : authorId
+	$scope.deleteBorrower = function deleteBorrower(cardNo) {
+		$http.post('http://localhost:8080/lms/borrower/delete', {
+			'cardNo' : cardNo
 		}).success(function(data) {
-			alert('Author Deleted Successfully');
+			alert('Borrower Deleted Successfully');
 			// console.log('author deleted');
-			$scope.authors = data;
+			// $scope.authors = data;
 		});
 		// reload the listAuthors page
 		$route.reload();
