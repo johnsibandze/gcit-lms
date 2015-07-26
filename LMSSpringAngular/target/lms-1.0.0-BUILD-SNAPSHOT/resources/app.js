@@ -25,6 +25,12 @@ libraryModule.config([ "$routeProvider", function($routeProvider) {
 		templateUrl : "editPublisher.html"
 	}).when("/listBorrowers", {
 		templateUrl : "listBorrowers.html"
+	}).when("/addBorrower", {
+		templateUrl : "addBorrower.html"
+	}).when("/editBorrower", {
+		templateUrl : "editBorrower.html"
+	}).when("/listLibraries", {
+		templateUrl : "listLibraries.html"
 	}).when("/test", {
 		templateUrl : "test.html"
 	})
@@ -217,6 +223,66 @@ libraryModule.controller('borrowerCtrl', function($rootScope, $scope, $route,
 	$http.get('http://localhost:8080/lms/borrower/get').success(function(data) {
 		$scope.borrowers = data;
 		console.log($scope.borrowers);
+	});
+
+	$scope.addBorrower = function addBorrower() {
+		$http.post('http://localhost:8080/lms/borrower/add', {
+			'name' : $scope.name
+		}).success(function(data) {
+			alert('Borrower Added Successfully');
+			// $scope.authors = data;
+		});
+
+		window.location.href = "http://localhost:8080/lms/#/listBorrowers";
+
+	};
+
+	$scope.editBorrower = function editBorrower() {
+		$http.post('http://localhost:8080/lms/borrower/update', {
+			'name' : $scope.name,
+			'cardNo' : $scope.borrower.cardNo
+		}).success(function(data) {
+			alert('Borrower Edited Successfully');
+			// $scope.authors = data;
+		});
+
+		window.location.href = "http://localhost:8080/lms/#/listBorrowers";
+
+	};
+
+	$scope.showEditBorrower = function showEditBorrower(cardNo) {
+		$http.post('http://localhost:8080/lms/borrower/getOne', {
+			'cardNo' : cardNo
+		}).success(function(data) {
+			$rootScope.borrower = data;
+			console.log($scope.borrower);
+
+			// go to the edit
+			window.location.href = "http://localhost:8080/lms/#/editBorrower";
+		});
+	};
+
+	$scope.deleteBorrower = function deleteBorrower(cardNo) {
+		$http.post('http://localhost:8080/lms/borrower/delete', {
+			'cardNo' : cardNo
+		}).success(function(data) {
+			alert('Borrower Deleted Successfully');
+			// console.log('author deleted');
+			// $scope.authors = data;
+		});
+		// reload the listAuthors page
+		$route.reload();
+	};
+
+});
+
+libraryModule.controller('libraryCtrl', function($rootScope, $scope, $route,
+		$http, $cookieStore) {
+
+	// get all the library branches for display
+	$http.get('http://localhost:8080/lms/library/get').success(function(data) {
+		$scope.libraries = data;
+		console.log($scope.libraries);
 	});
 
 	$scope.addAuthor = function addAuthor() {

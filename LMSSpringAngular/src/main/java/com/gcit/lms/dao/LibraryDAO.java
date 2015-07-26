@@ -26,15 +26,16 @@ public class LibraryDAO extends BaseDAO<Library> implements
 	}
 
 	public void update(Library library) throws Exception {
-		Query query = new Query(Criteria.where("_id").is(library.getBranchId()));
-		Library oldLibrary = mongoOps.findOne(query, Library.class,
-				LIBRARY_COLLECTION);
+		// Query query = new
+		// Query(Criteria.where("_id").is(library.getBranchId()));
+		// Library oldLibrary = mongoOps.findOne(query, Library.class,
+		// LIBRARY_COLLECTION);
+		//
+		// oldLibrary.setBranchName(library.getBranchName());
+		// oldLibrary.setBranchAddress(library.getBranchAddress());
+		// oldLibrary.setBooks(library.getBooks());
 
-		oldLibrary.setBranchName(library.getBranchName());
-		oldLibrary.setBranchAddress(library.getBranchAddress());
-		oldLibrary.setBooks(library.getBooks());
-
-		mongoOps.save(oldLibrary, LIBRARY_COLLECTION);
+		mongoOps.save(library, LIBRARY_COLLECTION);
 	}
 
 	public void delete(Library library) throws Exception {

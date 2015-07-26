@@ -324,7 +324,7 @@ public class HomeController {
 		}
 	}
 
-	@RequestMapping(value = "/libraries/get", method = { RequestMethod.GET,
+	@RequestMapping(value = "/library/get", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = "application/json")
 	public List<Library> getLibraries() {
 		try {
@@ -336,7 +336,7 @@ public class HomeController {
 		}
 	}
 
-	@RequestMapping(value = "/library/get", method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value = "/library/getOne", method = RequestMethod.POST, consumes = "application/json")
 	public Library getLibrary(@RequestBody Library library) throws Exception {
 		return libraryDAO.readOne(library.getBranchId());
 	}
