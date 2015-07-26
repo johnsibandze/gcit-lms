@@ -1,0 +1,13 @@
+
+<div data-ng-app="libraryApp">
+	<div data-ng-controller="borrowerCtrl">
+		<label>Enter Borrower Name: </label><input type="text" name="name"
+			data-ng-model="name" autofocus /> <input type="button"
+			value="Add Borrower" class="btn btn-sm btn-default"
+			style="margin: 5px; width: 100px;" data-ng-click="addBorrower()" />
+
+		<button class="btn btn-sm btn-danger"
+			style="margin: 5px; width: 100px;"
+			onclick="window.location.href='#/listBorrowers'">Cancel</button>
+	</div>
+</div>

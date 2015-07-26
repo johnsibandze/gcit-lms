@@ -25,6 +25,8 @@ libraryModule.config([ "$routeProvider", function($routeProvider) {
 		templateUrl : "editPublisher.html"
 	}).when("/listBorrowers", {
 		templateUrl : "listBorrowers.html"
+	}).when("/addBorrower", {
+		templateUrl : "addBorrower.html"
 	}).when("/test", {
 		templateUrl : "test.html"
 	})
@@ -219,15 +221,15 @@ libraryModule.controller('borrowerCtrl', function($rootScope, $scope, $route,
 		console.log($scope.borrowers);
 	});
 
-	$scope.addAuthor = function addAuthor() {
-		$http.post('http://localhost:8080/lms/author/add', {
-			authorName : $scope.authorName
+	$scope.addBorrower = function addBorrower() {
+		$http.post('http://localhost:8080/lms/borrower/add', {
+			'name' : $scope.name
 		}).success(function(data) {
-			alert('Author Added Successfully');
-			$scope.authors = data;
+			alert('Borrower Added Successfully');
+			// $scope.authors = data;
 		});
 
-		window.location.href = "http://localhost:8080/lms/#/listAuthors";
+		window.location.href = "http://localhost:8080/lms/#/listBorrowers";
 
 	};
 
