@@ -10,16 +10,18 @@
 
 	<table class="table table-hover table-bordered" id="publishersTable">
 		<tr>
-			<th>Publisher Id</th>
 			<th>Publisher Name</th>
+			<th>Publisher Address</th>
+			<th>Publisher Phone</th>
 			<th>Edit</th>
 			<th>Delete</th>
 		</tr>
 
 
 		<tr ng-repeat="p in publishers">
-			<td>{{p.publisherId}}</td>
 			<td>{{p.publisherName}}</td>
+			<td>{{p.publisherAddress}}</td>
+			<td>{{p.publisherPhone}}</td>
 
 			<td><button type="button" class="btn btn-md btn-success"
 					data-ng-click="showEditPublisher(p.publisherId)">Edit</button></td>

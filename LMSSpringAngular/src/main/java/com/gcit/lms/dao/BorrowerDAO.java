@@ -26,14 +26,15 @@ public class BorrowerDAO extends BaseDAO<Borrower> implements
 	}
 
 	public void update(Borrower borrower) throws Exception {
-		Query query = new Query(Criteria.where("_id").is(borrower.getCardNo()));
-		Borrower oldBorrower = mongoOps.findOne(query, Borrower.class,
-				BORROWER_COLLECTION);
-
-		oldBorrower.setName(borrower.getName());
-		oldBorrower.setAddress(borrower.getAddress());
-		oldBorrower.setPhone(borrower.getPhone());
-		mongoOps.save(oldBorrower, BORROWER_COLLECTION);
+		// Query query = new
+		// Query(Criteria.where("_id").is(borrower.getCardNo()));
+		// Borrower oldBorrower = mongoOps.findOne(query, Borrower.class,
+		// BORROWER_COLLECTION);
+		//
+		// oldBorrower.setName(borrower.getName());
+		// oldBorrower.setAddress(borrower.getAddress());
+		// oldBorrower.setPhone(borrower.getPhone());
+		mongoOps.save(borrower, BORROWER_COLLECTION);
 	}
 
 	public void delete(Borrower borrower) throws Exception {

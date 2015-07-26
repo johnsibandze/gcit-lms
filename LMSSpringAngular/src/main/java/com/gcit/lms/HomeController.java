@@ -383,7 +383,7 @@ public class HomeController {
 		}
 	}
 
-	@RequestMapping(value = "/borrowers/get", method = { RequestMethod.GET,
+	@RequestMapping(value = "/borrower/get", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = "application/json")
 	public List<Borrower> getBorrowers() {
 		try {
@@ -395,7 +395,7 @@ public class HomeController {
 		}
 	}
 
-	@RequestMapping(value = "/borrower/get", method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value = "/borrower/getOne", method = RequestMethod.POST, consumes = "application/json")
 	public Borrower getBorrower(@RequestBody Borrower borrower)
 			throws Exception {
 		return borrowerDAO.readOne(borrower.getCardNo());
