@@ -1,0 +1,13 @@
+
+<div data-ng-app="libraryApp">
+	<div data-ng-controller="libraryCtrl">
+		<label>Enter Library Name: </label><input type="text" name="branchName"
+			data-ng-model="branchName" autofocus /> <input type="button"
+			value="Add Branch" class="btn btn-sm btn-default"
+			style="margin: 5px; width: 100px;" data-ng-click="addLibrary()" />
+
+		<button class="btn btn-sm btn-danger"
+			style="margin: 5px; width: 100px;"
+			onclick="window.location.href='#/listLibraries'">Cancel</button>
+	</div>
+</div>
