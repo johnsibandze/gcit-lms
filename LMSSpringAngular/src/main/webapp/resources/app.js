@@ -27,6 +27,8 @@ libraryModule.config([ "$routeProvider", function($routeProvider) {
 		templateUrl : "listBorrowers.html"
 	}).when("/addBorrower", {
 		templateUrl : "addBorrower.html"
+	}).when("/editBorrower", {
+		templateUrl : "editBorrower.html"
 	}).when("/test", {
 		templateUrl : "test.html"
 	})
@@ -233,29 +235,28 @@ libraryModule.controller('borrowerCtrl', function($rootScope, $scope, $route,
 
 	};
 
-	$scope.editAuthor = function editAuthor() {
-		$http.post('http://localhost:8080/lms/author/update', {
-			'authorName' : $scope.authorName,
-			'authorId' : $scope.author.authorId
+	$scope.editBorrower = function editBorrower() {
+		$http.post('http://localhost:8080/lms/borrower/update', {
+			'name' : $scope.name,
+			'cardNo' : $scope.borrower.cardNo
 		}).success(function(data) {
-			alert('Author Edited Successfully');
-			$scope.authors = data;
+			alert('Borrower Edited Successfully');
+			// $scope.authors = data;
 		});
 
-		window.location.href = "http://localhost:8080/lms/#/listAuthors";
+		window.location.href = "http://localhost:8080/lms/#/listBorrowers";
 
 	};
 
-	$scope.showEditAuthor = function showEditAuthor(authorId) {
-		alert('show');
-		$http.post('http://localhost:8080/lms/author/getOne', {
-			'authorId' : authorId
+	$scope.showEditBorrower = function showEditBorrower(cardNo) {
+		$http.post('http://localhost:8080/lms/borrower/getOne', {
+			'cardNo' : cardNo
 		}).success(function(data) {
-			$rootScope.author = data;
-			console.log($scope.author);
+			$rootScope.borrower = data;
+			console.log($scope.borrower);
 
 			// go to the edit
-			window.location.href = "http://localhost:8080/lms/#/editAuthor";
+			window.location.href = "http://localhost:8080/lms/#/editBorrower";
 		});
 	};
 
