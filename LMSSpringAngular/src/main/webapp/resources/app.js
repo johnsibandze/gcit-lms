@@ -21,6 +21,8 @@ libraryModule.config([ "$routeProvider", function($routeProvider) {
 		templateUrl : "listPublishers.html"
 	}).when("/addPublisher", {
 		templateUrl : "addPublisher.html"
+	}).when("/editPublisher", {
+		templateUrl : "editPublisher.html"
 	}).when("/test", {
 		templateUrl : "test.html"
 	})
@@ -169,29 +171,25 @@ libraryModule.controller('publisherCtrl', function($rootScope, $scope, $route,
 
 	};
 
-	$scope.editAuthor = function editAuthor() {
-		$http.post('http://localhost:8080/lms/author/update', {
-			'authorName' : $scope.authorName,
-			'authorId' : $scope.author.authorId
+	$scope.editPublisher = function editPublisher() {
+		$http.post('http://localhost:8080/lms/publisher/update', {
+			'publisherName' : $scope.publisherName,
+			'publisherId' : $scope.publisher.publisherId
 		}).success(function(data) {
-			alert('Author Edited Successfully');
-			$scope.authors = data;
+			alert('Publisher Edited Successfully');
 		});
 
-		window.location.href = "http://localhost:8080/lms/#/listAuthors";
+		window.location.href = "http://localhost:8080/lms/#/listPublishers";
 
 	};
 
-	$scope.showEditAuthor = function showEditAuthor(authorId) {
-		alert('show');
-		$http.post('http://localhost:8080/lms/author/getOne', {
-			'authorId' : authorId
+	$scope.showEditPublisher = function showEditPublisher(publisherId) {
+		$http.post('http://localhost:8080/lms/publisher/getOne', {
+			'publisherId' : publisherId
 		}).success(function(data) {
-			$rootScope.author = data;
-			console.log($scope.author);
+			$rootScope.publisher = data;
 
-			// go to the edit
-			window.location.href = "http://localhost:8080/lms/#/editAuthor";
+			window.location.href = "http://localhost:8080/lms/#/editPublisher";
 		});
 	};
 
