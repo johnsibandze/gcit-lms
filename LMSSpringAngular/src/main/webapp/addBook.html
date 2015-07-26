@@ -1,40 +1,15 @@
-<%@page import="com.gcit.lms.domain.Publisher"%>
-<%@page import="com.gcit.lms.domain.Author"%>
-<%@page import="java.util.List"%>
-<%@page import="com.gcit.training.lws.service.AdministratorService"%>
-<%
-	List<Author> authors = new AdministratorService().getAuthors(-1,10);
-	List<Publisher> publishers = new AdministratorService().getPublishers();
-%>
+<div data-ng-app="libraryApp">
+	<div data-ng-controller="bookCtrl">
+		<!-- <form data-ng-model="addAuthorFrm"> -->
+		<label>Enter Book Title: </label><input type="text" name="title"
+			data-ng-model="title" autofocus /> <input type="button"
+			value="Add Book" class="btn btn-sm btn-default"
+			style="margin: 5px; width: 100px;" data-ng-click="addBook()" />
 
-<%@include file="include.html" %>
-	<form action="addBook" method="post">
-		<table class="table">
-		<tr>
-			<td>Enter Book Name: </td>
-			<td><input type="text" name="title"/></td>
-		</tr>
-		<tr>
-			<td>Enter Book Author: </td>
-			<td>
-				<select name="authorId" multiple="multiple">
-					<% for(Author a : authors) { %>
-						<option value="<%=a.getAuthorId() %>"><%=a.getAuthorName()%></option>
-					<% } %>
-				</select>
-			</td>
-		</tr>	
-		<tr>
-			<td>Enter Book Publisher: </td>
-			<td>
-				<select name="publisherId">
-					<% for(Publisher p : publishers) { %>
-						<option value="<%=p.getId()%>"><%=p.getName()%></option>
-					<% } %>
-				</select>
-			</td>
-			
-		</tr>
-		</table>
-		<input type="submit"/>
-	</form>
+		<button class="btn btn-sm btn-danger"
+			style="margin: 5px; width: 100px;"
+			onclick="window.location.href='#/listBooks'">Cancel</button>
+
+		<!-- </form> -->
+	</div>
+</div>

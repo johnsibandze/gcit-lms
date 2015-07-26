@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Book {
 
 	@Id
-	private UUID bookId;
+	private UUID bookId = UUID.randomUUID();
 
 	private String title;
 

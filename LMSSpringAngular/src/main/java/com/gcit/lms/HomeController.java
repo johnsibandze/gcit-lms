@@ -85,7 +85,7 @@ public class HomeController {
 		}
 	}
 
-	@RequestMapping(value = "/books/get", method = { RequestMethod.GET,
+	@RequestMapping(value = "/book/get", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = "application/json")
 	public List<Book> getBooks() {
 		try {
@@ -101,7 +101,6 @@ public class HomeController {
 	@RequestMapping(value = "/author/add", method = { RequestMethod.GET,
 			RequestMethod.POST }, consumes = "application/json")
 	public String addAuthor(@RequestBody Author author) {
-		System.out.println("here");
 		try {
 			authorDAO.create(author);
 			return "Author added sucessfully";
@@ -187,7 +186,7 @@ public class HomeController {
 		}
 	}
 
-	@RequestMapping(value = "/book/get", method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value = "/book/getOne", method = RequestMethod.POST, consumes = "application/json")
 	public Book getBook(@RequestBody Book book) throws Exception {
 		return bookDAO.readOne(book.getBookId());
 	}

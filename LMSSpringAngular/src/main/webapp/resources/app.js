@@ -13,43 +13,35 @@ libraryModule.config([ "$routeProvider", function($routeProvider) {
 		templateUrl : "editAuthor.html"
 	}).when("/listBooks", {
 		templateUrl : "listBooks.html"
+	}).when("/addBook", {
+		templateUrl : "addBook.html"
 	}).when("/test", {
 		templateUrl : "test.html"
 	})
 } ]);
 
-libraryModule.controller('authorCtrl', function($rootScope, $scope, $http,
-		$cookieStore) {
+libraryModule.controller('authorCtrl', function($rootScope, $scope, $route,
+		$http, $cookieStore) {
 
 	// get all authors and display initially
-
 	$http.get('http://localhost:8080/lms/author/get').success(function(data) {
 		$scope.authors = data;
 		console.log($scope.authors);
-
 	});
 
 	$scope.addAuthor = function addAuthor() {
-		alert('Adding author');
-		// if ($scope.addAuthorFrm.$valid) {
-		// alert('is valid');
 		$http.post('http://localhost:8080/lms/author/add', {
 			authorName : $scope.authorName
 		}).success(function(data) {
 			alert('Author Added Successfully');
 			$scope.authors = data;
-			// showAddAuthor();
 		});
-		// }
+
+		window.location.href = "http://localhost:8080/lms/#/listAuthors";
+
 	};
 
 	$scope.editAuthor = function editAuthor() {
-		alert('here');
-		// window.location.href = "http://localhost:8080/lms/#/editAuthor";
-
-		alert($scope.authorName);
-		alert($rootScope.author);
-
 		$http.post('http://localhost:8080/lms/author/update', {
 			'authorName' : $scope.authorName,
 			'authorId' : $scope.author.authorId
@@ -57,10 +49,12 @@ libraryModule.controller('authorCtrl', function($rootScope, $scope, $http,
 			alert('Author Edited Successfully');
 			$scope.authors = data;
 		});
+
+		window.location.href = "http://localhost:8080/lms/#/listAuthors";
+
 	};
 
 	$scope.showEditAuthor = function showEditAuthor(authorId) {
-		alert(authorId);
 		$http.post('http://localhost:8080/lms/author/getOne', {
 			'authorId' : authorId
 		}).success(function(data) {
@@ -69,31 +63,44 @@ libraryModule.controller('authorCtrl', function($rootScope, $scope, $http,
 
 			// go to the edit
 			window.location.href = "http://localhost:8080/lms/#/editAuthor";
-			alert($scope.author.authorName);
 		});
 	};
 
 	$scope.deleteAuthor = function deleteAuthor(authorId) {
-		alert('Deleting Author');
-
-		alert(authorId);
 
 		$http.post('http://localhost:8080/lms/author/delete', {
 			'authorId' : authorId
 		}).success(function(data) {
 			alert('Author Deleted Successfully');
+			// console.log('author deleted');
 			$scope.authors = data;
 		});
+		// reload the listAuthors page
+		$route.reload();
 	};
 
 });
 
 libraryModule.controller('bookCtrl', function($scope, $http, $cookieStore) {
 
+	// get all books and display initially
 	$http.get('http://localhost:8080/lms/book/get').success(function(data) {
 		$scope.books = data;
 		console.log($scope.books);
 	});
+
+	$scope.addBook = function addBook() {
+		alert($scope.title);
+		$http.post('http://localhost:8080/lms/book/add', {
+			title : $scope.title
+		}).success(function(data) {
+			alert('Book Added Successfully');
+			$scope.books = data;
+		});
+
+		window.location.href = "http://localhost:8080/lms/#/listBooks";
+
+	};
 
 });
 
