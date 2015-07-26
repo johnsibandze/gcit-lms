@@ -193,14 +193,13 @@ libraryModule.controller('publisherCtrl', function($rootScope, $scope, $route,
 		});
 	};
 
-	$scope.deleteAuthor = function deleteAuthor(authorId) {
-
-		$http.post('http://localhost:8080/lms/author/delete', {
-			'authorId' : authorId
+	$scope.deletePublisher = function deletePublisher(publisherId) {
+		$http.post('http://localhost:8080/lms/publisher/delete', {
+			'publisherId' : publisherId
 		}).success(function(data) {
-			alert('Author Deleted Successfully');
+			alert('Publisher Deleted Successfully');
 			// console.log('author deleted');
-			$scope.authors = data;
+			// $scope.authors = data;
 		});
 		// reload the listAuthors page
 		$route.reload();
