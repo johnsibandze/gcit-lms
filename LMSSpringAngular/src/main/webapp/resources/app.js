@@ -19,6 +19,8 @@ libraryModule.config([ "$routeProvider", function($routeProvider) {
 		templateUrl : "editBook.html"
 	}).when("/listPublishers", {
 		templateUrl : "listPublishers.html"
+	}).when("/addPublisher", {
+		templateUrl : "addPublisher.html"
 	}).when("/test", {
 		templateUrl : "test.html"
 	})
@@ -156,15 +158,14 @@ libraryModule.controller('publisherCtrl', function($rootScope, $scope, $route,
 				console.log($scope.publishers);
 			});
 
-	$scope.addAuthor = function addAuthor() {
-		$http.post('http://localhost:8080/lms/author/add', {
-			authorName : $scope.authorName
+	$scope.addPublisher = function addPublisher() {
+		$http.post('http://localhost:8080/lms/publisher/add', {
+			publisherName : $scope.publisherName
 		}).success(function(data) {
-			alert('Author Added Successfully');
-			$scope.authors = data;
+			alert('Publisher Added Successfully');
 		});
 
-		window.location.href = "http://localhost:8080/lms/#/listAuthors";
+		window.location.href = "http://localhost:8080/lms/#/listPublishers";
 
 	};
 
