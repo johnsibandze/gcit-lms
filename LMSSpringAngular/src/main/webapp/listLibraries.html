@@ -8,18 +8,24 @@
 		</ul>
 	</nav>
 
+	<div class="form-group">
+		<label>Search</label> <input type="text" data-ng-model="search"
+			class="form-control" placeholder="search">
+	</div>
+
+
 
 	<table class="table table-hover table-bordered" id="librariesTable">
 		<tr>
-			<th>Branch Id</th>
 			<th>Branch Name</th>
+			<th>Branch Address</th>
 			<th>Edit</th>
 			<th>Delete</th>
 		</tr>
 
-		<tr data-ng-repeat="l in libraries">
-			<td>{{l.branchId}}</td>
+		<tr data-ng-repeat="l in libraries | filter:search">
 			<td>{{l.branchName}}</td>
+			<td>{{l.branchAddress}}</td>
 
 			<td><button type="button" class="btn btn-md btn-success"
 					data-ng-click="showEditLibrary(l.branchId)">Edit</button></td>

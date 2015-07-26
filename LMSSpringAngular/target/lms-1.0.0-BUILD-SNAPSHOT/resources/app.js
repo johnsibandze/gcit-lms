@@ -31,6 +31,10 @@ libraryModule.config([ "$routeProvider", function($routeProvider) {
 		templateUrl : "editBorrower.html"
 	}).when("/listLibraries", {
 		templateUrl : "listLibraries.html"
+	}).when("/addLibrary", {
+		templateUrl : "addLibrary.html"
+	}).when("/editLibrary", {
+		templateUrl : "editLibrary.html"
 	}).when("/test", {
 		templateUrl : "test.html"
 	})
@@ -285,52 +289,52 @@ libraryModule.controller('libraryCtrl', function($rootScope, $scope, $route,
 		console.log($scope.libraries);
 	});
 
-	$scope.addAuthor = function addAuthor() {
-		$http.post('http://localhost:8080/lms/author/add', {
-			authorName : $scope.authorName
+	$scope.addLibrary = function addLibrary() {
+		$http.post('http://localhost:8080/lms/library/add', {
+			branchName : $scope.branchName
 		}).success(function(data) {
-			alert('Author Added Successfully');
-			$scope.authors = data;
+			alert('Branch Added Successfully');
+			$scope.libraries = data;
 		});
 
-		window.location.href = "http://localhost:8080/lms/#/listAuthors";
+		window.location.href = "http://localhost:8080/lms/#/listLibraries";
 
 	};
 
-	$scope.editAuthor = function editAuthor() {
-		$http.post('http://localhost:8080/lms/author/update', {
-			'authorName' : $scope.authorName,
-			'authorId' : $scope.author.authorId
+	$scope.editLibrary = function editLibrary() {
+		alert($scope.library.branchId);
+		$http.post('http://localhost:8080/lms/library/update', {
+
+			'branchId' : $scope.library.branchId,
+			'branchName' : $scope.branchName,
+			'branchAddress' : $scope.branchAddress
 		}).success(function(data) {
-			alert('Author Edited Successfully');
-			$scope.authors = data;
+			alert('Branch Edited Successfully');
+			// $scope.authors = data;
 		});
 
-		window.location.href = "http://localhost:8080/lms/#/listAuthors";
+		window.location.href = "http://localhost:8080/lms/#/listLibraries";
 
 	};
 
-	$scope.showEditAuthor = function showEditAuthor(authorId) {
-		alert('show');
-		$http.post('http://localhost:8080/lms/author/getOne', {
-			'authorId' : authorId
+	$scope.showEditLibrary = function showEditLibrary(branchId) {
+		$http.post('http://localhost:8080/lms/library/getOne', {
+			'branchId' : branchId
 		}).success(function(data) {
-			$rootScope.author = data;
-			console.log($scope.author);
+			$rootScope.library = data;
 
 			// go to the edit
-			window.location.href = "http://localhost:8080/lms/#/editAuthor";
+			window.location.href = "http://localhost:8080/lms/#/editLibrary";
 		});
 	};
 
-	$scope.deleteAuthor = function deleteAuthor(authorId) {
-
-		$http.post('http://localhost:8080/lms/author/delete', {
-			'authorId' : authorId
+	$scope.deleteLibrary = function deleteLibrary(branchId) {
+		$http.post('http://localhost:8080/lms/library/delete', {
+			'branchId' : branchId
 		}).success(function(data) {
-			alert('Author Deleted Successfully');
+			alert('Branch Deleted Successfully');
 			// console.log('author deleted');
-			$scope.authors = data;
+			// $scope.authors = data;
 		});
 		// reload the listAuthors page
 		$route.reload();

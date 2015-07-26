@@ -1,11 +1,23 @@
 <div data-ng-app="libraryApp">
 	<div data-ng-controller="libraryCtrl">
-		<label>Enter New Branch Name: </label><input type="text"
-			name="branchName" data-ng-model="branchName" autofocus> <input
-			type="button" value="Edit Branch" class="btn btn-sm btn-default"
-			style="margin: 5px; width: 100px;" data-ng-click="editLibrary()" />
-		<button class="btn btn-sm btn-danger"
-			style="margin: 5px; width: 100px;"
-			onclick="window.location.href='#/listLibraries'">Cancel</button>
+
+		<nav>
+			<label>Enter New Branch Name: </label><input type="text"
+				name="branchName" data-ng-model="branchName" value="the value"
+				autofocus>
+		</nav>
+		<nav>
+			<label>Enter New Branch Address: </label><input type="text"
+				name="branchAddress" data-ng-model="branchAddress" autofocus>
+		</nav>
+
+		<nav>
+			<input type="button" value="Edit Branch"
+				class="btn btn-sm btn-success" style="margin: 5px; width: 100px;"
+				data-ng-click="editLibrary()" />
+			<button class="btn btn-sm btn-danger"
+				style="margin: 5px; width: 100px;"
+				onclick="window.location.href='#/listLibraries'">Cancel</button>
+		</nav>
 	</div>
 </div>
