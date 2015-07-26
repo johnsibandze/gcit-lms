@@ -395,6 +395,7 @@ public class HomeController {
 		}
 	}
 
+	
 	@RequestMapping(value = "/borrower/getOne", method = RequestMethod.POST, consumes = "application/json")
 	public Borrower getBorrower(@RequestBody Borrower borrower)
 			throws Exception {
