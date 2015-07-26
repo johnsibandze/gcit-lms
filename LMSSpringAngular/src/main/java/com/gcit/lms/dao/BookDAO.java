@@ -33,10 +33,6 @@ public class BookDAO extends BaseDAO<Book> implements
 	}
 
 	public void update(Book book) throws Exception {
-		// Query query = new Query(Criteria.where("_id").is(book.getBookId()));
-		// Book oldBook = mongoOps.findOne(query, Book.class, BOOK_COLLECTION);
-		//
-		// oldBook.setTitle(book.getTitle());
 		mongoOps.save(book, BOOK_COLLECTION);
 	}
 
