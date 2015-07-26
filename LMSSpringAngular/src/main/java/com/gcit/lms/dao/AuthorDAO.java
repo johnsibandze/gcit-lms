@@ -34,12 +34,13 @@ public class AuthorDAO extends BaseDAO<Author> implements
 	}
 
 	public void update(Author author) throws Exception {
-		Query query = new Query(Criteria.where("_id").is(author.getAuthorId()));
-		Author oldAuthor = mongoOps.findOne(query, Author.class,
-				AUTH_COLLECTION);
-
-		oldAuthor.setAuthorName(author.getAuthorName());
-		mongoOps.save(oldAuthor, AUTH_COLLECTION);
+		// Query query = new
+		// Query(Criteria.where("_id").is(author.getAuthorId()));
+		// Author oldAuthor = mongoOps.findOne(query, Author.class,
+		// AUTH_COLLECTION);
+		//
+		// oldAuthor.setAuthorName(author.getAuthorName());
+		mongoOps.save(author, AUTH_COLLECTION);
 	}
 
 	public void delete(Author author) throws Exception {
