@@ -130,6 +130,18 @@ libraryModule.controller('bookCtrl', function($scope, $rootScope, $route,
 		});
 	};
 
+	$scope.deleteBook = function deleteBook(bookId) {
+		$http.post('http://localhost:8080/lms/book/delete', {
+			'bookId' : bookId
+		}).success(function(data) {
+			alert('Book Deleted Successfully');
+			// console.log('author deleted');
+			$scope.books = data;
+		});
+		// reload the listAuthors page
+		$route.reload();
+	};
+
 });
 
 libraryModule.controller('testCtrl', function($scope, $http, $cookieStore) {
