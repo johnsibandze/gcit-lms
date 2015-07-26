@@ -3,13 +3,12 @@
 
 	<nav>
 		<ul class="pagination">
-			<li><a href="pageAuthors?pageNo=1">1</a></li>
-			<li><a href="pageAuthors?pageNo=2">2</a></li>
+			<li><a href="pageBooks?pageNo=1">1</a></li>
+			<li><a href="pageBooks?pageNo=2">2</a></li>
 		</ul>
 	</nav>
 
-
-	<table class="table table-hover table-bordered" id="authorsTable">
+	<table class="table table-hover table-bordered" id="booksTable">
 		<tr>
 			<th>Book Id</th>
 			<th>Book Title</th>
@@ -17,27 +16,18 @@
 			<th>Delete</th>
 		</tr>
 
-
-
-		<tr ng-repeat="a in authors">
-			<td>{{a.authorId}}</td>
-			<td>{{a.authorName}}</td>
-
-
+		<tr data-ng-repeat="b in books">
+			<td>{{b.bookId}}</td>
+			<td>{{b.title}}</td>
 			<td><button type="button" class="btn btn-md btn-success"
-					data-ng-click="showEditAuthor(a.authorId)">Edit</button></td>
-
-
-
+					data-ng-click="showEditBook(b.bookId)">Edit</button></td>
 			<td><button type="button" class="btn btn-md btn-danger"
-					data-ng-click="deleteAuthor(a.authorId)">Delete</button></td>
-
+					data-ng-click="deleteBook(b.bookId)">Delete</button></td>
 		</tr>
-
 	</table>
 
-	<button class="btn btn-info"
-		onclick="window.location.href='#/addAuthor'">Add Author</button>
+	<button class="btn btn-info" onclick="window.location.href='#/addBook'">Add
+		Book</button>
 
 	<div id="myModal1" class="modal fade">
 		<div class="modal-dialog">

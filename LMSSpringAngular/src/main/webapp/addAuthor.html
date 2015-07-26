@@ -3,12 +3,14 @@
 	<div data-ng-controller="authorCtrl">
 		<form data-ng-model="addAuthorFrm">
 			<label>Enter Author Name: </label><input type="text"
-				name="authorName" data-ng-model="authorName" /> <input
+				name="authorName" data-ng-model="authorName" autofocus /> <input
 				type="button" value="Add Author" class="btn btn-sm btn-default"
 				style="margin: 5px; width: 100px;" data-ng-click="addAuthor()" />
-			<button type="button" id="cancel" class="btn btn-sm btn-default"
+
+			<button class="btn btn-sm btn-danger"
 				style="margin: 5px; width: 100px;"
-				data-ng-click="go('/authorServices')">Cancel</button>
+				onclick="window.location.href='#/listAuthors'">Cancel</button>
+
 		</form>
 	</div>
 </div>
