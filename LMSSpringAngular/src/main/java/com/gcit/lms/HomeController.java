@@ -264,7 +264,7 @@ public class HomeController {
 		}
 	}
 
-	@RequestMapping(value = "/publishers/get", method = { RequestMethod.GET,
+	@RequestMapping(value = "/publisher/get", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = "application/json")
 	public List<Publisher> getPublishers() {
 		try {
@@ -276,7 +276,7 @@ public class HomeController {
 		}
 	}
 
-	@RequestMapping(value = "/publisher/get", method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value = "/publisher/getOne", method = RequestMethod.POST, consumes = "application/json")
 	public Publisher getPublisher(@RequestBody Publisher publisher)
 			throws Exception {
 		return publisherDAO.readOne(publisher.getPublisherId());

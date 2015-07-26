@@ -10,7 +10,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
-import com.gcit.lms.domain.Author;
 import com.gcit.lms.domain.Publisher;
 
 public class PublisherDAO extends BaseDAO<Publisher> implements
@@ -23,16 +22,16 @@ public class PublisherDAO extends BaseDAO<Publisher> implements
 	}
 
 	public void update(Publisher publisher) throws Exception {
-		Query query = new Query(Criteria.where("_id").is(
-				publisher.getPublisherId()));
-		Publisher oldPublisher = mongoOps.findOne(query, Publisher.class,
-				PUBLISHER_COLLECTION);
+		// Query query = new Query(Criteria.where("_id").is(
+		// publisher.getPublisherId()));
+		// Publisher oldPublisher = mongoOps.findOne(query, Publisher.class,
+		// PUBLISHER_COLLECTION);
+		//
+		// oldPublisher.setPublisherName(publisher.getPublisherName());
+		// oldPublisher.setPublisherAddress(publisher.getPublisherAddress());
+		// oldPublisher.setPublisherPhone(publisher.getPublisherPhone());
 
-		oldPublisher.setPublisherName(publisher.getPublisherName());
-		oldPublisher.setPublisherAddress(publisher.getPublisherAddress());
-		oldPublisher.setPublisherPhone(publisher.getPublisherPhone());
-
-		mongoOps.save(oldPublisher, PUBLISHER_COLLECTION);
+		mongoOps.save(publisher, PUBLISHER_COLLECTION);
 	}
 
 	public void delete(Publisher publisher) throws Exception {
