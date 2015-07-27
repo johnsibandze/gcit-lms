@@ -327,7 +327,8 @@ libraryModule.controller('libraryCtrl', function($rootScope, $scope, $route,
 
 	$scope.addLibrary = function addLibrary() {
 		$http.post('http://localhost:8080/lms/library/add', {
-			branchName : $scope.branchName
+			'branchName' : $scope.branchName,
+			'branchAddress' : $scope.branchAddress
 		}).success(function(data) {
 			alert('Branch Added Successfully');
 			$scope.libraries = data;

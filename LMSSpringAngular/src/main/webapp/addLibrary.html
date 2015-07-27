@@ -1,9 +1,18 @@
 
 <div data-ng-app="libraryApp">
 	<div data-ng-controller="libraryCtrl">
-		<label>Enter Library Name: </label><input type="text" name="branchName"
-			data-ng-model="branchName" autofocus /> <input type="button"
-			value="Add Branch" class="btn btn-sm btn-default"
+		<nav>
+			<label>Enter Library Name: </label><input type="text"
+				name="branchName" data-ng-model="branchName" autofocus />
+		</nav>
+
+		<nav>
+			<label>Enter Library Address: </label><input type="text"
+				name="branchAddress" data-ng-model="branchAddress" autofocus />
+		</nav>
+
+
+		<input type="button" value="Add Branch" class="btn btn-sm btn-default"
 			style="margin: 5px; width: 100px;" data-ng-click="addLibrary()" />
 
 		<button class="btn btn-sm btn-danger"
