@@ -342,8 +342,8 @@ libraryModule.controller('libraryCtrl', function($rootScope, $scope, $route,
 		$http.post('http://localhost:8080/lms/library/update', {
 
 			'branchId' : $scope.library.branchId,
-			'branchName' : $scope.branchName,
-			'branchAddress' : $scope.branchAddress
+			'branchName' : $scope.library.branchName,
+			'branchAddress' : $scope.library.branchAddress
 		}).success(function(data) {
 			alert('Branch Edited Successfully');
 			// $scope.authors = data;

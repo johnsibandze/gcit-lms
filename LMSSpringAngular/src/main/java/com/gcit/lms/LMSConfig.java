@@ -12,6 +12,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.gcit.lms.dao.AuthorDAO;
+import com.gcit.lms.dao.BookCopiesDAO;
 import com.gcit.lms.dao.BookDAO;
 import com.gcit.lms.dao.BorrowerDAO;
 import com.gcit.lms.dao.GenreDAO;
@@ -62,6 +63,11 @@ public class LMSConfig {
 	@Bean
 	public BorrowerDAO borrowerDAO() {
 		return new BorrowerDAO();
+	}
+
+	@Bean
+	BookCopiesDAO bookCopiesDAO() {
+		return new BookCopiesDAO();
 	}
 
 	@Bean

@@ -47,6 +47,8 @@ libraryModule.config([ "$routeProvider", function($routeProvider) {
 		templateUrl : "addGenre.html"
 	}).when("/editGenre", {
 		templateUrl : "editGenre.html"
+	}).when("/listLibrariesLibrarian", {
+		templateUrl : "listLibrariesLibrarian.html"
 	}).when("/test", {
 		templateUrl : "test.html"
 	})
@@ -117,11 +119,23 @@ libraryModule.controller('authorCtrl', function($rootScope, $scope, $route,
 libraryModule.controller('bookCtrl', function($scope, $rootScope, $route,
 		$http, $cookieStore) {
 
-	// all the authors to be used when adding and editing
+	// all the authors to be used when adding and editing a book
 	$http.get('http://localhost:8080/lms/author/get').success(function(data) {
 		$scope.authors = data;
 		console.log($scope.authors);
 	});
+
+	// all the genres to be used when adding and editing a book
+	$http.get('http://localhost:8080/lms/genre/get').success(function(data) {
+		$scope.genres = data;
+		console.log($scope.genres);
+	});
+
+	$http.get('http://localhost:8080/lms/publisher/get').success(
+			function(data) {
+				$scope.publishers = data;
+				console.log($scope.publishers);
+			});
 
 	// get all books and display initially
 	$http.get('http://localhost:8080/lms/book/get').success(function(data) {
@@ -130,12 +144,13 @@ libraryModule.controller('bookCtrl', function($scope, $rootScope, $route,
 	});
 
 	$scope.addBook = function addBook() {
-		alert($scope.title);
 		$http.post('http://localhost:8080/lms/book/add', {
-			title : $scope.title
+			'title' : $scope.title,
+			'authors' : $scope.bookAuthors,
+			'genres' : $scope.bookGenres,
+			'publisher' : $scope.bookPublisher
 		}).success(function(data) {
-			alert('Book Added Successfully');
-			$scope.books = data;
+			alert(data);
 		});
 
 		window.location.href = "http://localhost:8080/lms/#/listBooks";
@@ -143,11 +158,12 @@ libraryModule.controller('bookCtrl', function($scope, $rootScope, $route,
 	};
 
 	$scope.editBook = function editBook() {
-		// alert($rootScope.book.title);
 		$http.post('http://localhost:8080/lms/book/update', {
 			'title' : $scope.book.title,
 			'bookId' : $scope.book.bookId,
-			'authors' : $scope.book.authors
+			'authors' : $scope.book.authors,
+			'genres' : $scope.book.genres,
+			'publisher' : $scope.book.publisher
 		}).success(function(data) {
 			alert('Book Edited Successfully');
 		});
@@ -185,7 +201,7 @@ libraryModule.controller('bookCtrl', function($scope, $rootScope, $route,
 libraryModule.controller('publisherCtrl', function($rootScope, $scope, $route,
 		$http, $cookieStore) {
 
-	// get all authors and display initially
+	// get all publishers and display initially
 	$http.get('http://localhost:8080/lms/publisher/get').success(
 			function(data) {
 				$scope.publishers = data;

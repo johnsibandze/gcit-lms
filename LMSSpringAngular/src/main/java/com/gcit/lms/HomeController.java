@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gcit.lms.dao.AuthorDAO;
+import com.gcit.lms.dao.BookCopiesDAO;
 import com.gcit.lms.dao.BookDAO;
 import com.gcit.lms.dao.BorrowerDAO;
 import com.gcit.lms.dao.GenreDAO;
@@ -23,6 +24,7 @@ import com.gcit.lms.dao.LibraryDAO;
 import com.gcit.lms.dao.PublisherDAO;
 import com.gcit.lms.domain.Author;
 import com.gcit.lms.domain.Book;
+import com.gcit.lms.domain.BookCopies;
 import com.gcit.lms.domain.Borrower;
 import com.gcit.lms.domain.Genre;
 import com.gcit.lms.domain.Library;
@@ -51,6 +53,9 @@ public class HomeController {
 
 	@Autowired
 	BorrowerDAO borrowerDAO;
+
+	@Autowired
+	BookCopiesDAO bookCopiesDAO;
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(HomeController.class);
@@ -426,6 +431,20 @@ public class HomeController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return "Borrower update failed";
+		}
+	}
+
+	@Transactional
+	@RequestMapping(value = "/bookCopy/add", method = { RequestMethod.GET,
+			RequestMethod.POST }, consumes = "application/json")
+	public String addBookCopy(@RequestBody BookCopies bookCopy) {
+		try {
+			bookCopiesDAO.create(bookCopy);
+			return "Book Copy added sucessfully";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Book Copy add failed";
 		}
 	}
 
