@@ -43,6 +43,8 @@ libraryModule.config([ "$routeProvider", function($routeProvider) {
 		templateUrl : "editLibrary.html"
 	}).when("/listGenres", {
 		templateUrl : "listGenres.html"
+	}).when("/addGenre", {
+		templateUrl : "addGenre.html"
 	}).when("/test", {
 		templateUrl : "test.html"
 	})
@@ -367,15 +369,15 @@ libraryModule.controller('genreCtrl', function($rootScope, $scope, $route,
 		console.log($scope.genres);
 	});
 
-	$scope.addAuthor = function addAuthor() {
-		$http.post('http://localhost:8080/lms/author/add', {
-			authorName : $scope.authorName
+	$scope.addGenre = function addGenre() {
+		$http.post('http://localhost:8080/lms/genre/add', {
+			genreName : $scope.genreName
 		}).success(function(data) {
-			alert('Author Added Successfully');
-			$scope.authors = data;
+			alert('Genre Added Successfully');
+			// $scope.genres = data;
 		});
 
-		window.location.href = "http://localhost:8080/lms/#/listAuthors";
+		window.location.href = "http://localhost:8080/lms/#/listGenres";
 
 	};
 
