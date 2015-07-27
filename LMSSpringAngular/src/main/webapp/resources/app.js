@@ -77,7 +77,7 @@ libraryModule.controller('authorCtrl', function($rootScope, $scope, $route,
 
 	$scope.editAuthor = function editAuthor() {
 		$http.post('http://localhost:8080/lms/author/update', {
-			'authorName' : $scope.authorName,
+			'authorName' : $scope.author.authorName,
 			'authorId' : $scope.author.authorId
 		}).success(function(data) {
 			alert('Author Edited Successfully');
@@ -338,7 +338,6 @@ libraryModule.controller('libraryCtrl', function($rootScope, $scope, $route,
 	};
 
 	$scope.editLibrary = function editLibrary() {
-		alert($scope.library.branchId);
 		$http.post('http://localhost:8080/lms/library/update', {
 
 			'branchId' : $scope.library.branchId,
