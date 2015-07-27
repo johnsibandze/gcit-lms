@@ -47,6 +47,8 @@ libraryModule.config([ "$routeProvider", function($routeProvider) {
 		templateUrl : "addGenre.html"
 	}).when("/editGenre", {
 		templateUrl : "editGenre.html"
+	}).when("/listLibrariesLibrarian", {
+		templateUrl : "listLibrariesLibrarian.html"
 	}).when("/test", {
 		templateUrl : "test.html"
 	})
@@ -149,7 +151,6 @@ libraryModule.controller('bookCtrl', function($scope, $rootScope, $route,
 			'publisher' : $scope.bookPublisher
 		}).success(function(data) {
 			alert(data);
-			// $scope.books = data;
 		});
 
 		window.location.href = "http://localhost:8080/lms/#/listBooks";
@@ -157,7 +158,6 @@ libraryModule.controller('bookCtrl', function($scope, $rootScope, $route,
 	};
 
 	$scope.editBook = function editBook() {
-		// alert($rootScope.book.title);
 		$http.post('http://localhost:8080/lms/book/update', {
 			'title' : $scope.book.title,
 			'bookId' : $scope.book.bookId,
