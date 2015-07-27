@@ -210,7 +210,9 @@ libraryModule.controller('publisherCtrl', function($rootScope, $scope, $route,
 
 	$scope.addPublisher = function addPublisher() {
 		$http.post('http://localhost:8080/lms/publisher/add', {
-			publisherName : $scope.publisherName
+			'publisherName' : $scope.publisherName,
+			'publisherAddress' : $scope.publisherAddress,
+			'publisherPhone' : $scope.publisherPhone
 		}).success(function(data) {
 			alert('Publisher Added Successfully');
 		});
@@ -220,10 +222,11 @@ libraryModule.controller('publisherCtrl', function($rootScope, $scope, $route,
 	};
 
 	$scope.editPublisher = function editPublisher() {
-		alert('here');
 		$http.post('http://localhost:8080/lms/publisher/update', {
-			'publisherName' : $scope.publisherName,
-			'publisherId' : $scope.publisher.publisherId
+			'publisherId' : $scope.publisher.publisherId,
+			'publisherName' : $scope.publisher.publisherName,
+			'publisherAddress' : $scope.publisher.publisherAddress,
+			'publisherPhone' : $scope.publisher.publisherPhone
 		}).success(function(data) {
 			alert('Publisher Edited Successfully');
 		});
