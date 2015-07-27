@@ -408,14 +408,14 @@ libraryModule.controller('genreCtrl', function($rootScope, $scope, $route,
 		});
 	};
 
-	$scope.deleteAuthor = function deleteAuthor(authorId) {
+	$scope.deleteGenre = function deleteGenre(genreId) {
 
-		$http.post('http://localhost:8080/lms/author/delete', {
-			'authorId' : authorId
+		$http.post('http://localhost:8080/lms/genre/delete', {
+			'genreId' : genreId
 		}).success(function(data) {
-			alert('Author Deleted Successfully');
+			alert('Genre Deleted Successfully');
 			// console.log('author deleted');
-			$scope.authors = data;
+			// $scope.genres = data;
 		});
 		// reload the listAuthors page
 		$route.reload();

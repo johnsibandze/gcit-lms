@@ -1,0 +1,13 @@
+
+<div data-ng-app="libraryApp">
+	<div data-ng-controller="genreCtrl">
+		<label>Enter Genre Name: </label><input type="text" name="genreName"
+			data-ng-model="genreName" autofocus /> <input type="button"
+			value="Add Genre" class="btn btn-sm btn-default"
+			style="margin: 5px; width: 100px;" data-ng-click="addGenre()" />
+
+		<button class="btn btn-sm btn-danger"
+			style="margin: 5px; width: 100px;"
+			onclick="window.location.href='#/listGenres'">Cancel</button>
+	</div>
+</div>

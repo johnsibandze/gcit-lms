@@ -43,6 +43,10 @@ libraryModule.config([ "$routeProvider", function($routeProvider) {
 		templateUrl : "editLibrary.html"
 	}).when("/listGenres", {
 		templateUrl : "listGenres.html"
+	}).when("/addGenre", {
+		templateUrl : "addGenre.html"
+	}).when("/editGenre", {
+		templateUrl : "editGenre.html"
 	}).when("/test", {
 		templateUrl : "test.html"
 	})
@@ -367,52 +371,51 @@ libraryModule.controller('genreCtrl', function($rootScope, $scope, $route,
 		console.log($scope.genres);
 	});
 
-	$scope.addAuthor = function addAuthor() {
-		$http.post('http://localhost:8080/lms/author/add', {
-			authorName : $scope.authorName
+	$scope.addGenre = function addGenre() {
+		$http.post('http://localhost:8080/lms/genre/add', {
+			genreName : $scope.genreName
 		}).success(function(data) {
-			alert('Author Added Successfully');
-			$scope.authors = data;
+			alert('Genre Added Successfully');
+			// $scope.genres = data;
 		});
 
-		window.location.href = "http://localhost:8080/lms/#/listAuthors";
+		window.location.href = "http://localhost:8080/lms/#/listGenres";
 
 	};
 
-	$scope.editAuthor = function editAuthor() {
-		$http.post('http://localhost:8080/lms/author/update', {
-			'authorName' : $scope.authorName,
-			'authorId' : $scope.author.authorId
+	$scope.editGenre = function editGenre() {
+		$http.post('http://localhost:8080/lms/genre/update', {
+			'genreName' : $scope.genreName,
+			'genreId' : $scope.genre.genreId
 		}).success(function(data) {
-			alert('Author Edited Successfully');
-			$scope.authors = data;
+			alert('Genre Edited Successfully');
+			$scope.genres = data;
 		});
 
-		window.location.href = "http://localhost:8080/lms/#/listAuthors";
+		window.location.href = "http://localhost:8080/lms/#/listGenres";
 
 	};
 
-	$scope.showEditAuthor = function showEditAuthor(authorId) {
-
-		$http.post('http://localhost:8080/lms/author/getOne', {
-			'authorId' : authorId
+	$scope.showEditGenre = function showEditGenre(genreId) {
+		$http.post('http://localhost:8080/lms/genre/getOne', {
+			'genreId' : genreId
 		}).success(function(data) {
-			$rootScope.author = data;
-			console.log($scope.author);
+			$rootScope.genre = data;
+			console.log($scope.genre);
 
 			// go to the edit
-			window.location.href = "http://localhost:8080/lms/#/editAuthor";
+			window.location.href = "http://localhost:8080/lms/#/editGenre";
 		});
 	};
 
-	$scope.deleteAuthor = function deleteAuthor(authorId) {
-
-		$http.post('http://localhost:8080/lms/author/delete', {
-			'authorId' : authorId
+	$scope.deleteGenre = function deleteGenre(genreId) {
+		$http.post('http://localhost:8080/lms/genre/delete', {
+			'genre' : genreId
 		}).success(function(data) {
-			alert('Author Deleted Successfully');
+			alert('Genre Deleted Successfully');
+			alert(data);
 			// console.log('author deleted');
-			$scope.authors = data;
+			// $scope.authors = data;
 		});
 		// reload the listAuthors page
 		$route.reload();
