@@ -129,6 +129,12 @@ libraryModule.controller('bookCtrl', function($scope, $rootScope, $route,
 		console.log($scope.genres);
 	});
 
+	$http.get('http://localhost:8080/lms/publisher/get').success(
+			function(data) {
+				$scope.publishers = data;
+				console.log($scope.publishers);
+			});
+
 	// get all books and display initially
 	$http.get('http://localhost:8080/lms/book/get').success(function(data) {
 		$scope.books = data;
@@ -154,7 +160,8 @@ libraryModule.controller('bookCtrl', function($scope, $rootScope, $route,
 			'title' : $scope.book.title,
 			'bookId' : $scope.book.bookId,
 			'authors' : $scope.book.authors,
-			'genres' : $scope.book.genres
+			'genres' : $scope.book.genres,
+			'publisher' : $scope.book.publisher
 		}).success(function(data) {
 			alert('Book Edited Successfully');
 		});
@@ -192,7 +199,7 @@ libraryModule.controller('bookCtrl', function($scope, $rootScope, $route,
 libraryModule.controller('publisherCtrl', function($rootScope, $scope, $route,
 		$http, $cookieStore) {
 
-	// get all authors and display initially
+	// get all publishers and display initially
 	$http.get('http://localhost:8080/lms/publisher/get').success(
 			function(data) {
 				$scope.publishers = data;

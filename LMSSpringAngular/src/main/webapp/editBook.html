@@ -30,5 +30,12 @@
 			<div>Selected Genres: {{book.genres}}</div>
 		</nav>
 
+		<h3>Publisher</h3>
+		<nav>
+			<select id="myselection" data-ng-model="book.publisher"
+				data-ng-options="p.publisherName for p in publishers"></select>
+			<div>Selected Publishers: {{book.publisher}}</div>
+		</nav>
+
 	</div>
 </div>
