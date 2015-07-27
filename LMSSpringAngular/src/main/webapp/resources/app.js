@@ -142,12 +142,12 @@ libraryModule.controller('bookCtrl', function($scope, $rootScope, $route,
 	});
 
 	$scope.addBook = function addBook() {
-		alert($scope.title);
 		$http.post('http://localhost:8080/lms/book/add', {
-			title : $scope.title
+			'title' : $scope.title,
+			'authors' : $scope.myAuthors
 		}).success(function(data) {
-			alert('Book Added Successfully');
-			$scope.books = data;
+			alert(data);
+			// $scope.books = data;
 		});
 
 		window.location.href = "http://localhost:8080/lms/#/listBooks";
