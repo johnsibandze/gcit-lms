@@ -23,7 +23,8 @@
 			<th>Delete</th>
 		</tr>
 
-		<tr data-ng-repeat="b in books | filter:search">
+		<tr
+			data-ng-repeat="b in books | filter:search | limit startFrom:(currentPage -1) * pageSize |limitTo:pageSize">
 			<td>{{b.title}}</td>
 			<td><li data-ng-repeat="author in b.authors">{{author.authorName}}</li></td>
 			<td><li data-ng-repeat="genre in b.genres">{{genre.genreName}}</li></td>
@@ -38,6 +39,11 @@
 
 	<button class="btn btn-info" onclick="window.location.href='#/addBook'">Add
 		Book</button>
+
+	<div align="right">
+		<pagination total-items="authors.length" ng-model="currentPage"
+			items-per-page="pageSize" ng-change="pageChanged()"></pagination>
+	</div>
 
 	<div id="myModal1" class="modal fade">
 		<div class="modal-dialog">

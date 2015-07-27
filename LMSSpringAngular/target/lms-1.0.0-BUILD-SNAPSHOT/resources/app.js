@@ -56,6 +56,10 @@ libraryModule.config([ "$routeProvider", function($routeProvider) {
 
 libraryModule.controller('authorCtrl', function($rootScope, $scope, $route,
 		$http, $cookieStore) {
+	
+	// pagination
+	$scope.pageSize = 3;
+	$scope.currentPage = 1;
 
 	// get all authors and display initially
 	$http.get('http://localhost:8080/lms/author/get').success(function(data) {
@@ -77,7 +81,7 @@ libraryModule.controller('authorCtrl', function($rootScope, $scope, $route,
 
 	$scope.editAuthor = function editAuthor() {
 		$http.post('http://localhost:8080/lms/author/update', {
-			'authorName' : $scope.authorName,
+			'authorName' : $scope.author.authorName,
 			'authorId' : $scope.author.authorId
 		}).success(function(data) {
 			alert('Author Edited Successfully');
@@ -89,7 +93,6 @@ libraryModule.controller('authorCtrl', function($rootScope, $scope, $route,
 	};
 
 	$scope.showEditAuthor = function showEditAuthor(authorId) {
-
 		$http.post('http://localhost:8080/lms/author/getOne', {
 			'authorId' : authorId
 		}).success(function(data) {
@@ -210,7 +213,9 @@ libraryModule.controller('publisherCtrl', function($rootScope, $scope, $route,
 
 	$scope.addPublisher = function addPublisher() {
 		$http.post('http://localhost:8080/lms/publisher/add', {
-			publisherName : $scope.publisherName
+			'publisherName' : $scope.publisherName,
+			'publisherAddress' : $scope.publisherAddress,
+			'publisherPhone' : $scope.publisherPhone
 		}).success(function(data) {
 			alert('Publisher Added Successfully');
 		});
@@ -220,10 +225,11 @@ libraryModule.controller('publisherCtrl', function($rootScope, $scope, $route,
 	};
 
 	$scope.editPublisher = function editPublisher() {
-		alert('here');
 		$http.post('http://localhost:8080/lms/publisher/update', {
-			'publisherName' : $scope.publisherName,
-			'publisherId' : $scope.publisher.publisherId
+			'publisherId' : $scope.publisher.publisherId,
+			'publisherName' : $scope.publisher.publisherName,
+			'publisherAddress' : $scope.publisher.publisherAddress,
+			'publisherPhone' : $scope.publisher.publisherPhone
 		}).success(function(data) {
 			alert('Publisher Edited Successfully');
 		});
@@ -327,7 +333,8 @@ libraryModule.controller('libraryCtrl', function($rootScope, $scope, $route,
 
 	$scope.addLibrary = function addLibrary() {
 		$http.post('http://localhost:8080/lms/library/add', {
-			branchName : $scope.branchName
+			'branchName' : $scope.branchName,
+			'branchAddress' : $scope.branchAddress
 		}).success(function(data) {
 			alert('Branch Added Successfully');
 			$scope.libraries = data;
@@ -338,12 +345,11 @@ libraryModule.controller('libraryCtrl', function($rootScope, $scope, $route,
 	};
 
 	$scope.editLibrary = function editLibrary() {
-		alert($scope.library.branchId);
 		$http.post('http://localhost:8080/lms/library/update', {
 
 			'branchId' : $scope.library.branchId,
-			'branchName' : $scope.branchName,
-			'branchAddress' : $scope.branchAddress
+			'branchName' : $scope.library.branchName,
+			'branchAddress' : $scope.library.branchAddress
 		}).success(function(data) {
 			alert('Branch Edited Successfully');
 			// $scope.authors = data;
@@ -401,8 +407,8 @@ libraryModule.controller('genreCtrl', function($rootScope, $scope, $route,
 
 	$scope.editGenre = function editGenre() {
 		$http.post('http://localhost:8080/lms/genre/update', {
-			'genreName' : $scope.genreName,
-			'genreId' : $scope.genre.genreId
+			'genreId' : $scope.genre.genreId,
+			'genreName' : $scope.genre.genreName
 		}).success(function(data) {
 			alert('Genre Edited Successfully');
 			$scope.genres = data;

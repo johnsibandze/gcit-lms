@@ -1,7 +1,23 @@
 <div data-ng-app="libraryApp">
 	<div data-ng-controller="publisherCtrl">
-		<label>Enter New Publisher Name: </label><input type="text"
-			name="publisherName" data-ng-model="publisherName" autofocus>
+		<nav>
+			<label>Enter New Publisher Name: </label><input type="text"
+				name="publisherName" data-ng-model="publisher.publisherName"
+				autofocus>
+		</nav>
+
+		<nav>
+			<label>Enter New Publisher Address: </label><input type="text"
+				name="publisherAddress" data-ng-model="publisher.publisherAddress"
+				autofocus>
+		</nav>
+
+		<nav>
+			<label>Enter New Publisher Phone: </label><input type="text"
+				name="publisherPhone" data-ng-model="publisher.publisherPhone"
+				autofocus>
+		</nav>
+
 		<input type="button" value="Edit Publisher"
 			class="btn btn-sm btn-default" style="margin: 5px; width: 100px;"
 			data-ng-click="editPublisher()" />

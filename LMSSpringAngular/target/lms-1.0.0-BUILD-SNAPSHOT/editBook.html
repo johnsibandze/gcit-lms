@@ -14,7 +14,11 @@
 			<select id="myselection" multiple="multiple"
 				data-ng-model="book.authors"
 				data-ng-options="a.authorName for a in authors"></select>
-			<div>Selected Authors: {{book.authors}}</div>
+			<div>
+				Selected Authors:
+				<li data-ng-repeat="author in book.authors">
+					{{author.authorName}}</li>
+			</div>
 		</nav>
 
 		<h3>Genres</h3>

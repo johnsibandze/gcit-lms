@@ -1,16 +1,30 @@
 
 <div data-ng-app="libraryApp">
 	<div data-ng-controller="publisherCtrl">
-		<!-- <form data-ng-model="addAuthorFrm"> -->
-		<label>Enter Publisher Name: </label><input type="text"
-			name="publisherName" data-ng-model="publisherName" autofocus /> <input
-			type="button" value="Add Publisher" class="btn btn-sm btn-default"
-			style="margin: 5px; width: 100px;" data-ng-click="addPublisher()" />
+
+		<nav>
+			<label>Enter Publisher Name: </label><input type="text"
+				name="publisherName" data-ng-model="publisherName" autofocus>
+		</nav>
+
+		<nav>
+			<label>Enter Publisher Address: </label><input type="text"
+				name="publisherAddress" data-ng-model="publisherAddress">
+		</nav>
+
+		<nav>
+			<label>Enter Publisher Phone: </label><input type="text"
+				name="publisherPhone" data-ng-model="publisherPhone">
+		</nav>
+
+		<input type="button" value="Add Publisher"
+			class="btn btn-sm btn-default" style="margin: 5px; width: 100px;"
+			data-ng-click="addPublisher()" />
 
 		<button class="btn btn-sm btn-danger"
 			style="margin: 5px; width: 100px;"
 			onclick="window.location.href='#/listPublishers'">Cancel</button>
-		<!-- </form> -->
+
 	</div>
 </div>
 

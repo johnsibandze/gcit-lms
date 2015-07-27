@@ -16,12 +16,14 @@
 	<table class="table table-hover table-bordered" id="authorsTable">
 		<tr>
 			<th>Author Name</th>
+			<th>Books</th>
 			<th>Edit</th>
 			<th>Delete</th>
 		</tr>
 
 		<tr ng-repeat="a in authors | filter:search">
 			<td>{{a.authorName}}</td>
+			<td><li data-ng-repeat="book in a.books">{{book.title}}</li></td>
 
 			<td><button type="button" class="btn btn-md btn-success"
 					data-ng-click="showEditAuthor(a.authorId)">Edit</button></td>

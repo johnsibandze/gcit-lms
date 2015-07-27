@@ -49,6 +49,8 @@ libraryModule.config([ "$routeProvider", function($routeProvider) {
 		templateUrl : "editGenre.html"
 	}).when("/listLibrariesLibrarian", {
 		templateUrl : "listLibrariesLibrarian.html"
+	}).when("/borrowerMenu", {
+		templateUrl : "borrowerMenu.html"
 	}).when("/test", {
 		templateUrl : "test.html"
 	})
@@ -435,6 +437,68 @@ libraryModule.controller('genreCtrl', function($rootScope, $scope, $route,
 			alert('Genre Deleted Successfully');
 			// console.log('author deleted');
 			// $scope.genres = data;
+		});
+		// reload the listAuthors page
+		$route.reload();
+	};
+
+});
+
+libraryModule.controller('borrowerMenuCtrl', function($rootScope, $scope, $route,
+		$http, $cookieStore) {
+
+	// get all authors and display initially
+	$http.get('http://localhost:8080/lms/author/get').success(function(data) {
+		$scope.authors = data;
+		console.log($scope.authors);
+	});
+
+	$scope.addAuthor = function addAuthor() {
+		$http.post('http://localhost:8080/lms/author/add', {
+			authorName : $scope.authorName
+		}).success(function(data) {
+			alert('Author Added Successfully');
+			$scope.authors = data;
+		});
+
+		window.location.href = "http://localhost:8080/lms/#/listAuthors";
+
+	};
+
+	$scope.editAuthor = function editAuthor() {
+		$http.post('http://localhost:8080/lms/author/update', {
+			'authorName' : $scope.author.authorName,
+			'authorId' : $scope.author.authorId
+		}).success(function(data) {
+			alert('Author Edited Successfully');
+			$scope.authors = data;
+		});
+
+		window.location.href = "http://localhost:8080/lms/#/listAuthors";
+
+	};
+
+	$scope.showEditAuthor = function showEditAuthor(authorId) {
+
+		$http.post('http://localhost:8080/lms/author/getOne', {
+			'authorId' : authorId
+		}).success(function(data) {
+			$rootScope.author = data;
+			console.log($scope.author);
+
+			// go to the edit
+			window.location.href = "http://localhost:8080/lms/#/editAuthor";
+		});
+	};
+
+	$scope.deleteAuthor = function deleteAuthor(authorId) {
+
+		$http.post('http://localhost:8080/lms/author/delete', {
+			'authorId' : authorId
+		}).success(function(data) {
+			alert('Author Deleted Successfully');
+			// console.log('author deleted');
+			$scope.authors = data;
 		});
 		// reload the listAuthors page
 		$route.reload();
