@@ -41,6 +41,8 @@ libraryModule.config([ "$routeProvider", function($routeProvider) {
 		templateUrl : "addLibrary.html"
 	}).when("/editLibrary", {
 		templateUrl : "editLibrary.html"
+	}).when("/listGenres", {
+		templateUrl : "listGenres.html"
 	}).when("/test", {
 		templateUrl : "test.html"
 	})
@@ -349,6 +351,68 @@ libraryModule.controller('libraryCtrl', function($rootScope, $scope, $route,
 			alert('Branch Deleted Successfully');
 			// console.log('author deleted');
 			// $scope.authors = data;
+		});
+		// reload the listAuthors page
+		$route.reload();
+	};
+
+});
+
+libraryModule.controller('genreCtrl', function($rootScope, $scope, $route,
+		$http, $cookieStore) {
+
+	// get all authors and display initially
+	$http.get('http://localhost:8080/lms/genre/get').success(function(data) {
+		$scope.genres = data;
+		console.log($scope.genres);
+	});
+
+	$scope.addAuthor = function addAuthor() {
+		$http.post('http://localhost:8080/lms/author/add', {
+			authorName : $scope.authorName
+		}).success(function(data) {
+			alert('Author Added Successfully');
+			$scope.authors = data;
+		});
+
+		window.location.href = "http://localhost:8080/lms/#/listAuthors";
+
+	};
+
+	$scope.editAuthor = function editAuthor() {
+		$http.post('http://localhost:8080/lms/author/update', {
+			'authorName' : $scope.authorName,
+			'authorId' : $scope.author.authorId
+		}).success(function(data) {
+			alert('Author Edited Successfully');
+			$scope.authors = data;
+		});
+
+		window.location.href = "http://localhost:8080/lms/#/listAuthors";
+
+	};
+
+	$scope.showEditAuthor = function showEditAuthor(authorId) {
+
+		$http.post('http://localhost:8080/lms/author/getOne', {
+			'authorId' : authorId
+		}).success(function(data) {
+			$rootScope.author = data;
+			console.log($scope.author);
+
+			// go to the edit
+			window.location.href = "http://localhost:8080/lms/#/editAuthor";
+		});
+	};
+
+	$scope.deleteAuthor = function deleteAuthor(authorId) {
+
+		$http.post('http://localhost:8080/lms/author/delete', {
+			'authorId' : authorId
+		}).success(function(data) {
+			alert('Author Deleted Successfully');
+			// console.log('author deleted');
+			$scope.authors = data;
 		});
 		// reload the listAuthors page
 		$route.reload();
