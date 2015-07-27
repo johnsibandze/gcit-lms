@@ -8,13 +8,13 @@
 		</ul>
 	</nav>
 
-	<script type="text/javascript">
-		document.write('fdf');
-	</script>
+	<div class="form-group">
+		<label>Search</label> <input type="text" data-ng-model="search"
+			class="form-control" placeholder="search">
+	</div>
 
 	<table class="table table-hover table-bordered" id="authorsTable">
 		<tr>
-			<th>Author Id</th>
 			<th>Author Name</th>
 			<th>Edit</th>
 			<th>Delete</th>
@@ -22,8 +22,7 @@
 
 
 
-		<tr ng-repeat="a in authors">
-			<td>{{a.authorId}}</td>
+		<tr ng-repeat="a in authors | filter:search">
 			<td>{{a.authorName}}</td>
 			<!-- <td><button class="btn btn-success"
 					href="editAuthor.html?authorIdToEdit" data-target="#myModal1"

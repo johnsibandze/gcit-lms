@@ -20,52 +20,20 @@
 			<th>Delete</th>
 		</tr>
 
-
-
 		<tr ng-repeat="a in authors | filter:search">
 			<td>{{a.authorName}}</td>
-			<!-- <td><button class="btn btn-success"
-					href="editAuthor.html?authorIdToEdit" data-target="#myModal1"
-					data-toggle="modal">Edit</button></td> -->
-
-			<!-- <td><a class="btn btn-success" href="javascript:;"
-				ng-click="showEditAuthor(a.authorId)" role="button">Edit Author
-					&raquo;</a></td> -->
-
 
 			<td><button type="button" class="btn btn-md btn-success"
 					data-ng-click="showEditAuthor(a.authorId)">Edit</button></td>
 
-
-			<!-- <td><button type="button" class="btn btn-md btn-success"
-					data-toggle="modal" data-target="#myModal1" href="editAuthor.html"
-					method="get">Edit</button></td> -->
-
-			<!-- <td><button class="btn btn-success"
-					onclick="window.location.href='#/editAuthor'">Edit</button></td> -->
-
 			<td><button type="button" class="btn btn-md btn-danger"
 					data-ng-click="deleteAuthor(a.authorId)">Delete</button></td>
-
-			<!-- <td><button class="btn btn-danger"
-					onclick="javascript:location.href='deleteAuthor?authorId';">Delete</button></td> -->
 		</tr>
 
 	</table>
 
 	<button class="btn btn-info"
 		onclick="window.location.href='#/addAuthor'">Add Author</button>
-
-
-
-
-
-
-	<!-- <button class="btn btn-success" href="#/addAuthor"
-		data-target="#myModal1" data-toggle="modal">Add Author</button> -->
-
-	<!-- <a href="#/addAuthor">Add Author</a> -->
-
 
 	<div id="myModal1" class="modal fade">
 		<div class="modal-dialog">

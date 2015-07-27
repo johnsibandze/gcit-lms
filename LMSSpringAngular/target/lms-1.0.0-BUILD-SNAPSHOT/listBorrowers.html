@@ -8,6 +8,11 @@
 		</ul>
 	</nav>
 
+	<div class="form-group">
+		<label>Search</label> <input type="text" data-ng-model="search"
+			class="form-control" placeholder="search">
+	</div>
+
 	<table class="table table-hover table-bordered" id="borrowersTable">
 		<tr>
 			<th>Card #</th>
@@ -16,7 +21,7 @@
 			<th>Delete</th>
 		</tr>
 
-		<tr data-ng-repeat="b in borrowers">
+		<tr data-ng-repeat="b in borrowers | filter:search">
 			<td>{{b.cardNo}}</td>
 			<td>{{b.name}}</td>
 

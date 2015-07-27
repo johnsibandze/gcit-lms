@@ -75,7 +75,7 @@ libraryModule.controller('authorCtrl', function($rootScope, $scope, $route,
 	};
 
 	$scope.showEditAuthor = function showEditAuthor(authorId) {
-		alert('show');
+
 		$http.post('http://localhost:8080/lms/author/getOne', {
 			'authorId' : authorId
 		}).success(function(data) {
@@ -125,8 +125,9 @@ libraryModule.controller('bookCtrl', function($scope, $rootScope, $route,
 	};
 
 	$scope.editBook = function editBook() {
+		// alert($rootScope.book.title);
 		$http.post('http://localhost:8080/lms/book/update', {
-			'title' : $scope.title,
+			'title' : $scope.book.title,
 			'bookId' : $scope.book.bookId
 		}).success(function(data) {
 			alert('Book Edited Successfully');
