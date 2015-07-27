@@ -32,10 +32,6 @@ public class GenreDAO extends BaseDAO<Genre> implements
 	}
 
 	public void delete(Genre genre) throws Exception {
-		System.out.println(genre.getGenreId());
-		System.out.println(genre.getGenreId());
-		System.out.println();
-
 		Query query = new Query(Criteria.where("_id").is(genre.getGenreId()));
 		mongoOps.remove(query, GENRE_COLLECTION);
 	}

@@ -409,13 +409,13 @@ libraryModule.controller('genreCtrl', function($rootScope, $scope, $route,
 	};
 
 	$scope.deleteGenre = function deleteGenre(genreId) {
+
 		$http.post('http://localhost:8080/lms/genre/delete', {
-			'genre' : genreId
+			'genreId' : genreId
 		}).success(function(data) {
 			alert('Genre Deleted Successfully');
-			alert(data);
 			// console.log('author deleted');
-			// $scope.authors = data;
+			// $scope.genres = data;
 		});
 		// reload the listAuthors page
 		$route.reload();

@@ -117,10 +117,16 @@ libraryModule.controller('authorCtrl', function($rootScope, $scope, $route,
 libraryModule.controller('bookCtrl', function($scope, $rootScope, $route,
 		$http, $cookieStore) {
 
-	// all the authors to be used when adding and editing
+	// all the authors to be used when adding and editing a book
 	$http.get('http://localhost:8080/lms/author/get').success(function(data) {
 		$scope.authors = data;
 		console.log($scope.authors);
+	});
+
+	// all the genres to be used when adding and editing a book
+	$http.get('http://localhost:8080/lms/genre/get').success(function(data) {
+		$scope.genres = data;
+		console.log($scope.genres);
 	});
 
 	// get all books and display initially
@@ -147,7 +153,8 @@ libraryModule.controller('bookCtrl', function($scope, $rootScope, $route,
 		$http.post('http://localhost:8080/lms/book/update', {
 			'title' : $scope.book.title,
 			'bookId' : $scope.book.bookId,
-			'authors' : $scope.book.authors
+			'authors' : $scope.book.authors,
+			'genres' : $scope.book.genres
 		}).success(function(data) {
 			alert('Book Edited Successfully');
 		});

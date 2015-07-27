@@ -22,5 +22,13 @@
 			<div>Selected Authors: {{book.authors}}</div>
 		</nav>
 
+		<h3>Genres</h3>
+		<nav>
+			<select id="myselection" multiple="multiple"
+				data-ng-model="book.genres"
+				data-ng-options="g.genreName for g in genres"></select>
+			<div>Selected Genres: {{book.genres}}</div>
+		</nav>
+
 	</div>
 </div>
