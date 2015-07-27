@@ -1,11 +1,27 @@
 <div data-ng-app="libraryApp">
 	<div data-ng-controller="bookCtrl">
-		<label>Enter New Title: </label><input type="text"  name="title"
-			data-ng-model="book.title" autofocus/> <input type="button"
-			value="Edit Book" class="btn btn-sm btn-default"
+
+		<div class="form-group">
+			<label>Search</label> <input type="text" data-ng-model="search"
+				class="form-control" placeholder="search" autofocus>
+		</div>
+
+		<label>Enter New Title: </label><input type="text" name="title"
+			data-ng-model="book.title" autofocus> <input type="button"
+			value="Edit Book" class="btn btn-sm btn-success"
 			style="margin: 5px; width: 100px;" data-ng-click="editBook()" />
 		<button class="btn btn-sm btn-danger"
 			style="margin: 5px; width: 100px;"
 			onclick="window.location.href='#/listBooks'">Cancel</button>
+
+		<h1>Authors</h1>
+
+		<nav>
+			<select id="myselection" multiple="multiple"
+				data-ng-model="selectedAuthors"
+				data-ng-options="a.authorName for a in authors"></select>
+			<div>Selected Authors: {{selectedAuthors}}</div>
+		</nav>
+
 	</div>
 </div>

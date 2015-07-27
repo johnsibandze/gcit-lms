@@ -1,5 +1,11 @@
 var libraryModule = angular.module('libraryApp', [ 'ngRoute', 'ngCookies' ]);
 
+libraryModule.factory('serviceId', function() {
+	var shinyNewServiceInstance;
+	// factory function body that constructs shinyNewServiceInstance
+	return shinyNewServiceInstance;
+});
+
 libraryModule.config([ "$routeProvider", function($routeProvider) {
 	return $routeProvider.when("/", {
 		redirectTo : "/home"
@@ -104,6 +110,12 @@ libraryModule.controller('authorCtrl', function($rootScope, $scope, $route,
 
 libraryModule.controller('bookCtrl', function($scope, $rootScope, $route,
 		$http, $cookieStore) {
+
+	// all the authors to be used when adding and editing
+	$http.get('http://localhost:8080/lms/author/get').success(function(data) {
+		$scope.authors = data;
+		console.log($scope.authors);
+	});
 
 	// get all books and display initially
 	$http.get('http://localhost:8080/lms/book/get').success(function(data) {
