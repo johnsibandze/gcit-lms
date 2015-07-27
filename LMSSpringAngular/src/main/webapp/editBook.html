@@ -14,13 +14,12 @@
 			style="margin: 5px; width: 100px;"
 			onclick="window.location.href='#/listBooks'">Cancel</button>
 
-		<h1>Authors</h1>
-
+		<h3>Authors</h3>
 		<nav>
 			<select id="myselection" multiple="multiple"
-				data-ng-model="selectedAuthors"
+				data-ng-model="book.authors"
 				data-ng-options="a.authorName for a in authors"></select>
-			<div>Selected Authors: {{selectedAuthors}}</div>
+			<div>Selected Authors: {{book.authors}}</div>
 		</nav>
 
 	</div>

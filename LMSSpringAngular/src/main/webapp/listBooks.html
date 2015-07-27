@@ -23,7 +23,8 @@
 
 		<tr data-ng-repeat="b in books | filter:search">
 			<td>{{b.title}}</td>
-			<td>{{b.authors[0].authorName}}</td>
+			<!-- <td>{{b.authors[0].authorName}}</td> -->
+			<td><li data-ng-repeat="author in b.authors">{{author.authorName}}</li></td>
 			<td><button type="button" class="btn btn-md btn-success"
 					data-ng-click="showEditBook(b.bookId)">Edit</button></td>
 			<td><button type="button" class="btn btn-md btn-danger"

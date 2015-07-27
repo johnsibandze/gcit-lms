@@ -205,7 +205,7 @@ public class HomeController {
 		}
 	}
 
-	@RequestMapping(value = "/genres/get", method = { RequestMethod.GET,
+	@RequestMapping(value = "/genre/get", method = { RequestMethod.GET,
 			RequestMethod.POST }, produces = "application/json")
 	public List<Genre> getGenres() {
 		try {
@@ -217,7 +217,7 @@ public class HomeController {
 		}
 	}
 
-	@RequestMapping(value = "/genre/get", method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value = "/genre/getOne", method = RequestMethod.POST, consumes = "application/json")
 	public Genre getGenre(@RequestBody Genre genre) throws Exception {
 		return genreDAO.readOne(genre.getGenreId());
 	}

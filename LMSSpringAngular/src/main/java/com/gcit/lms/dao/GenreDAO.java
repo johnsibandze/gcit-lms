@@ -22,11 +22,13 @@ public class GenreDAO extends BaseDAO<Genre> implements
 	}
 
 	public void update(Genre genre) throws Exception {
-		Query query = new Query(Criteria.where("_id").is(genre.getGenreId()));
-		Genre oldGenre = mongoOps.findOne(query, Genre.class, GENRE_COLLECTION);
-
-		oldGenre.setGenreName(genre.getGenreName());
-		mongoOps.save(oldGenre, GENRE_COLLECTION);
+		// Query query = new
+		// Query(Criteria.where("_id").is(genre.getGenreId()));
+		// Genre oldGenre = mongoOps.findOne(query, Genre.class,
+		// GENRE_COLLECTION);
+		//
+		// oldGenre.setGenreName(genre.getGenreName());
+		mongoOps.save(genre, GENRE_COLLECTION);
 	}
 
 	public void delete(Genre genre) throws Exception {
@@ -36,7 +38,6 @@ public class GenreDAO extends BaseDAO<Genre> implements
 
 	public List<Genre> readAll() throws Exception {
 		return mongoOps.findAll(Genre.class, GENRE_COLLECTION);
-
 	}
 
 	public Genre readOne(UUID genreId) throws Exception {

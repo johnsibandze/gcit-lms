@@ -41,6 +41,8 @@ libraryModule.config([ "$routeProvider", function($routeProvider) {
 		templateUrl : "addLibrary.html"
 	}).when("/editLibrary", {
 		templateUrl : "editLibrary.html"
+	}).when("/listGenres", {
+		templateUrl : "listGenres.html"
 	}).when("/test", {
 		templateUrl : "test.html"
 	})
@@ -140,7 +142,8 @@ libraryModule.controller('bookCtrl', function($scope, $rootScope, $route,
 		// alert($rootScope.book.title);
 		$http.post('http://localhost:8080/lms/book/update', {
 			'title' : $scope.book.title,
-			'bookId' : $scope.book.bookId
+			'bookId' : $scope.book.bookId,
+			'authors' : $scope.book.authors
 		}).success(function(data) {
 			alert('Book Edited Successfully');
 		});
