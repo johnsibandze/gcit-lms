@@ -404,8 +404,8 @@ libraryModule.controller('genreCtrl', function($rootScope, $scope, $route,
 
 	$scope.editGenre = function editGenre() {
 		$http.post('http://localhost:8080/lms/genre/update', {
-			'genreName' : $scope.genreName,
-			'genreId' : $scope.genre.genreId
+			'genreId' : $scope.genre.genreId,
+			'genreName' : $scope.genre.genreName
 		}).success(function(data) {
 			alert('Genre Edited Successfully');
 			$scope.genres = data;
