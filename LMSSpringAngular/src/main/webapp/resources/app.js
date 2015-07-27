@@ -144,7 +144,8 @@ libraryModule.controller('bookCtrl', function($scope, $rootScope, $route,
 	$scope.addBook = function addBook() {
 		$http.post('http://localhost:8080/lms/book/add', {
 			'title' : $scope.title,
-			'authors' : $scope.myAuthors
+			'authors' : $scope.bookAuthors,
+			'genres' : $scope.bookGenres
 		}).success(function(data) {
 			alert(data);
 			// $scope.books = data;
