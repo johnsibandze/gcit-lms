@@ -45,6 +45,8 @@ libraryModule.config([ "$routeProvider", function($routeProvider) {
 		templateUrl : "listGenres.html"
 	}).when("/addGenre", {
 		templateUrl : "addGenre.html"
+	}).when("/editGenre", {
+		templateUrl : "editGenre.html"
 	}).when("/test", {
 		templateUrl : "test.html"
 	})
@@ -381,29 +383,28 @@ libraryModule.controller('genreCtrl', function($rootScope, $scope, $route,
 
 	};
 
-	$scope.editAuthor = function editAuthor() {
-		$http.post('http://localhost:8080/lms/author/update', {
-			'authorName' : $scope.authorName,
-			'authorId' : $scope.author.authorId
+	$scope.editGenre = function editGenre() {
+		$http.post('http://localhost:8080/lms/genre/update', {
+			'genreName' : $scope.genreName,
+			'genreId' : $scope.genre.genreId
 		}).success(function(data) {
-			alert('Author Edited Successfully');
-			$scope.authors = data;
+			alert('Genre Edited Successfully');
+			$scope.genres = data;
 		});
 
-		window.location.href = "http://localhost:8080/lms/#/listAuthors";
+		window.location.href = "http://localhost:8080/lms/#/listGenres";
 
 	};
 
-	$scope.showEditAuthor = function showEditAuthor(authorId) {
-
-		$http.post('http://localhost:8080/lms/author/getOne', {
-			'authorId' : authorId
+	$scope.showEditGenre = function showEditGenre(genreId) {
+		$http.post('http://localhost:8080/lms/genre/getOne', {
+			'genreId' : genreId
 		}).success(function(data) {
-			$rootScope.author = data;
-			console.log($scope.author);
+			$rootScope.genre = data;
+			console.log($scope.genre);
 
 			// go to the edit
-			window.location.href = "http://localhost:8080/lms/#/editAuthor";
+			window.location.href = "http://localhost:8080/lms/#/editGenre";
 		});
 	};
 
