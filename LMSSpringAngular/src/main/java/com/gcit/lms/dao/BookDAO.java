@@ -29,6 +29,20 @@ public class BookDAO extends BaseDAO<Book> implements
 	private final String BOOK_COLLECTION = "Books";
 
 	public void create(final Book book) {
+		// only need id and title
+		Book b = new Book();
+		b.setBookId(book.getBookId());
+		b.setTitle(book.getTitle());
+
+		// add the book to authors list
+		for (Author a : book.getAuthors()) {
+			if (a.getBooks() == null) {
+				a.setBooks(new ArrayList<Book>());
+			}
+			a.getBooks().add(b);
+			aDao.update(a);
+		}
+
 		mongoOps.insert(book, BOOK_COLLECTION);
 	}
 
