@@ -29,11 +29,11 @@ public class AuthorDAO extends BaseDAO<Author> implements
 
 	private final String AUTH_COLLECTION = "Authors";
 
-	public void create(Author author) throws Exception {
+	public void create(final Author author) {
 		mongoOps.insert(author, AUTH_COLLECTION);
 	}
 
-	public void update(Author author) throws Exception {
+	public void update(final Author author) {
 		// Query query = new
 		// Query(Criteria.where("_id").is(author.getAuthorId()));
 		// Author oldAuthor = mongoOps.findOne(query, Author.class,
