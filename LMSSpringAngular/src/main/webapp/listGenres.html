@@ -1,13 +1,6 @@
 
 <div data-ng-controller="genreCtrl">
 
-	<!-- <nav>
-		<ul class="pagination">
-			<li><a href="pageGenres?pageNo=1">1</a></li>
-			<li><a href="pageGenres?pageNo=2">2</a></li>
-		</ul>
-	</nav> -->
-
 	<div class="form-group">
 		<label>Search</label> <input type="text" data-ng-model="search"
 			class="form-control" placeholder="search" autofocus>
@@ -16,12 +9,14 @@
 	<table class="table table-hover table-bordered" id="genresTable">
 		<tr>
 			<th>Genre Name</th>
+			<th>Books</th>
 			<th>Edit</th>
 			<th>Delete</th>
 		</tr>
 
 		<tr data-ng-repeat="g in genres | filter:search">
 			<td>{{g.genreName}}</td>
+			<td><li data-ng-repeat="book in g.books">{{book.title}}</li></td>
 
 			<td><button type="button" class="btn btn-md btn-success"
 					data-ng-click="showEditGenre(g.genreId)">Edit</button></td>

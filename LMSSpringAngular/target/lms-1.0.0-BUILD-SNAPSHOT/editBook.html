@@ -26,7 +26,10 @@
 			<select id="myselection" multiple="multiple"
 				data-ng-model="book.genres"
 				data-ng-options="g.genreName for g in genres"></select>
-			<div>Selected Genres: {{book.genres}}</div>
+			<div>
+				Selected Genres:
+				<li data-ng-repeat="genre in book.genres">{{genre.genreName}}</li>
+			</div>
 		</nav>
 
 		<h3>Publisher</h3>
