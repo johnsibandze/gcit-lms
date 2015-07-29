@@ -1,6 +1,6 @@
 <div data-ng-app="libraryApp">
 	<div data-ng-controller="genreCtrl">
-		<!-- <form data-ng-model="editAuthorFrm"> -->
+
 		<label>Enter New Genre Name: </label><input type="text"
 			name="genreName" data-ng-model="genre.genreName" autofocus> <input
 			type="button" value="Edit Genre" class="btn btn-sm btn-default"
@@ -8,6 +8,16 @@
 		<button class="btn btn-sm btn-danger"
 			style="margin: 5px; width: 100px;"
 			onclick="window.location.href='#/listGenres'">Cancel</button>
-		<!-- </form> -->
+
+		<h3>Books</h3>
+		<nav>
+			<select id="myselection" multiple="multiple"
+				data-ng-model="genre.books" data-ng-options="b.title for b in books"></select>
+			<div>
+				Selected Books:
+				<li data-ng-repeat="book in genre.books">{{book.title}}</li>
+			</div>
+		</nav>
+
 	</div>
 </div>

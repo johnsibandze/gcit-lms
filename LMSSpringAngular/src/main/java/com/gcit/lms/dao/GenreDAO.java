@@ -21,7 +21,7 @@ public class GenreDAO extends BaseDAO<Genre> implements
 		mongoOps.insert(genre, GENRE_COLLECTION);
 	}
 
-	public void update(Genre genre) throws Exception {
+	public void update(Genre genre) {
 		// Query query = new
 		// Query(Criteria.where("_id").is(genre.getGenreId()));
 		// Genre oldGenre = mongoOps.findOne(query, Genre.class,
@@ -31,7 +31,7 @@ public class GenreDAO extends BaseDAO<Genre> implements
 		mongoOps.save(genre, GENRE_COLLECTION);
 	}
 
-	public void delete(Genre genre) throws Exception {
+	public void delete(Genre genre) {
 		Query query = new Query(Criteria.where("_id").is(genre.getGenreId()));
 		mongoOps.remove(query, GENRE_COLLECTION);
 	}

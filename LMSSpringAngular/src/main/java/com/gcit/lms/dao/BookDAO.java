@@ -14,11 +14,12 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import com.gcit.lms.domain.Author;
 import com.gcit.lms.domain.Book;
 import com.gcit.lms.domain.Genre;
+import com.gcit.lms.domain.Publisher;
 
 public class BookDAO extends BaseDAO<Book> implements
 		ResultSetExtractor<List<Book>> {
 	@Autowired
-	PublisherDAO pdao;
+	PublisherDAO pDao;
 
 	@Autowired
 	AuthorDAO aDao;
@@ -34,7 +35,7 @@ public class BookDAO extends BaseDAO<Book> implements
 		b.setBookId(book.getBookId());
 		b.setTitle(book.getTitle());
 
-		// add the book to authors list
+		// add the book to books list of each author
 		for (Author a : book.getAuthors()) {
 			if (a.getBooks() == null) {
 				a.setBooks(new ArrayList<Book>());
@@ -42,6 +43,23 @@ public class BookDAO extends BaseDAO<Book> implements
 			a.getBooks().add(b);
 			aDao.update(a);
 		}
+
+		// add the book to books list of each genre
+		for (Genre g : book.getGenres()) {
+			if (g.getBooks() == null) {
+				g.setBooks(new ArrayList<Book>());
+			}
+			g.getBooks().add(b);
+			gDao.update(g);
+		}
+
+		// add the book to the books list for the publisher
+		if (book.getPublisher() == null) {
+			book.setPublisher(new Publisher());
+			book.getPublisher().setBooks(new ArrayList<Book>());
+		}
+		book.getPublisher().getBooks().add(b);
+		pDao.update(book.getPublisher());
 
 		mongoOps.insert(book, BOOK_COLLECTION);
 	}

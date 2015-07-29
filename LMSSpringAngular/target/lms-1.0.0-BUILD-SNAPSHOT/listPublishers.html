@@ -18,6 +18,7 @@
 			<th>Publisher Name</th>
 			<th>Publisher Address</th>
 			<th>Publisher Phone</th>
+			<th>Books</th>
 			<th>Edit</th>
 			<th>Delete</th>
 		</tr>
@@ -27,6 +28,7 @@
 			<td>{{p.publisherName}}</td>
 			<td>{{p.publisherAddress}}</td>
 			<td>{{p.publisherPhone}}</td>
+			<td><li data-ng-repeat="book in p.books">{{book.title}}</li></td>
 
 			<td><button type="button" class="btn btn-md btn-success"
 					data-ng-click="showEditPublisher(p.publisherId)">Edit</button></td>

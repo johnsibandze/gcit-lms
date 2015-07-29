@@ -210,6 +210,12 @@ libraryModule.controller('bookCtrl', function($scope, $rootScope, $route,
 libraryModule.controller('publisherCtrl', function($rootScope, $scope, $route,
 		$http, $cookieStore) {
 
+	// the books to be used in the editing
+	$http.get('http://localhost:8080/lms/book/get').success(function(data) {
+		$scope.books = data;
+		console.log($scope.books);
+	});
+
 	// get all publishers and display initially
 	$http.get('http://localhost:8080/lms/publisher/get').success(
 			function(data) {
@@ -235,7 +241,8 @@ libraryModule.controller('publisherCtrl', function($rootScope, $scope, $route,
 			'publisherId' : $scope.publisher.publisherId,
 			'publisherName' : $scope.publisher.publisherName,
 			'publisherAddress' : $scope.publisher.publisherAddress,
-			'publisherPhone' : $scope.publisher.publisherPhone
+			'publisherPhone' : $scope.publisher.publisherPhone,
+			'books' : $scope.publisher.books
 		}).success(function(data) {
 			alert('Publisher Edited Successfully');
 		});
@@ -393,6 +400,12 @@ libraryModule.controller('libraryCtrl', function($rootScope, $scope, $route,
 libraryModule.controller('genreCtrl', function($rootScope, $scope, $route,
 		$http, $cookieStore) {
 
+	// the books to be used in the editing
+	$http.get('http://localhost:8080/lms/book/get').success(function(data) {
+		$scope.books = data;
+		console.log($scope.books);
+	});
+
 	// get all authors and display initially
 	$http.get('http://localhost:8080/lms/genre/get').success(function(data) {
 		$scope.genres = data;
@@ -412,9 +425,11 @@ libraryModule.controller('genreCtrl', function($rootScope, $scope, $route,
 	};
 
 	$scope.editGenre = function editGenre() {
+		alert($scope.genre.books);
 		$http.post('http://localhost:8080/lms/genre/update', {
 			'genreId' : $scope.genre.genreId,
-			'genreName' : $scope.genre.genreName
+			'genreName' : $scope.genre.genreName,
+			'books' : $scope.genre.books
 		}).success(function(data) {
 			alert('Genre Edited Successfully');
 			$scope.genres = data;

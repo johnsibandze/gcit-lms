@@ -17,11 +17,11 @@ public class PublisherDAO extends BaseDAO<Publisher> implements
 
 	private final String PUBLISHER_COLLECTION = "Publishers";
 
-	public void create(Publisher publisher) throws Exception {
+	public void create(Publisher publisher)  {
 		mongoOps.insert(publisher, PUBLISHER_COLLECTION);
 	}
 
-	public void update(Publisher publisher) throws Exception {
+	public void update(Publisher publisher)  {
 		// Query query = new Query(Criteria.where("_id").is(
 		// publisher.getPublisherId()));
 		// Publisher oldPublisher = mongoOps.findOne(query, Publisher.class,
