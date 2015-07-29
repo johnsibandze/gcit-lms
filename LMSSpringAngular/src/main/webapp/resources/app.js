@@ -59,6 +59,12 @@ libraryModule.config([ "$routeProvider", function($routeProvider) {
 libraryModule.controller('authorCtrl', function($rootScope, $scope, $route,
 		$http, $cookieStore) {
 
+	// the books to be used in the editing
+	$http.get('http://localhost:8080/lms/book/get').success(function(data) {
+		$scope.books = data;
+		console.log($scope.books);
+	});
+
 	// get all authors and display initially
 	$http.get('http://localhost:8080/lms/author/get').success(function(data) {
 		$scope.authors = data;
@@ -80,7 +86,8 @@ libraryModule.controller('authorCtrl', function($rootScope, $scope, $route,
 	$scope.editAuthor = function editAuthor() {
 		$http.post('http://localhost:8080/lms/author/update', {
 			'authorName' : $scope.author.authorName,
-			'authorId' : $scope.author.authorId
+			'authorId' : $scope.author.authorId,
+			'books' : $scope.author.books
 		}).success(function(data) {
 			alert('Author Edited Successfully');
 			$scope.authors = data;
@@ -444,8 +451,8 @@ libraryModule.controller('genreCtrl', function($rootScope, $scope, $route,
 
 });
 
-libraryModule.controller('borrowerMenuCtrl', function($rootScope, $scope, $route,
-		$http, $cookieStore) {
+libraryModule.controller('borrowerMenuCtrl', function($rootScope, $scope,
+		$route, $http, $cookieStore) {
 
 	// get all authors and display initially
 	$http.get('http://localhost:8080/lms/author/get').success(function(data) {
