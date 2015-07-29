@@ -24,5 +24,16 @@
 		<button class="btn btn-sm btn-danger"
 			style="margin: 5px; width: 100px;"
 			onclick="window.location.href='#/listPublishers'">Cancel</button>
+
+		<h3>Books</h3>
+		<nav>
+			<select id="myselection" multiple="multiple"
+				data-ng-model="publisher.books"
+				data-ng-options="b.title for b in books"></select>
+			<div>
+				Selected Books:
+				<li data-ng-repeat="book in publisher.books">{{book.title}}</li>
+			</div>
+		</nav>
 	</div>
 </div>

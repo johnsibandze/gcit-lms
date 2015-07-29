@@ -210,6 +210,12 @@ libraryModule.controller('bookCtrl', function($scope, $rootScope, $route,
 libraryModule.controller('publisherCtrl', function($rootScope, $scope, $route,
 		$http, $cookieStore) {
 
+	// the books to be used in the editing
+	$http.get('http://localhost:8080/lms/book/get').success(function(data) {
+		$scope.books = data;
+		console.log($scope.books);
+	});
+
 	// get all publishers and display initially
 	$http.get('http://localhost:8080/lms/publisher/get').success(
 			function(data) {
@@ -235,7 +241,8 @@ libraryModule.controller('publisherCtrl', function($rootScope, $scope, $route,
 			'publisherId' : $scope.publisher.publisherId,
 			'publisherName' : $scope.publisher.publisherName,
 			'publisherAddress' : $scope.publisher.publisherAddress,
-			'publisherPhone' : $scope.publisher.publisherPhone
+			'publisherPhone' : $scope.publisher.publisherPhone,
+			'books' : $scope.publisher.books
 		}).success(function(data) {
 			alert('Publisher Edited Successfully');
 		});
